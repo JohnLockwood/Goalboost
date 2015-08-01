@@ -1,0 +1,1 @@
+curl -d '[{"firstname": "Jenniffer", "lastname": "Lockwood"}, {"firstname":  "Gary", "lastname": "Demin"}]' -H 'Content-Type: application/json'  http://127.0.0.1:5000/people
