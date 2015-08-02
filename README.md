@@ -1,4 +1,4 @@
-# Goalboost
+# Alguito
 Alguito is John and Jenniffer's retirement project.  We better figure out what it will do.  I'm still thinking time and billing, but also
 project tracking.  There should be a full spec in the doc directory.
 
