@@ -1,5 +1,6 @@
 # Goalboost
-Goalboost is an employee-owned software project, consisting of a time tracking API built on Eve.  Employee-owned, oh heck, what will that license look like?
+Alguito is John and Jenniffer's retirement project.  We better figure out what it will do.  I'm still thinking time and billing, but also
+project tracking.  There should be a full spec in the doc directory.
 
 Anything here is preliminary at this point, so what we have to date is basically a virtual environment
 with Eve, the Eve demo, plus support for static files.

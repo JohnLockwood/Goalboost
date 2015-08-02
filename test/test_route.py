@@ -1,0 +1,27 @@
+# Setup to run test
+from sys import path
+import sys
+import os
+import unittest
+
+# These lines must be in this order
+sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath("."))
+
+# modules under test
+import alguito.app
+
+class TestStringMethods(unittest.TestCase):
+
+    def setUp(self):
+
+        self.app = alguito.app.app.test_client()
+
+    def test_hello(self):
+        rv = self.app.get("/hello")
+        assert b"Hello" in rv.data
+
+if __name__ == "__main__":
+	unittest.main()
+
