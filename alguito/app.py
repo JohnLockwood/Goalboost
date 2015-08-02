@@ -1,7 +1,10 @@
 from eve import Eve
 from flask import render_template
+import os.path
 
-app = Eve(__name__, settings="alguito/endpoints/eve/settings.py")
+here = os.path.dirname(os.path.realpath(__file__))
+
+app = Eve(__name__, settings= here + "/endpoints/eve/settings.py")
 
 @app.route('/')
 def index():
@@ -10,7 +13,7 @@ def index():
 
 @app.route('/hello')
 def hello():
-    return "hello"
+    return "Hello, Alguito!"
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
