@@ -15,12 +15,15 @@ import alguito.app
 class TestStringMethods(unittest.TestCase):
 
     def setUp(self):
-
         self.app = alguito.app.app.test_client()
 
     def test_hello(self):
         rv = self.app.get("/hello")
         assert b"Hello" in rv.data
+
+    def test_can_find_george(self):
+        rv = self.app.get('/api/people?where={"firstname": "George"}')
+        assert b"Clooney" in rv.data
 
 if __name__ == "__main__":
 	unittest.main()
