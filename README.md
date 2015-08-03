@@ -2,8 +2,11 @@
 Alguito is John and Jenniffer's retirement project.  We better figure out what it will do.  I'm still thinking time and billing, but also
 project tracking.  There should be a full spec in the doc directory.
 
-Anything here is preliminary at this point, so what we have to date is basically a virtual environment
-with Eve, the Eve demo, plus support for static files.
+# Dependencies
+Python 3.x
+[Eve Python Rest Framework](http://python-eve.org/index.html)
+
+Hours spent now tracked in "docs/Hours.ods"
 
 # Time and Billing App (Specification -- First Try)
 
@@ -30,3 +33,4 @@ with Eve, the Eve demo, plus support for static files.
 Rates:
 	are either by Billable (client, project etc.) or by ServiceTitle (Senior Partner, Senior Partner Courtroom, etc.)
 * Rates - can be per
+

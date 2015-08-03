@@ -1,0 +1,78 @@
+{
+	"id": "ee3fca93-7eb5-2781-624a-82aabc16f966",
+	"owner": "107311",
+	"name": "Alguito",
+	"description": "",
+	"order": [
+		"41925d59-8448-a09e-5c48-83203123d31d",
+		"1f6ecd4f-da97-6f5d-8419-b76176054699",
+		"169ef3be-b5dc-8f96-e87c-f4c81de5b9be"
+	],
+	"folders": [],
+	"timestamp": 1438484295922,
+	"remoteLink": "",
+	"public": false,
+	"lastUpdatedBy": {
+		"id": "107311",
+		"username": "JohnLockwood"
+	},
+	"lastRevision": 33223836,
+	"team": null,
+	"requests": [
+		{
+			"headers": "",
+			"url": "http://localhost:5001/api/people?where={%22lastname%22:%20%22Clooney%22}",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"name": "http://localhost:5001/api/teams/CodeSolid",
+			"description": "",
+			"descriptionFormat": "html",
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"id": "169ef3be-b5dc-8f96-e87c-f4c81de5b9be",
+			"collectionId": "ee3fca93-7eb5-2781-624a-82aabc16f966"
+		},
+		{
+			"folder": null,
+			"id": "1f6ecd4f-da97-6f5d-8419-b76176054699",
+			"name": "http://localhost:5001/api/people?where={%22lastname%22:%20%22Clooney%22, \"firstname\": \"Sam\"}",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": null,
+			"descriptionFormat": "html",
+			"description": "",
+			"headers": "",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "http://localhost:5001/api/people?where={%22lastname%22:%20%22Clooney%22}",
+			"preRequestScript": "",
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"collectionId": "ee3fca93-7eb5-2781-624a-82aabc16f966"
+		},
+		{
+			"folder": null,
+			"id": "41925d59-8448-a09e-5c48-83203123d31d",
+			"name": "http://localhost:5001/api/people?where={%22lastname%22:%20%22Clooney%22}",
+			"dataMode": "params",
+			"data": [],
+			"rawModeData": null,
+			"descriptionFormat": "html",
+			"description": "",
+			"headers": "",
+			"method": "GET",
+			"pathVariables": {},
+			"url": "http://localhost:5001/api/people?where={%22lastname%22:%20%22Clooney%22}",
+			"preRequestScript": "",
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"collectionId": "ee3fca93-7eb5-2781-624a-82aabc16f966"
+		}
+	]
+}
