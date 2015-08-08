@@ -19,10 +19,10 @@ teams = {
     # '/teams/<ObjectId>'. We leave it untouched, and we also enable an
     # additional read-only entry point. This way consumers can also perform
     # GET requests at '/teams/name'.
-    'additional_lookup': {
-        'url': 'regex("[\w]+")',
-        'field': 'name'
-    },
+    #'additional_lookup': {
+    #    'url': 'regex("[\w]+")',
+    #    'field': 'name'
+    #},
 
     # most global settings can be overridden at resource level
     'resource_methods': ['GET', 'POST'],

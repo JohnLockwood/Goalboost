@@ -1,5 +1,6 @@
-import alguito.endpoints.eve.people as people
-import alguito.endpoints.eve.teams as teams
+
+import endpoints.eve.people as people
+import endpoints.eve.teams as teams
 
 # Let's just use the local mongod instance. Edit as needed.
 
@@ -32,3 +33,4 @@ RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 
 XML = False
+
