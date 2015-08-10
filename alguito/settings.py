@@ -1,6 +1,6 @@
-
-import endpoints.eve.people as people
-import endpoints.eve.teams as teams
+import alguito.endpoints.eve.people as people
+import alguito.sstendpoints.eve.teams as teams
+import alguito.endpoints.eve.alguitos as alguitos
 
 # Let's just use the local mongod instance. Edit as needed.
 
@@ -19,6 +19,8 @@ URL_PREFIX = "api"
 DOMAIN = {
     'people': people.people,
     'teams' : teams.teams
+    # 'alguitos': alguitos.alguitos
+
 }
 # Global RESOURCE and ITEM METHODS.  These can be overriden on a per-endpoint basis,
 # See: http://python-eve.org/config.html#resource-item-endpoints

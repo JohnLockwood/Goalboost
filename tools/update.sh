@@ -1,3 +1,3 @@
 # PUT to update a resource.  Note that the "If-Match: ..." header must be edited to reflect the current ETag returned from:
 # curl http://localhost:5000/api/people/55b27ffa8c57cf44059dd9d0 | python3 -m json.tool
-curl --request PUT -H "If-Match: ebd866303c8d12ca64b9bdeee8611dc975387f2d" -d '{"firstname": "J.", "lastname": "Lockwood"}' -H 'Content-Type: application/json' http://localhost:5000/api/people/55b27ffa8c57cf44059dd9d0
+curl --request PUT -H "If-Match: 3475387b3daad676a126fde201f41bf83e6f741f" -d '{"firstname": "Denzel", "lastname": "Washington"}' -H 'Content-Type: application/json' http://localhost:5001/api/people/55c692df8c57cf19375400d3

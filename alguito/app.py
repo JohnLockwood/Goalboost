@@ -1,9 +1,11 @@
 from eve import Eve
 from flask import render_template
-'''
+
+
 # Sample (was working) alternate configuration from dict
 import endpoints.eve.people as people
 import endpoints.eve.teams as teams
+import endpoints.eve.alguitos as alguitos
 
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left
@@ -19,7 +21,8 @@ eve_settings = {
 
     'DOMAIN': {
         'people': people.people,
-        'teams' : teams.teams
+        'teams' : teams.teams,
+        'alguitos': alguitos.alguitos
     },
 
     # Global RESOURCE and ITEM METHODS.  These can be overriden on a per-endpoint basis,
@@ -36,12 +39,12 @@ eve_settings = {
 
     'XML': False
 }
- app = Eve(__name__, settings=eve_settings)
+app = Eve(__name__, settings=eve_settings)
 
-'''
 
-# But as long as you keep this in the root, everything works fine from a file
-app = Eve(__name__, settings='settings.py')
+# But as long as you keep this in the root, everything works fine from a file, until it doesn't because
+# of stupid import rules.
+# app = Eve(__name__, settings='eve_')
 
 
 # Define non-eve flask routes
