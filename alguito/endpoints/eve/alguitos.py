@@ -1,4 +1,4 @@
-import endpoints.eve.auth as auth
+import alguito.endpoints.eve.auth as auth
 
 alguito_schema = {
     # Schema definition, based on Cerberus grammar. Check the Cerberus project

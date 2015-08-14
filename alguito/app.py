@@ -3,9 +3,9 @@ from flask import render_template
 
 
 # Sample (was working) alternate configuration from dict
-import endpoints.eve.people as people
-import endpoints.eve.teams as teams
-import endpoints.eve.alguitos as alguitos
+import alguito.endpoints.eve.people as people
+import alguito.endpoints.eve.teams as teams
+import alguito.endpoints.eve.alguitos as alguitos
 
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left

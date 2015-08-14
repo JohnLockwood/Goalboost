@@ -2,6 +2,8 @@
 Alguito is John and Jenniffer's retirement project.  We better figure out what it will do.  I'm still thinking time and billing, but also
 project tracking.  There should be a full spec in the doc directory.
 
+NOTE:  At this point Unit Tests are HOSED.
+
 # Dependencies
 Python 3.x
 [Eve Python Rest Framework](http://python-eve.org/index.html)
