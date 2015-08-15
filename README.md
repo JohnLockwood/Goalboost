@@ -21,7 +21,8 @@ Hours spent now tracked in "docs/Hours.ods"
 ## Concepts:
 
 * Team -- this is our customer's employees or associates, the folks doing the billing
-* People -- "Subclasses" (conceptually) are TeamPeople (aka Users) or ClientPeople
+* People -- "Subclasses" (conceptually) are TeamPeople (aka Users) or ClientPeople.  The difference will be modeled this way:
+* 	"userCredentials" will be none on non-users, or will contain userCredentials for users
 * Client -- This is a company (or person) which we bill for services
 * Projects / Matters - a body of work that can be billed separately or used for tracking.  Related to Clients / ClientPeople.
 * Timers (Description, plus 1-N dates and times.  Second precision but may need rounding rules for invoices?)

@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module auth</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>auth</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/john/Dropbox/business/alguito/alguito/endpoints/eve/auth.py">/home/john/Dropbox/business/alguito/alguito/endpoints/eve/auth.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="base64.html">base64</a><br>
+</td><td width="25%" valign=top><a href="eve.html">eve</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="auth.html#MyBasicAuth">MyBasicAuth</a>
+</font></dt><dt><font face="helvetica, arial"><a href="auth.html#RolesAuth">RolesAuth</a>
+</font></dt><dt><font face="helvetica, arial"><a href="auth.html#TeamAndPasswordAuth">TeamAndPasswordAuth</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="eve.auth.html#TokenAuth">eve.auth.TokenAuth</a>(<a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="auth.html#AlguitoTokenAuth">AlguitoTokenAuth</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AlguitoTokenAuth">class <strong>AlguitoTokenAuth</strong></a>(<a href="eve.auth.html#TokenAuth">eve.auth.TokenAuth</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="auth.html#AlguitoTokenAuth">AlguitoTokenAuth</a></dd>
+<dd><a href="eve.auth.html#TokenAuth">eve.auth.TokenAuth</a></dd>
+<dd><a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AlguitoTokenAuth-check_auth"><strong>check_auth</strong></a>(self, token, allowed_roles, resource, method)</dt><dd><tt>Check&nbsp;a&nbsp;a&nbsp;single&nbsp;token&nbsp;which&nbsp;should&nbsp;be&nbsp;passed&nbsp;in&nbsp;the&nbsp;basic&nbsp;auth&nbsp;Username&nbsp;header<br>
+&nbsp;<br>
+Currently&nbsp;this&nbsp;function&nbsp;does&nbsp;not&nbsp;really&nbsp;check&nbsp;a&nbsp;token,&nbsp;and&nbsp;it&nbsp;may&nbsp;be&nbsp;that&nbsp;using<br>
+something&nbsp;derived&nbsp;from&nbsp;<a href="eve.auth.html#BasicAuth">BasicAuth</a>&nbsp;(see&nbsp;<a href="#MyBasicAuth">MyBasicAuth</a>)&nbsp;makes&nbsp;more&nbsp;sense.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="eve.auth.html#TokenAuth">eve.auth.TokenAuth</a>:<br>
+<dl><dt><a name="AlguitoTokenAuth-authenticate"><strong>authenticate</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;standard&nbsp;a&nbsp;401&nbsp;response&nbsp;that&nbsp;enables&nbsp;basic&nbsp;auth.<br>
+Override&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;change&nbsp;the&nbsp;response&nbsp;and/or&nbsp;the&nbsp;realm.</tt></dd></dl>
+
+<dl><dt><a name="AlguitoTokenAuth-authorized"><strong>authorized</strong></a>(self, allowed_roles, resource, method)</dt><dd><tt>Validates&nbsp;the&nbsp;the&nbsp;current&nbsp;request&nbsp;is&nbsp;allowed&nbsp;to&nbsp;pass&nbsp;through.<br>
+&nbsp;<br>
+:param&nbsp;allowed_roles:&nbsp;allowed&nbsp;roles&nbsp;for&nbsp;the&nbsp;current&nbsp;request,&nbsp;can&nbsp;be&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;or&nbsp;a&nbsp;list&nbsp;of&nbsp;roles.<br>
+:param&nbsp;resource:&nbsp;resource&nbsp;being&nbsp;requested.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><a name="AlguitoTokenAuth-get_request_auth_value"><strong>get_request_auth_value</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="AlguitoTokenAuth-set_request_auth_value"><strong>set_request_auth_value</strong></a>(self, value)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MyBasicAuth">class <strong>MyBasicAuth</strong></a>(<a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="auth.html#MyBasicAuth">MyBasicAuth</a></dd>
+<dd><a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MyBasicAuth-check_auth"><strong>check_auth</strong></a>(self, username, password, allowed_roles, resource, method)</dt></dl>
+
+<hr>
+Methods inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><a name="MyBasicAuth-authenticate"><strong>authenticate</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;standard&nbsp;a&nbsp;401&nbsp;response&nbsp;that&nbsp;enables&nbsp;basic&nbsp;auth.<br>
+Override&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;change&nbsp;the&nbsp;response&nbsp;and/or&nbsp;the&nbsp;realm.</tt></dd></dl>
+
+<dl><dt><a name="MyBasicAuth-authorized"><strong>authorized</strong></a>(self, allowed_roles, resource, method)</dt><dd><tt>Validates&nbsp;the&nbsp;the&nbsp;current&nbsp;request&nbsp;is&nbsp;allowed&nbsp;to&nbsp;pass&nbsp;through.<br>
+&nbsp;<br>
+:param&nbsp;allowed_roles:&nbsp;allowed&nbsp;roles&nbsp;for&nbsp;the&nbsp;current&nbsp;request,&nbsp;can&nbsp;be&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;or&nbsp;a&nbsp;list&nbsp;of&nbsp;roles.<br>
+:param&nbsp;resource:&nbsp;resource&nbsp;being&nbsp;requested.</tt></dd></dl>
+
+<dl><dt><a name="MyBasicAuth-get_request_auth_value"><strong>get_request_auth_value</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="MyBasicAuth-set_request_auth_value"><strong>set_request_auth_value</strong></a>(self, value)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="RolesAuth">class <strong>RolesAuth</strong></a>(<a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="auth.html#RolesAuth">RolesAuth</a></dd>
+<dd><a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="RolesAuth-check_auth"><strong>check_auth</strong></a>(self, username, password, allowed_roles, resource, method)</dt></dl>
+
+<hr>
+Methods inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><a name="RolesAuth-authenticate"><strong>authenticate</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;standard&nbsp;a&nbsp;401&nbsp;response&nbsp;that&nbsp;enables&nbsp;basic&nbsp;auth.<br>
+Override&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;change&nbsp;the&nbsp;response&nbsp;and/or&nbsp;the&nbsp;realm.</tt></dd></dl>
+
+<dl><dt><a name="RolesAuth-authorized"><strong>authorized</strong></a>(self, allowed_roles, resource, method)</dt><dd><tt>Validates&nbsp;the&nbsp;the&nbsp;current&nbsp;request&nbsp;is&nbsp;allowed&nbsp;to&nbsp;pass&nbsp;through.<br>
+&nbsp;<br>
+:param&nbsp;allowed_roles:&nbsp;allowed&nbsp;roles&nbsp;for&nbsp;the&nbsp;current&nbsp;request,&nbsp;can&nbsp;be&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;or&nbsp;a&nbsp;list&nbsp;of&nbsp;roles.<br>
+:param&nbsp;resource:&nbsp;resource&nbsp;being&nbsp;requested.</tt></dd></dl>
+
+<dl><dt><a name="RolesAuth-get_request_auth_value"><strong>get_request_auth_value</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="RolesAuth-set_request_auth_value"><strong>set_request_auth_value</strong></a>(self, value)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TeamAndPasswordAuth">class <strong>TeamAndPasswordAuth</strong></a>(<a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="auth.html#TeamAndPasswordAuth">TeamAndPasswordAuth</a></dd>
+<dd><a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TeamAndPasswordAuth-check_auth"><strong>check_auth</strong></a>(self, username, password, allowed_roles, resource, method)</dt></dl>
+
+<hr>
+Methods inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><a name="TeamAndPasswordAuth-authenticate"><strong>authenticate</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;standard&nbsp;a&nbsp;401&nbsp;response&nbsp;that&nbsp;enables&nbsp;basic&nbsp;auth.<br>
+Override&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;change&nbsp;the&nbsp;response&nbsp;and/or&nbsp;the&nbsp;realm.</tt></dd></dl>
+
+<dl><dt><a name="TeamAndPasswordAuth-authorized"><strong>authorized</strong></a>(self, allowed_roles, resource, method)</dt><dd><tt>Validates&nbsp;the&nbsp;the&nbsp;current&nbsp;request&nbsp;is&nbsp;allowed&nbsp;to&nbsp;pass&nbsp;through.<br>
+&nbsp;<br>
+:param&nbsp;allowed_roles:&nbsp;allowed&nbsp;roles&nbsp;for&nbsp;the&nbsp;current&nbsp;request,&nbsp;can&nbsp;be&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;or&nbsp;a&nbsp;list&nbsp;of&nbsp;roles.<br>
+:param&nbsp;resource:&nbsp;resource&nbsp;being&nbsp;requested.</tt></dd></dl>
+
+<dl><dt><a name="TeamAndPasswordAuth-get_request_auth_value"><strong>get_request_auth_value</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="TeamAndPasswordAuth-set_request_auth_value"><strong>set_request_auth_value</strong></a>(self, value)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="eve.auth.html#BasicAuth">eve.auth.BasicAuth</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-encode_basicauth_username_and_password"><strong>encode_basicauth_username_and_password</strong></a>(username, password)</dt><dd><tt>Return&nbsp;a&nbsp;correct&nbsp;base64&nbsp;encoded&nbsp;value&nbsp;given&nbsp;a&nbsp;username&nbsp;and&nbsp;password</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>app</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>
