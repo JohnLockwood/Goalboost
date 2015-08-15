@@ -6,7 +6,12 @@ alguito_schema = {
     'type': {
         'type': 'string',
         'minlength': 1,
-        'maxlength': 100,
+        'maxlength': 100
+    },
+    'team': {
+        'type': 'string',
+        'minlength': 1,
+        'maxlength': 100
     }
 }
 
@@ -17,7 +22,9 @@ alguitos = {
     # the final, plural 's' (works fine in most cases but not for 'people')
     # 'item_title': 'alguito',
 
-    'authentication': auth.AlguitoTokenAuth,
+    'authentication': auth.TeamAndPasswordAuth,
+
+    'auth_field': 'team',
 
     # by default the standard item entry point is defined as
     # '/people/<ObjectId>'. We leave it untouched, and we also enable an
