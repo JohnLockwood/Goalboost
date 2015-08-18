@@ -49,8 +49,6 @@ people_schema = {
     },
 }
 
-
-
 people = {
     # 'title' tag used in item links. Defaults to the resource title minus
     # the final, plural 's' (works fine in most cases but not for 'people')
