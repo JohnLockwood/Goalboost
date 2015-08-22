@@ -1,11 +1,14 @@
 from eve import Eve
 from flask import render_template
+from flask import session
 
 
 # Sample (was working) alternate configuration from dict
 import alguito.endpoints.eve.people as people
 import alguito.endpoints.eve.teams as teams
 import alguito.endpoints.eve.alguitos as alguitos
+
+from flask import request, url_for
 
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left
@@ -54,5 +57,15 @@ def index():
     # Or return "Hello world" for example to simply display a string
     return render_template('index.html')
 
+@app.route('/login/register')
+def register():
+    session['test'] = 'Passed!'
+    return render_template('login/register.html')
+
+@app.route('/login/login')
+def login():
+    return render_template('login/login.html')
+
 if __name__ == '__main__':
+    app.secret_key = 'O#WQiCRf%b*u%XLCDGO8tT31AIyCQ48TN5KkXqHQrkyS*%$jZ#hgiInYtNUC1aWUeu1PdcZNHBgcWv3%9h&lmFZg&kc7Gv'
     app.run(debug=True, port=5001)

@@ -71,11 +71,26 @@ class SetupDemo():
                     # Remember you need the _etag for update and delete
                     etag = demo_team_item["_etag"]
                     resp = requests.delete(delete_url, headers= {"If-Match": etag})
+                    # But see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+                    # "A successful response SHOULD be 200 (OK) if the response includes an entity describing
+                    # the status, 202 (Accepted) if the action has not yet been enacted, or 204
+                    # (No Content) if the action has been enacted but the response does not include an entity.
+                    # So likely would be different for soft delete?
                     assert(resp.status_code == 204)
 
+    def _test_can_create_alguito_as_god(self):
+        alguito_url = self.testHelper.api_root() + "alguitos"
+        demo_alguito = {'type': 'GodCreatedMeCorrectly', 'team': "Demo"}
+        resp = requests.post(alguito_url, demo_alguito, auth=('elitepropertiesbroker@gmail.com', 'Foopdewop1912'))
+        print(resp.status_code)
+        print(resp.text)
+
     def run(self):
-        self._delete_demo_team()
-        self._create_demo_team_with_api()
+        #self._delete_demo_team()
+        #self._create_demo_team_with_api()
+        self._test_can_create_alguito_as_god()
+
+
 
 if __name__ == "__main__":
     demo = SetupDemo()
