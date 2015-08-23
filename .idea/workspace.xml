@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3fc3a0d1-c8e5-44d4-8f6a-1f5a26bd7f1f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/endpoints/controllers/__init__.py" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/endpoints/controllers/index.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/endpoints/controllers/register.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/Hours.ods" afterPath="$PROJECT_DIR$/docs/Hours.ods" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/endpoints/__init__.py" afterPath="$PROJECT_DIR$/alguito/endpoints/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/endpoints/eve/__init__.py" afterPath="$PROJECT_DIR$/alguito/endpoints/eve/__init__.py" />
@@ -1073,13 +1075,13 @@
       <workItem from="1439159148766" duration="6780000" />
       <workItem from="1439583630087" duration="7672000" />
       <workItem from="1439594776936" duration="62981000" />
-      <workItem from="1440283393343" duration="4429000" />
+      <workItem from="1440283393343" duration="4557000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103569000" />
+    <option name="totallyTimeSpent" value="103697000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1845" height="1026" extended-state="0" />
