@@ -1,14 +1,15 @@
 from eve import Eve
-from flask import render_template
-from flask import session
 
-
-# Sample (was working) alternate configuration from dict
+# eve endpoints, i.e., in general, JSON restful endpoints
+# See eve_settings.DOMAIN below for the mappings of routes to people for these endpoints
 import alguito.endpoints.eve.people as people
 import alguito.endpoints.eve.teams as teams
 import alguito.endpoints.eve.alguitos as alguitos
 
-from flask import request, url_for
+# flask endpoints, i.e., web pages.
+# For route information for these endpoints, see the app.add_url_rule calls further below
+import alguito.endpoints.controllers.index as index
+import alguito.endpoints.controllers.register as register
 
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left
@@ -51,21 +52,16 @@ app = Eve(__name__, settings=eve_settings)
 
 
 # Define non-eve flask routes
-@app.route('/')
-def index():
-    # return app.send_static_file('index.html') -- use this if in static dir
-    # Or return "Hello world" for example to simply display a string
-    return render_template('index.html')
 
-@app.route('/login/register')
-def register():
-    session['test'] = 'Passed!'
-    return render_template('login/register.html')
-
-@app.route('/login/login')
-def login():
-    return render_template('login/login.html')
+# Non-eve flask routes are defined in functions in the package alguito.endpoints.controllers
+# Routes are defined here.
+app.add_url_rule('/', 'index', index.index)
+app.add_url_rule('/register/register', '/register/register', register.register)
+app.add_url_rule('/register/login', '/register/login', register.login)
 
 if __name__ == '__main__':
     app.secret_key = 'O#WQiCRf%b*u%XLCDGO8tT31AIyCQ48TN5KkXqHQrkyS*%$jZ#hgiInYtNUC1aWUeu1PdcZNHBgcWv3%9h&lmFZg&kc7Gv'
     app.run(debug=True, port=5001)
+
+
+

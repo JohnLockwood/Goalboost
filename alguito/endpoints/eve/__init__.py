@@ -1,1 +1,1 @@
-__author__ = 'john'
+# __init__.py - empty by design
