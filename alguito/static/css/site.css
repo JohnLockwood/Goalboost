@@ -1,3 +1,12 @@
-@font-size-base:          14pt;
-@font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
-@font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
+@font-size-base : 14 pt;
+@font-size-large : ceil((@font-size-base * 1.25));
+@font-size-small : ceil((@font-size-base * 0.85));
+
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+

@@ -1,7 +1,7 @@
 import unittest
 from test.common.test_helper import TestHelper
 
-class TestStringMethods(unittest.TestCase):
+class TestEveSettings(unittest.TestCase):
     def setUp(self):
         self.testHelper = TestHelper()
 

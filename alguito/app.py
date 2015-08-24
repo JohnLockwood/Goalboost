@@ -1,4 +1,5 @@
 from eve import Eve
+# from flask.ext.triangle import Triangle
 
 # eve endpoints, i.e., in general, JSON restful endpoints
 # See eve_settings.DOMAIN below for the mappings of routes to people for these endpoints
@@ -56,6 +57,7 @@ app = Eve(__name__, settings=eve_settings)
 # Non-eve flask routes are defined in functions in the package alguito.endpoints.controllers
 # Routes are defined here.
 app.add_url_rule('/', 'index', index.index)
+app.add_url_rule('/home/<page>', '/home', index.home)
 app.add_url_rule('/register/register', '/register/register', register.register)
 app.add_url_rule('/register/login', '/register/login', register.login)
 
