@@ -5,34 +5,28 @@ from pymongo import MongoClient
 # or better yet see about using Eve's
 class RegistrationModel(object):
 
-    def __init__(self):
-        self._app = None
-        self.db = None
-        self.client = None
-
-    def open_db(self):
-        if not self._app:
-            self._app = alguito.app
-            eve_settings = self.eve_settings()
-            self.client = MongoClient(eve_settings['MONGO_HOST'], eve_settings['MONGO_PORT'])
-            self.db = self.client[eve_settings['MONGO_DBNAME']]
-
-    def close_db(self):
-        self.client.disconnect()
-        self.db = None
-        self._app = None
-        self.client = None
-
-    def __del__(self):
-        if self.client:
-            self.close_db()
-            self.client.disconnect()
-
-    def __init__(self):
-        self.db = None
+    def __init__(self, db):
+        self.db = db
 
     def open_db(self):
         pass
 
-    def teamExists(self, teamName):
-        return False
+    def get_document(self, teamName):
+        return {'name': teamName}
+
+    def team_exists(self, teamName):
+        if teamName is None: return False
+        teams = self.db["teams"]
+        account = teams.find_one(self.get_document(teamName))
+        return account is not  None
+
+    def insert_team(self, teamName):
+        if self.team_exists(teamName): return False
+        teams = self.db["teams"]
+        id = teams.save(self.get_document(teamName))
+        return id is not None
+
+    def delete_team(self, teamName):
+        teams = self.db["teams"]
+        result = teams.remove({"name": {"$eq": teamName}})
+        return result['ok'] == 1

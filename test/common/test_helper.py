@@ -1,3 +1,5 @@
+import random
+import string
 import alguito.app
 from pymongo import MongoClient
 
@@ -33,3 +35,6 @@ class TestHelper():
 
     def api_root(self):
         return self.site_root() + "api/"
+
+    def random_string(self, length):
+        return ''.join(random.choice(string.ascii_letters) for i in range(length))
