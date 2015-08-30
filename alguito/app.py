@@ -58,7 +58,8 @@ app = Eve(__name__, settings=eve_settings)
 # Routes are defined here.
 app.add_url_rule('/', 'index', index.index)
 app.add_url_rule('/home/<page>', '/home', index.home)
-app.add_url_rule('/register/register', '/register/register', register.register)
+app.add_url_rule('/register/register', '/register/register/GET', register.register, methods=['GET'])
+app.add_url_rule('/register/register', '/register/register/POST', register.handle_register, methods=['POST'])
 app.add_url_rule('/register/login', '/register/login', register.login)
 
 if __name__ == '__main__':

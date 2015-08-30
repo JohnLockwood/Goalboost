@@ -34,5 +34,14 @@ class TestRegistration(unittest.TestCase):
         success = self.regModel.delete_team(random_string)
         self.assertEqual(success, True)
 
+    def test_can_insert_and_delete_a_with_mongo_io(self):
+        random_string = self.testHelper.random_string(20)
+        # self.assertEqual(len(random_string), 20)
+        success = self.regModel.insert_team_mongo(random_string)
+        self.assertEqual(success, True)
+        success = self.regModel.delete_team(random_string)
+        self.assertEqual(success, True)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -3,8 +3,6 @@ import base64
 from werkzeug.security import check_password_hash
 from flask import current_app as app
 
-
-
 """
     Notes:
     One way to structure this simply is to have a single auth for people, for example,
@@ -22,7 +20,9 @@ class TeamAndPasswordAuth(eve.auth.BasicAuth):
         if account and 'team' in account:
             pass # self.set_request_auth_value(account['team'])
 
-        return account and check_password_hash(account['password'], password)
+        authenticated = account and check_password_hash(account['password'], password)
+
+        return authenticated
 
 def encode_basicauth_username_and_password(username, password):
     """ Return a correct base64 encoded value given a username and password """

@@ -1,7 +1,65 @@
 {% extends "layout/default.html" %}
 {% set active_page = "register_register" %}
 {% block content %}
-    <h1>Sign Up Now</h1>
-    <p>You know you want to and it will help our business grow!</p>
-    <p>The session is here maybe: {{ session }}.  And here maybe is some math 2 + 2 = {{ 2+2 }}.  Hopefully this next thing is Tabzilla etc: {{ active_tab }} </p>
+
+
+<div action="/register/register" method="post" id="form1" name="form1">
+    <div class="row">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-8">
+            <h1>Create an Account</h1>
+
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Your email addresss">
+            </div>
+
+            <div class="form-group" id="">
+                <label for="inputTeamName">Account Name</label>
+                <input type="text" class="form-control" id="inputTeamName" name="inputTeamName" placeholder="Your Company or Team Name" onblur="displayAccountAvailability();">
+                <div id="teamNameAvailable" style="display:none;background-image:url('/static/images/green-checkbox.jpg'); background-size:24px 15px; background-repeat:no-repeat; background-position:left center; padding-left:24px;  ">Available</div>
+                <div id="teamNameNotAvailable" style="display:none; background-image:url('/static/images/red-x.jpg'); background-size:24px 15px; background-repeat:no-repeat; background-position:left center; padding-left:24px;">Sorry, this name is not available</div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword2">Confirm Password</label>
+                <input type="password" class="form-control" id="inputPassword2" name="inputPassword2" placeholder="Re-type password">
+            </div>
+
+            <button type="submit" class="btn btn-success">Register</button>
+        </div>
+
+    </div>
+</div>
+</form>
+<script language="JavaScript">
+    function displayAccountAvailability() {
+        var teamName = $("#inputTeamName").val();
+        var getTeamUrl = '/api/teams?where={"name":"' + teamName + '"}';
+        $.ajax(
+                {
+                    url: getTeamUrl,
+                    success: function (data) {
+                        if (data._meta.total == 0) {
+                            $('#teamNameAvailable').css('display','block');
+                            $('#teamNameNotAvailable').css('display','none');
+                        }
+                        else {
+                            $('#teamNameNotAvailable').css('display','block');
+                            $('#teamNameAvailable').css('display','none');
+                        }
+                    }
+                }
+        );
+
+        //$('#teamNameAvailable').css('display','block');
+        //console.log(teamName);
+
+    }
+</script>
 {% endblock %}

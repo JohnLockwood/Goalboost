@@ -9,6 +9,7 @@ class TestHelper():
 
     """
     def __init__(self):
+
         self._app = alguito.app
         eve_settings = self.eve_settings()
         self.client = MongoClient(eve_settings['MONGO_HOST'], eve_settings['MONGO_PORT'])
@@ -36,5 +37,13 @@ class TestHelper():
     def api_root(self):
         return self.site_root() + "api/"
 
+    # C.f. http://nullege.com/codes/search/eve.Eve.test_request_context
+    # and http://flask.pocoo.org/docs/0.10/api/#flask.Flask.test_request_context
+    def test_request_context(self):
+        return self._app.app.test_request_context()
+
+
     def random_string(self, length):
         return ''.join(random.choice(string.ascii_letters) for i in range(length))
+
+
