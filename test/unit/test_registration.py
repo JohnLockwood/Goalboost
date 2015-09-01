@@ -7,7 +7,7 @@ db.teams.find({"name": {"$eq": "NPYEejtoudpdyHGiDOiT"}}) # or some other name
 import unittest
 from test.common.test_helper import TestHelper
 
-import alguito.model.registration as registration
+import alguito.model.registration_model as registration
 
 class TestRegistration(unittest.TestCase):
 

@@ -10,7 +10,7 @@ import alguito.endpoints.eve.alguitos as alguitos
 # flask endpoints, i.e., web pages.
 # For route information for these endpoints, see the app.add_url_rule calls further below
 import alguito.endpoints.controllers.index as index
-import alguito.endpoints.controllers.register as register
+import alguito.endpoints.controllers.registration_controller as register
 
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left
