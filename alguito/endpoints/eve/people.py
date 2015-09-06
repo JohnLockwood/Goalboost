@@ -44,9 +44,15 @@ people_schema = {
             'city': {'type': 'string'}
         },
     },
-    'born': {
-        'type': 'datetime',
-    },
+    'current_timer': {
+        'type': 'dict',
+        'schema': {
+
+            'start': {'type': 'datetime', 'required': True},
+            'length': {'type': 'integer', 'min': 0, 'required': False},
+            'notes': {'type': 'string'}
+        }
+    }
 }
 
 people = {
