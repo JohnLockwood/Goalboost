@@ -1,0 +1,110 @@
+https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html
+
+This is probably the right approach:
+
+http://billauer.co.il/blog/2009/03/mysql-datetime-epoch-unix-time/
+
+Some hacking based on this:
+
+mysql> create table test_time(dt1 DATETIME, dt2  BIGINT unsigned);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select unix_timestamp(NOW());
++-----------------------+
+| unix_timestamp(NOW()) |
++-----------------------+
+|            1441586352 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select unix_timestamp('2015-04-01');
++------------------------------+
+| unix_timestamp('2015-04-01') |
++------------------------------+
+|                   1427846400 |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into test_time(dt1,dt2) values('2015-04-01', unix_timestamp('2015-04-01'));
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from test_time;
++---------------------+------------+
+| dt1                 | dt2        |
++---------------------+------------+
+| 2015-04-01 00:00:00 | 1427846400 |
++---------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into test_time(dt1,dt2) values('2015-04-02', unix_timestamp('2015-04-02'));
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into test_time(dt1,dt2) values('2015-04-05', unix_timestamp('2015-04-05'));
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from test_time;
++---------------------+------------+
+| dt1                 | dt2        |
++---------------------+------------+
+| 2015-04-01 00:00:00 | 1427846400 |
+| 2015-04-02 00:00:00 | 1427932800 |
+| 2015-04-05 00:00:00 | 1428192000 |
++---------------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from test_time where dt2 between unix_timestamp('2015-04-04') and unix_timestamp('2015-04-07');
++---------------------+------------+
+| dt1                 | dt2        |
++---------------------+------------+
+| 2015-04-05 00:00:00 | 1428192000 |
++---------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from test_time;
++---------------------+------------+
+| dt1                 | dt2        |
++---------------------+------------+
+| 2015-04-01 00:00:00 | 1427846400 |
+| 2015-04-02 00:00:00 | 1427932800 |
+| 2015-04-05 00:00:00 | 1428192000 |
++---------------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select dt1, from_unixtime(dt2) from test_time;
++---------------------+---------------------+
+| dt1                 | from_unixtime(dt2)  |
++---------------------+---------------------+
+| 2015-04-01 00:00:00 | 2015-04-01 00:00:00 |
+| 2015-04-02 00:00:00 | 2015-04-02 00:00:00 |
+| 2015-04-05 00:00:00 | 2015-04-05 00:00:00 |
++---------------------+---------------------+
+
+
+# In javascript these seconds since Midnight January 1, 1970 also work but note Javascript calculates in milliseconds.
+See the following in node.js for example:
+
+now = new Date()
+Sun Sep 06 2015 18:33:33 GMT-0700 (PDT)
+> Math.round(now.getTime() / 1000)
+1441589613
+
+// To display it again:
+> new Date(Math.round(now.getTime()))
+Sun Sep 06 2015 18:33:33 GMT-0700 (PDT)
+
+
+
+Another approach -- but what happens during daylight savings time????
+
+To set time zone tables in mysql:
+
+ttps://books.google.com/books?id=s_87mv-Eo4AC&pg=PA349&vq=default-time-zone&hl=en#v=onepage&q=default-time-zone&f=false
+
+Had to set in /etc/mysql/my.cnf:
+
+default_time_zone = GMT
+
+after first running this:
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -pNewacct1 -D mysql
+

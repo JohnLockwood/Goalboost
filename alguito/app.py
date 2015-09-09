@@ -1,21 +1,14 @@
-from eve import Eve
 from flask_restful import Resource, Api
 from flask import Flask
 
-# eve endpoints, i.e., in general, JSON restful endpoints
-# See eve_settings.DOMAIN below for the mappings of routes to people for these endpoints
-import alguito.endpoints.eve.people as people
-#import alguito.endpoints.eve.current_timer as current_timer
-import alguito.endpoints.eve.teams as teams
-import alguito.endpoints.eve.alguitos as alguitos
-
-
+# Flask-restful endpoints
+from alguito.endpoints.flask_restful.people import People, Person
 
 # flask endpoints, i.e., web pages.
 # For route information for these endpoints, see the app.add_url_rule calls further below
 import alguito.endpoints.controllers.index as index
 import alguito.endpoints.controllers.registration_controller as register
-
+'''
 eve_settings = {
     # Please note that MONGO_HOST and MONGO_PORT could very well be left
     # out as they already default to a bare bones local 'mongod' instance.
@@ -50,6 +43,8 @@ eve_settings = {
     'XML': False
 }
 app = Eve(__name__, settings=eve_settings)
+'''
+app = Flask(__name__)
 api = Api(app)
 
 # But as long as you keep this in the root, everything works fine from a file, until it doesn't because
@@ -69,10 +64,13 @@ app.add_url_rule('/register/login', '/register/login', register.login)
 # Non-eve flask-restful resources
 
 #class HelloWorldFlaskRestful(Resource):
-#    def get(self):
-#        return {'helloworld': 'HelloWorld from Flask Restful!'}
+#   def get(self):
+#       return {'helloworld': 'HelloWorld from Flask Restful!'}
 
-#api.add_resource(HelloWorldFlaskRestful, '/api2/hello/')
+#api.add_resource(HelloWorldFlaskRestful, '/api/hello/')
+api.add_resource(People, '/api/people')
+api.add_resource(Person,  '/api/people/<string:id>')
+#api.add_resource(People, '/api/people')
 
 
 if __name__ == '__main__':
