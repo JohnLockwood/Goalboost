@@ -1,8 +1,6 @@
 from unittest import TestCase
-# from test.common.test_helper import TestHelper
 from alguito.model.dal.database import get_session
-# from alguito.model.dal.database import _engine
-from alguito.model.entities.user import User
+from alguito.model.entities.userentity import UserEntity
 
 class TestAuth(TestCase):
     #def setUp(self):
@@ -14,14 +12,20 @@ class TestAuth(TestCase):
         #u2 = User()
         #u2.metadata.create_all(bind=_engine)
         try:
-            u = User(name="John", email="john@particlewave.com", fullname='John Lockwood', password="Foopdewop")
+            u = UserEntity(name="John", email="john@particlewave.com", fullname='John Lockwood', password="Foopdewop")
             session.add(u)
             session.commit()
         except Exception as e:
-            print(e)
+            # Swallow exception if exits
+            pass
+            #print(e)
 
         # Need a new session now -- last is rolled back
         session = get_session()
-        u2 = session.query(User).filter(User.fullname == "John Lockwood").one()
+        u2 = session.query(UserEntity).filter(UserEntity.fullname == "John Lockwood").one()
         assert(u2 is not None)
         assert(u2.name == "John")
+
+        assert(not u2.verify_password('Not Foopdewop'))
+        assert(u2.verify_password('Foopdewop'))
+

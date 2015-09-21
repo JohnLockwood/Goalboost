@@ -1,4 +1,4 @@
-from datetime import datetime
+'''from datetime import datetime
 from eve.methods.common import document_etag
 from eve.methods.put import put
 from flask import current_app as app
@@ -66,6 +66,6 @@ class RegistrationModel(object):
         elif password != password2:
             return RegistrationModel.ERROR_PASSWORD_MISMATCH
         return RegistrationModel.ERROR_NONE
-
+'''
 
 
