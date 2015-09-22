@@ -29,8 +29,21 @@ class User(UserMixin):
 
     @classmethod
     def get(cls,id):
-        userEntity = app.db.session.query(UserEntity).filter(UserEntity.email == id).one()
-        return User(userEntity.email, None)
+        userEntity = cls.getEntity(id) # = app.db.session.query(UserEntity).filter(UserEntity.email == id).one()
+        if (userEntity):
+            return User(userEntity.email, None)
+        else:
+            return None
+
+    @classmethod
+    def getEntity(cls, id):
+        try:
+            return app.db.session.query(UserEntity).filter(UserEntity.email == id).one()
+        except:
+            return None
+
+    def get_id(self):
+        return self.id
 
 '''
 def load_user(request):

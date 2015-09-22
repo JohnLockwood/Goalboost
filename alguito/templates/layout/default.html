@@ -13,9 +13,10 @@
         ] -%}
 
         {% set navigation_bar_right = [
-            ('/register/register', 'register_register', 'Sign Up'),
-            ('/login', 'register_login', 'Log In'),
-            ('/logout', 'register_logout', 'Log Out')
+            ('/auth/register', 'register_register', 'Sign Up'),
+            ('/auth/protected', 'register_protected', 'Protected Resource'),
+            ('/auth/login', 'register_login', 'Log In'),
+            ('/auth/logout', 'register_logout', 'Log Out')
         ] -%}
 
         {% set active_page = active_page|default('index') -%}

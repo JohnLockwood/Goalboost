@@ -5,6 +5,8 @@ import alguito.auth
 import alguito.endpoints.controllers.registration_controller
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from alguito.mod_auth.controllers import mod_auth as auth_module
+
 # Flask-restful endpoints
 from alguito.endpoints.flask_restful.people import People, Person
 
@@ -27,24 +29,19 @@ api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-'''
-@login_manager.request_loader
-def load_user(request):
-    return alguito.auth.load_user(request)
-'''
+
+# @login_manager.request_loader
+# def load_user(request):
+#     return alguito.auth.load_user(request)
 
 @login_manager.user_loader
 def load_user_by_id(id):
     return alguito.auth.load_user_by_id(id)
 
-@app.route("/protected/",methods=["GET"])
-@login_required
-def protected():
-    return Response(response="Hello Protected World!", status=200)
 
-app.add_url_rule('/login', '/login', alguito.endpoints.controllers.registration_controller.login, methods= ["GET", "POST"])
+#app.add_url_rule('/login', '/login', alguito.endpoints.controllers.registration_controller.login, methods= ["GET", "POST"])
 
-login_manager.login_view = "/login"
+login_manager.login_view = "/auth/login"
 
 @app.route("/logout")
 @login_required
@@ -52,6 +49,8 @@ def logout():
     logout_user()
     return redirect("/")
 
+# Register blueprint(s)
+app.register_blueprint(auth_module)
 
 
 # But as long as you keep this in the root, everything works fine from a file, until it doesn't because
