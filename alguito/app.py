@@ -1,56 +1,57 @@
-from eve import Eve
 from flask_restful import Resource, Api
-from flask import Flask
+from flask import Flask, Response, redirect
+from flask.ext.login import LoginManager, login_required, logout_user
+import alguito.auth
+import alguito.endpoints.controllers.registration_controller
+from flask.ext.sqlalchemy import SQLAlchemy
 
-# eve endpoints, i.e., in general, JSON restful endpoints
-# See eve_settings.DOMAIN below for the mappings of routes to people for these endpoints
-import alguito.endpoints.eve.people as people
-#import alguito.endpoints.eve.current_timer as current_timer
-import alguito.endpoints.eve.teams as teams
-import alguito.endpoints.eve.alguitos as alguitos
+from alguito.mod_auth.controllers import mod_auth as auth_module
 
-
+# Flask-restful endpoints
+from alguito.endpoints.flask_restful.people import People, Person
 
 # flask endpoints, i.e., web pages.
 # For route information for these endpoints, see the app.add_url_rule calls further below
 import alguito.endpoints.controllers.index as index
-import alguito.endpoints.controllers.registration_controller as register
+# import alguito.endpoints.controllers.registration_controller as register
+app = Flask(__name__)
 
-eve_settings = {
-    # Please note that MONGO_HOST and MONGO_PORT could very well be left
-    # out as they already default to a bare bones local 'mongod' instance.
-    'MONGO_HOST': 'localhost',
-    'MONGO_PORT': 27017,
-    'MONGO_USERNAME': 'apitestUser',
-    'MONGO_PASSWORD': 'asf$$95yXpiorE',
-    'MONGO_DBNAME': 'apitest',
+# SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:Newacct1@localhost/alguito"
+db = SQLAlchemy(app)
 
-    # Allows us to serve static files from "static" folder in root, etc.  Cf http://stackoverflow.com/questions/27798842/serve-static-files-with-eve
-    'URL_PREFIX': "api",
-
-    'DOMAIN': {
-        'people': people.people,
-        'teams' : teams.teams,
-        'alguitos': alguitos.alguitos
-        #'current_timer': current_timer.current_timer
-    },
-
-    # Global RESOURCE and ITEM METHODS.  These can be overriden on a per-endpoint basis,
-    # See: http://python-eve.org/config.html#resource-item-endpoints
-
-    # Enable reads (GET), inserts (POST) and DELETE for resources/collections
-    # (if you omit this line, the API will default to ['GET'] and provide
-    # read-only access to the endpoint).
-    'RESOURCE_METHODS': ['GET', 'POST', 'DELETE', 'PATCH'],
-
-    # Enable reads (GET), edits (PATCH), replacements (PUT) and deletes of
-    # individual items  (defaults to read-only item access).
-    'ITEM_METHODS': ['GET', 'PATCH', 'PUT', 'DELETE'],
-
-    'XML': False
-}
-app = Eve(__name__, settings=eve_settings)
 api = Api(app)
+
+
+
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+# @login_manager.request_loader
+# def load_user(request):
+#     return alguito.auth.load_user(request)
+
+@login_manager.user_loader
+def load_user_by_id(id):
+    return alguito.auth.load_user_by_id(id)
+
+
+#app.add_url_rule('/login', '/login', alguito.endpoints.controllers.registration_controller.login, methods= ["GET", "POST"])
+
+login_manager.login_view = "/auth/login"
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+# Register blueprint(s)
+app.register_blueprint(auth_module)
+
 
 # But as long as you keep this in the root, everything works fine from a file, until it doesn't because
 # of stupid import rules.
@@ -62,17 +63,18 @@ api = Api(app)
 # Routes are defined here.
 app.add_url_rule('/', 'index', index.index)
 app.add_url_rule('/home/<page>', '/home', index.home)
-app.add_url_rule('/register/register', '/register/register/GET', register.register, methods=['GET'])
-app.add_url_rule('/register/register', '/register/register/POST', register.handle_register, methods=['POST'])
-app.add_url_rule('/register/login', '/register/login', register.login)
+
 
 # Non-eve flask-restful resources
 
 #class HelloWorldFlaskRestful(Resource):
-#    def get(self):
-#        return {'helloworld': 'HelloWorld from Flask Restful!'}
+#   def get(self):
+#       return {'helloworld': 'HelloWorld from Flask Restful!'}
 
-#api.add_resource(HelloWorldFlaskRestful, '/api2/hello/')
+#api.add_resource(HelloWorldFlaskRestful, '/api/hello/')
+api.add_resource(People, '/api/people')
+api.add_resource(Person,  '/api/people/<string:id>')
+#api.add_resource(People, '/api/people')
 
 
 if __name__ == '__main__':
