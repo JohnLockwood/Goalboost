@@ -1,6 +1,6 @@
-from flask.ext.login import UserMixin
+'''from flask.ext.login import UserMixin
 from alguito.model.entities.userentity import UserEntity
-import alguito.app as app
+#import alguito.app as app
 
 class User(UserMixin):
 
@@ -75,3 +75,5 @@ def load_user_by_id(id):
 #@login_required
 #def protected():
 #    return Response(response="Hello Protected World!", status=200)
+
+'''

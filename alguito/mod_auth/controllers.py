@@ -3,7 +3,8 @@ from flask import Blueprint, request, render_template, \
                   flash, g, session, redirect, url_for
 
 
-import alguito.auth
+#import models
+from .models import User, UserEntity
 import flask.ext.login
 from flask.ext.login import login_required, logout_user
 from alguito.mod_auth.forms import LoginForm
@@ -18,9 +19,9 @@ def signin():
     if form.validate_on_submit():
         # Login and validate the user.
         # user should be an instance of your `User` class
-        userEntity = alguito.auth.User.getEntity(form.email.data)
+        userEntity = User.getEntity(form.email.data)
         if(userEntity is not None and userEntity.verify_password(form.password.data)):
-            user = alguito.auth.User(form.email.data, form.password.data)
+            user = User(form.email.data, form.password.data)
             if(flask.ext.login.login_user(user)):
                 flask.flash('Logged in successfully.')
                 next = flask.request.args.get('next')
@@ -28,7 +29,7 @@ def signin():
                 # permission to access the `next` url
                 #if not next_is_valid(next):
                 #    return flask.abort(400)
-                return flask.redirect(next or flask.url_for('index'))
+                return flask.redirect(next or flask.url_for('index.index'))
         else:
             flask.flash("Login failed")
 
