@@ -5,15 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fc3a0d1-c8e5-44d4-8f6a-1f5a26bd7f1f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/datastore/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/mod_index/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/alguito/mod_index/controllers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/__init__.py" afterPath="$PROJECT_DIR$/alguito/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/mod_auth/__init__.py" afterPath="$PROJECT_DIR$/alguito/mod_auth/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/app.py" afterPath="$PROJECT_DIR$/alguito/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/auth.py" afterPath="$PROJECT_DIR$/alguito/auth.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/mod_auth/controllers.py" afterPath="$PROJECT_DIR$/alguito/mod_auth/controllers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alguito/mod_auth/models.py" afterPath="$PROJECT_DIR$/alguito/mod_auth/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="alguito.iws" />
@@ -1205,13 +1196,13 @@
       <workItem from="1440959859320" duration="6454000" />
       <workItem from="1441117378764" duration="53956000" />
       <workItem from="1442933929877" duration="11000" />
-      <workItem from="1443276810606" duration="9901000" />
+      <workItem from="1443276810606" duration="10196000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="213020000" />
+    <option name="totallyTimeSpent" value="213315000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
@@ -1235,7 +1226,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26688102" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26688102" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
