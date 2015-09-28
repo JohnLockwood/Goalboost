@@ -1,0 +1,68 @@
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_users` (
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `role_id` int(11) unsigned DEFAULT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `roles_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `roles_users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tasks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id_created` int(11) unsigned DEFAULT NULL,
+  `user_id_assigned` int(11) unsigned DEFAULT NULL,
+  `title` varchar(80) NOT NULL,
+  `description` text,
+  `status` varchar(20) DEFAULT 'In Progress',
+  `visibility` enum('Published','Private','Review') DEFAULT 'Private',
+  PRIMARY KEY (`id`),
+  KEY `user_id_created` (`user_id_created`),
+  KEY `user_id_assigned` (`user_id_assigned`),
+  CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`user_id_created`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`user_id_assigned`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `timers` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) unsigned DEFAULT NULL,
+  `notes` text,
+  `start` datetime DEFAULT NULL,
+  `seconds_elapsed` int(11) DEFAULT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `is_running` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `task_id` (`task_id`),
+  CONSTRAINT `timers_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `timers` VALUES (1,NULL,'Moe checking','2015-09-27 19:27:58',5,1,0);
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) DEFAULT NULL,
+  `email` varchar(120) DEFAULT NULL,
+  `fullname` varchar(120) DEFAULT NULL,
+  `password` varchar(120) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `users` VALUES (1,'John','john@particlewave.com','John Lockwood','$pbkdf2-sha256$200000$ihGCsBZCCCFkrJVSyjkHAA$QYx2hzv1gVKI1ycsDtJ8.mQWm1XbaNZa5eJUnbOryJQ',1);

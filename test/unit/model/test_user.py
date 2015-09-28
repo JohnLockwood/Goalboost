@@ -1,31 +1,55 @@
 from unittest import TestCase
-from alguito.model.dal.database import get_session
-from alguito.model.entities.userentity import UserEntity
+from alguito.datastore import db
+from test.common.test_helper import TestHelper
+
+from alguito.mod_auth.models import UserEntity
 
 class TestAuth(TestCase):
-    #def setUp(self):
-    #    self.testHelper= TestHelper()
+    def setUp(self):
+
+        self.testHelper= TestHelper()
+        #self.client = self.testHelper.test_client()
+        #self.testContext = self.testHelper.test_request_context()
 
     def test_can_create_and_save_user(self):
-        session = get_session()
-        # Todo need to hash password, add authentication logic
-        #u2 = User()
-        #u2.metadata.create_all(bind=_engine)
-        try:
-            u = UserEntity(name="John", email="john@particlewave.com", fullname='John Lockwood', password="Foopdewop")
-            session.add(u)
-            session.commit()
-        except Exception as e:
-            # Swallow exception if exits
-            pass
-            #print(e)
+        with self.testHelper.app().app_context():
+            session = db.session
+            # Todo need to hash password, add authentication logic
+            #u2 = User()
+            #u2.metadata.create_all(bind=_engine)
+            try:
+                u = UserEntity(name="John", email="john@particlewave.com", fullname='John Lockwood', password="Foopdewop")
+                session.add(u)
+                session.commit()
+            except Exception as e:
+                # Swalliow excption if exists
+                session.rollback()
 
-        # Need a new session now -- last is rolled back
-        session = get_session()
-        u2 = session.query(UserEntity).filter(UserEntity.fullname == "John Lockwood").one()
-        assert(u2 is not None)
-        assert(u2.name == "John")
+            u2 = session.query(UserEntity).filter(UserEntity.fullname == "John Lockwood").one()
+            assert(u2 is not None)
+            assert(u2.name == "John")
 
-        assert(not u2.verify_password('Not Foopdewop'))
-        assert(u2.verify_password('Foopdewop'))
+            assert(not u2.verify_password('Not Foopdewop'))
+            assert(u2.verify_password('Foopdewop'))
+
+    def test_can_delete_user_and_recreate(self):
+        with self.testHelper.app().app_context():
+            session = db.session
+            # Delete
+            try:
+                session.query(UserEntity).filter(UserEntity.email == "john@particlewave.com").delete()
+                session.commit()
+            except Exception as e:
+                session.rollback()
+
+            # Recreate
+            try:
+                u = UserEntity(name="John", email="john@particlewave.com", fullname='John Lockwood', password="Foopdewop")
+                session.add(u)
+                session.commit()
+            except Exception as e:
+                # Swalliow excption if exists
+                session.rollback()
+
+
 

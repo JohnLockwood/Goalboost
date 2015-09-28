@@ -1,6 +1,40 @@
+from flask import current_app
 from flask.ext.login import UserMixin
-from alguito.model.entities.userentity import UserEntity
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
+
+from passlib.hash import pbkdf2_sha256
+
 from alguito.datastore import db
+from alguito.model.entities.base import Base
+
+class UserEntity(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(120))
+    email = Column(String(120), unique=True)
+    fullname = Column(String(120))
+    _password = Column(String(120), name="password")
+
+
+    @hybrid_property
+    def password(self):
+        return ""
+
+    @password.setter
+    def password(self, password):
+        hash_rounds = current_app.config["USER_PASSWORD_HASH_ROUNDS"]
+        hash = pbkdf2_sha256.encrypt(password, rounds=hash_rounds, salt_size=16)
+        self._password = hash
+
+    @hybrid_method
+    def verify_password(self, password):
+        return pbkdf2_sha256.verify(password, self._password)
+
+    def __repr__(self):
+        return "<User(name='%s', fullname='%s', password='%s')>" % (self.name, self.fullname, self.password)
+
 
 class User(UserMixin):
 
@@ -8,8 +42,6 @@ class User(UserMixin):
         self.id = username
         self.password = password
 
-    #def __init__(self, username):
-    #    self.username = username
 
     #@property
     def is_active(self):

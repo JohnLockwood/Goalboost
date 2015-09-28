@@ -1,3 +1,11 @@
+# Import flask dependencies
+from flask import Blueprint, redirect, render_template
+
+# Define the blueprint: 'auth', set its url prefix: app.url/auth
+mod_api = Blueprint('api', __name__, url_prefix='/api')
+
+
+
 from flask_restful import Resource
 
 class People(Resource):
