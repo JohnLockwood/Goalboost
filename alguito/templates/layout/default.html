@@ -15,7 +15,7 @@
         {% set navigation_bar_right = [
             ('/auth/register', 'register_register', 'Sign Up'),
             ('/auth/protected', 'register_protected', 'Protected Resource'),
-            ('/auth/login', 'register_login', 'Log In'),
+            ('/login', 'register_login', 'Log In'),
             ('/auth/logout', 'register_logout', 'Log Out')
         ] -%}
 
@@ -37,21 +37,23 @@
                     {% for href, id, caption in navigation_bar_left %}
                     <li {% if id == active_page %} class="active"{% endif%}><a href="{{ href|e }}">{{ caption|e }}</a></li>
                     {% endfor %}
-                    <!-- <li><a href="/static/index.html#home">Single Page Home</a></li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">API Links <span class="caret"></span></a>
+                           aria-expanded="false">Otuer Resources<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/api">API Root</a></li>
+                            <li><a href="/api/root">API Root (Broken)</a></li>
                             <li><a href="/api/people">/api/people</a></li>
-                            <li><a href="/api/teams">/api/teams</a></li>
+                            <li><a href="/auth/login">Old Login form (nicely styled)</a></li>
                             <li role="separator" class="divider"></li>
+                            <!--
                             <li class="dropdown-header">Nav header</li>
                             <li><a href="#">Separated link</a></li>
                             <li><a href="#">One more separated link</a></li>
+                            -->
                         </ul>
                     </li>
-                    -->
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
