@@ -1,8 +1,13 @@
 from flask import current_app
-from flask.ext.login import UserMixin
+#from flask.ext.login import UserMixin
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
+from alguito.datastore import db
+from alguito.model.entities.base import Base
+from flask.ext.security import UserMixin, RoleMixin
+from passlib.hash import pbkdf2_sha256
 
+'''
 from passlib.hash import pbkdf2_sha256
 
 from alguito.datastore import db
@@ -76,3 +81,53 @@ class User(UserMixin):
 
     def get_id(self):
         return self.id
+
+'''
+
+roles_users = db.Table('roles_users',
+                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
+
+    # _password = Column(String(120), name="password")
+'''
+    @hybrid_method
+    def verify_password(self, password):
+        return True
+        #return pbkdf2_sha256.verify(password, self._password)
+
+    @hybrid_property
+    def password(self):
+        return ""
+
+    @password.setter
+    def password(self, password):
+        hash_rounds = current_app.config["USER_PASSWORD_HASH_ROUNDS"]
+        hash = pbkdf2_sha256.encrypt(password, rounds=hash_rounds, salt_size=16)
+        self._password = hash
+
+    @classmethod
+    def get(cls,id):
+        user = db.session.query(User).filter(User.email == id).one()
+        if (user):
+            return user
+        else:
+            return None
+'''
+
+
+
+

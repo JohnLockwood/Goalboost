@@ -4,7 +4,7 @@ from flask import Blueprint, request, render_template, \
 
 
 #import models
-from .models import User, UserEntity
+from .models import User #, UserEntity
 import flask.ext.login
 from flask.ext.login import login_required, logout_user
 from alguito.mod_auth.forms import LoginForm
@@ -19,10 +19,13 @@ def signin():
     if form.validate_on_submit():
         # Login and validate the user.
         # user should be an instance of your `User` class
-        userEntity = User.getEntity(form.email.data)
+        #userEntity = User(id=form.email.data, password=form.password.data)
+        userEntity = User.get(id=form.email.data)
+
         if(userEntity is not None and userEntity.verify_password(form.password.data)):
-            user = User(form.email.data, form.password.data)
-            if(flask.ext.login.login_user(user)):
+            #user = User(form.email.data, form.password.data)
+            if(flask.ext.login.login_user(userEntity)):
+
                 flask.flash('Logged in successfully.')
                 next = flask.request.args.get('next')
                 #next_is_valid should check if the user has valid
