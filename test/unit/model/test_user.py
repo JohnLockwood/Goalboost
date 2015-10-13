@@ -2,7 +2,7 @@ from unittest import TestCase
 from alguito.datastore import db
 from test.common.test_helper import TestHelper
 
-from alguito.mod_auth.models import UserEntity
+from alguito.mod_auth.sqlalchemy_models import UserEntity
 
 class TestAuth(TestCase):
     def setUp(self):

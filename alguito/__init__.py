@@ -20,19 +20,10 @@ def create_app(config_name):
 
     init_db(app)
 
+    # Creates a security object we do nothing with;
+    # do we need it?
     init_login_manager(app)
 
     mail = Mail(app)
-
-
-#user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    #security = Security(app, user_datastore)
-    #with app.app_context():
-    #    db.create_all()
-    #    db.session.commit()
-    #app.add_url_rule('/', 'index', index.index)
-    #app.add_url_rule('/home/<page>', '/home', index.home)
-
-    # attach routes and custom error pages here
 
     return app
