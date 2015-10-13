@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import os
 from alguito import create_app
+from flask_mail import Mail
 from alguito.datastore import db
 from flask.ext.script import Manager, Shell
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
+
 
 def make_shell_context():
     return dict(app=app, db=db)

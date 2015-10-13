@@ -6,6 +6,7 @@ from flask.ext.security import Security, SQLAlchemyUserDatastore, \
     UserMixin, RoleMixin, login_required
 from alguito.datastore import db
 
+
 def init_login_manager(app):
 
     #login_manager.init_app(app)

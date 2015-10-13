@@ -6,9 +6,7 @@ from .mod_auth.controllers import mod_auth
 from .mod_api import init_api
 from .mod_index.controllers import mod_index
 from .datastore import init_db, db
-from .mod_auth.models import User, Role
-from flask.ext.security import Security, SQLAlchemyUserDatastore, \
-    UserMixin, RoleMixin, login_required
+from flask_mail import Mail
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -24,7 +22,10 @@ def create_app(config_name):
 
     init_login_manager(app)
 
-    #user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    mail = Mail(app)
+
+
+#user_datastore = SQLAlchemyUserDatastore(db, User, Role)
     #security = Security(app, user_datastore)
     #with app.app_context():
     #    db.create_all()
