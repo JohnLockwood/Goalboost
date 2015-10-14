@@ -2,7 +2,7 @@
 from flask import Blueprint, request, render_template, \
                   flash, g, session, redirect, url_for
 
-from .sqlalchemy_models import User #, UserEntity
+from .mongo_models import User #, UserEntity
 import flask.ext.login
 from flask.ext.login import login_required, logout_user
 from alguito.mod_auth.forms import LoginForm

@@ -1,6 +1,13 @@
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.mongoengine import MongoEngine
+# from flask.ext.sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+#db = SQLAlchemy()
+db = MongoEngine()
 
 def init_db(app):
-    db.init_app(app)
+    global db
+    db = MongoEngine(app)
+
+
+
+
