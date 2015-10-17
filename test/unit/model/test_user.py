@@ -1,8 +1,6 @@
 from unittest import TestCase
-from alguito.datastore import db
 from test.common.test_helper import TestHelper
-from flask import current_app
-from alguito.mod_auth.mongo_models import User
+from flask_security.utils import encrypt_password
 
 class TestAuth(TestCase):
 
@@ -15,9 +13,9 @@ class TestAuth(TestCase):
         with self.testHelper.app().app_context():
             user = None
             try:
-
                 user_data_store = self.security.datastore
-                user = user_data_store.create_user(email="melblank@bugs.com", account="foghorn", password="What'sUpDocument")
+                encrypted = encrypt_password("WhatsUpDocument")
+                user = user_data_store.create_user(email="melblank@bugs.com", account="foghorn", password=encrypted)
                 user2 = user_data_store.find_user(email="melblank@bugs.com")
                 assert(user.email == user2.email)
                 assert(user.account == user2.account)

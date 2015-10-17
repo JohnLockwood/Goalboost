@@ -1,10 +1,9 @@
 # Import flask dependencies
-from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for
-
-from .mongo_models import User #, UserEntity
+from flask import Blueprint, redirect
 import flask.ext.login
 from flask.ext.login import login_required, logout_user
+
+from alguito.model.mongo_models import User
 from alguito.mod_auth.forms import LoginForm
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth

@@ -1,9 +1,8 @@
-from flask import url_for
-from flask.ext.login import LoginManager, login_required, logout_user
+from flask.ext.login import LoginManager
+
 login_manager = LoginManager()
-from .mongo_models import User, Role
-from flask.ext.security import Security, SQLAlchemyUserDatastore, MongoEngineUserDatastore, \
-    UserMixin, RoleMixin, login_required
+from alguito.model.mongo_models import User, Role
+from flask.ext.security import Security, SQLAlchemyUserDatastore, MongoEngineUserDatastore
 from alguito.datastore import db
 
 
