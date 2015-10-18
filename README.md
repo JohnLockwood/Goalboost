@@ -1,5 +1,5 @@
-# Alguito
-Alguito is a time and billing application written using Python, Flask, and MongoDb.  It is employee owned source, not open source -- see the [license](LICENSE.md).
+# Goalboost
+Goalboost is a time and billing application written using Python, Flask, and MongoDb.  It is employee owned source, not open source -- see the [license](LICENSE.md).
 
 # Getting Started.
 Well, you'll need Python 3 and MongoDb for starters.  You can clone the code according to the license, but to work on it you'll
