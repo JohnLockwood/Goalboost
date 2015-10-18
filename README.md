@@ -1,14 +1,12 @@
 # Alguito
-Alguito is John and Jenniffer's retirement project.  We better figure out what it will do.  I'm still thinking time and billing, but also
-project tracking.  There should be a full spec in the doc directory.
+Alguito is a time and billing application written using Python, Flask, and MongoDb.  It is employee owned source, not open source -- see the [license](LICENSE.md).
 
-NOTE:  At this point Unit Tests are HOSED.
+# Getting Started.
+Well, you'll need Python 3 and MongoDb for starters.  You can clone the code according to the license, but to work on it you'll
+need to get our environment settings, which contain the security-sensitive stuff.
 
-# Dependencies
-Python 3.x
-[Eve Python Rest Framework](http://python-eve.org/index.html)
-
-Hours spent now tracked in "docs/Hours.ods"
+# Hours 
+We keep track of our hours in [docs/hours.json](docs/hours.json)
 
 # Time and Billing App (Specification -- First Try)
 
