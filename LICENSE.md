@@ -11,4 +11,3 @@ Equity ownership in the code also entitles you participate in the democratic pro
 The profits from the project will be distributed based on hours-equity on a percentage basis, but until we may collectively decide otherwise, voting will be based on "one worker, one vote".
 
 Members of the public wishing to submit issues, etc. but without accepted pull requests are welcome to participate as non-voting associates.
-</table>
