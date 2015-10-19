@@ -1,5 +1,6 @@
 from alguito.datastore import db
 from flask.ext.security import UserMixin, RoleMixin
+from datetime import datetime
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -20,7 +21,14 @@ class Task(db.Document):
     description = db.StringField(max_length=255)
 
 class Timer(db.Document):
+
+    def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
+        super().__init__(userId=userId, startTime=startTime, **kwargs)
+        setattr(self, "lastRestart", startTime)
+
+
     startTime = db.DateTimeField()
+    lastRestart = db.DateTimeField()
     notes = db.StringField()
     seconds = db.IntField(min_value=0)
-    user = db.ObjectIdField(null=True)
+    userId = db.ObjectIdField(null=True)

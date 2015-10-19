@@ -3,6 +3,7 @@ from test.common.test_helper import TestHelper
 from alguito.model.mongo_models import Task
 from datetime import datetime
 from alguito.model.datastore import create_timer
+from alguito.model.mongo_models import Timer
 from flask_security.utils import encrypt_password
 
 # -------------- Tasks ---------------------------
@@ -32,9 +33,9 @@ class TestTask(TestCase):
 # -------------- Timers ---------------------------
 class TestTimer(TestCase):
     def test_can_create_with_utc_now(self):
-        userId = "561dcd3c8c57cf2c17b7f4f9"
+        #userId = "561dcd3c8c57cf2c17b7f4f9"
         my_notes = "I want to know how long this took, but my code is brain dead so far.  Woe is me."
-        timer = create_timer(notes=my_notes, userId=userId)
+        timer = create_timer(notes=my_notes)
         assert(my_notes == timer.notes)
         timer.save()
 
@@ -42,6 +43,17 @@ class TestTimer(TestCase):
         my_notes = "I am another timer"
         timer = create_timer(notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
         assert(my_notes == timer.notes)
+        assert(timer.startTime == timer.lastRestart)
+
+    def test_can_create_without_datastore(self):
+        my_notes = "We don't need no steenkin datastore."
+        timer = Timer(userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
+        timer.save()
+        timer2 = Timer.objects(userId="561dcd3c8c57cf2c17b7f4f9").first()
+        assert(timer2.notes == timer.notes)
+        assert(my_notes == timer.notes)
+        assert(timer.startTime == timer.lastRestart)
+
 
 # -------------- Users -----------------------------
 
