@@ -21,23 +21,26 @@ class Config:
     MAIL_USERNAME = os.environ.get("GOALBOOST_MAIL_USERNAME") or "codesolid"
     MAIL_PASSWORD = os.environ.get("GOALBOOST_MAIL_PASSWORD") or "secret"
 
+    # Mongo DB Configuration
+    MONGODB_DB = os.environ.get("GOALBOOST_MONGO_DB") or "goalboost"
+    MONGODB_HOST = os.environ.get("GOALBOOST_MONGO_HOST") or "localhost"
+    MONGODB_PORT = os.environ.get("GOALBOOST_MONGO_PORT") or 27017
+    MONGODB_USERNAME = os.environ.get("GOALBOOST_MONGO_USERNAME") or None
+    MONGODB_PASSWORD = os.environ.get("GOALBOOST_MONGO_PASSWORD") or None
+
     @staticmethod
     def init_app(app):
         pass
 
 class DevelopmentConfig(Config):
-    DEBUG = True       
-    SQLALCHEMY_DATABASE_URI = os.environ.get("GOALBOOST_DEV_DATABASE_URL") or \
-        "mysql+pymysql://user:Password@localhost/dbname"
+
+    # SQLALCHEMY_DATABASE_URI = os.environ.get("GOALBOOST_DATABASE_URL") or "mysql+pymysql://user:Password@localhost/dbname"
+    DEBUG = True
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("GOALBOOST_TEST_DATABASE_URL") or \
-        "mysql+pymysql://user:Password@localhost/dbname"
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get("GOALBOOST_DATABASE_URL") or \
-        "mysql+pymysql://user:Password@localhost/dbname"
     USER_PASSWORD_HASH_ROUNDS = 150000
 
 

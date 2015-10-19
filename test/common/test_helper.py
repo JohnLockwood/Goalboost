@@ -12,7 +12,6 @@ class TestHelper():
         self._app = create_app('default')
 
     def __del__(self):
-        #self.client.disconnect()
         pass
 
     def app(self):
@@ -20,7 +19,6 @@ class TestHelper():
 
     def test_client(self):
         return self._app.test_client()
-
 
     def site_root(self):
         return "http://localhost:5001/"
@@ -32,7 +30,6 @@ class TestHelper():
     # and http://flask.pocoo.org/docs/0.10/api/#flask.Flask.test_request_context
     def test_request_context(self):
         return self._app.test_request_context()
-
 
     def random_string(self, length):
         return ''.join(random.choice(string.ascii_letters) for i in range(length))
