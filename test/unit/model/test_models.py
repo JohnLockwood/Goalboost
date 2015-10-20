@@ -68,8 +68,9 @@ class TestAuth(TestCase):
             user = None
             try:
                 user_data_store = self.security.datastore
-                encrypted = encrypt_password("WhatsUpDocument")
-                user = user_data_store.create_user(email="melblank@bugs.com", account="foghorn", password=encrypted)
+                # -- Should and do really use encrypted password in prod, but slows tests down
+                # encrypted = encrypt_password("WhatsUpDocument")
+                user = user_data_store.create_user(email="melblank@bugs.com", account="foghorn", password="chickens")
                 user2 = user_data_store.find_user(email="melblank@bugs.com")
                 assert(user.email == user2.email)
                 assert(user.account == user2.account)
