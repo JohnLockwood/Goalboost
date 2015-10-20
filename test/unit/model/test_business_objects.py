@@ -55,19 +55,40 @@ class UserTimerTest(TestCase):
         assert(timer is None)
         assert(user_timer.user.timer is None)
 
-    def test_can_start_timer(self):
-        pass
+    def test_timer_not_running_when_created(self):
+        user_timer = UserTimer(self.user, db)
+        assert(user_timer.timer_get() is None)
+        timer = user_timer.timer_create()
+        assert(not timer.is_running())
 
-    def test_can_stop_timer(self):
-        pass
+    def test_timer_running_when_started(self):
+        user_timer = UserTimer(self.user, db)
+        assert(user_timer.timer_get() is None)
+        timer = user_timer.timer_create()
+        assert(not timer.is_running())
+        timer.start()
+        assert(timer.is_running())
+
+    def test_timer_not_running_when_stopped(self):
+        user_timer = UserTimer(self.user, db)
+        assert(user_timer.timer_get() is None)
+        timer = user_timer.timer_create()
+        timer.start()
+        timer.stop()
+        assert(not timer.is_running())
 
     def test_can_restart_timer(self):
-        pass
-
-    def test_can_restart_timer(self):
-        pass
+        user_timer = UserTimer(self.user, db)
+        assert(user_timer.timer_get() is None)
+        timer = user_timer.timer_create()
+        timer.start()
+        timer.stop()
+        assert(not timer.is_running())
+        timer.start()
+        assert(timer.is_running())
+        timer.stop()
+        assert(not timer.is_running())
 
     # Possible business rule tests
-
-    def test_clearing_active_timer_raises_exception(self):
-        pass
+    ##def test_clearing_active_timer_raises_exception(self):
+    ##    pass

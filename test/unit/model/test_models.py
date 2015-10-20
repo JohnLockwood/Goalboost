@@ -1,10 +1,10 @@
 from unittest import TestCase
 from test.common.test_helper import TestHelper
 from alguito.model.mongo_models import Task
-from datetime import datetime
+from datetime import datetime, timedelta
 from alguito.model.datastore import create_timer
 from alguito.model.mongo_models import Timer
-from flask_security.utils import encrypt_password
+
 
 # -------------- Tasks ---------------------------
 class TestTask(TestCase):
@@ -54,6 +54,17 @@ class TestTimer(TestCase):
         assert(my_notes == timer.notes)
         assert(timer.startTime == timer.lastRestart)
 
+    # Don't run in debugger, a breakpoint in right place will throw off elapsed calculation.
+    # Otherwise elapsed converts to int, which shaves off any "running time" error
+    def test_elapsed_time_correct(self):
+        now = datetime.utcnow()
+        tenSecondsAgo = now - timedelta(seconds=10)
+        # Timer must be running or elapsed time will be zero
+        timer = Timer(startTime = tenSecondsAgo, seconds = 20, running=True)
+        elapsed = timer.current_elapsed()
+        total = timer.total_elapsed()
+        assert(elapsed == 10)
+        assert(total == 30)
 
 # -------------- Users -----------------------------
 
