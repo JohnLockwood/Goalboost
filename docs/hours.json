@@ -36,5 +36,6 @@
 {"contributor": "JohnLockwood", "date": "10/17/15", "hours": 1.5, "description": "Continue work on models and tests."},
 {"contributor": "JohnLockwood", "date": "10/18/15", "hours": 1.75, "description": "Install and configure production MongoDb.  Work on application's mongoDBb configuration."},
 {"contributor": "JohnLockwood", "date": "10/19/15", "hours": 0.75, "description": "Timer model work, with some mongoengine document learning curve."},
-{"contributor": "JohnLockwood", "date": "10/19/15", "hours": 1.25, "description": "Begin UserTimer business object and tests"}
+{"contributor": "JohnLockwood", "date": "10/19/15", "hours": 1.25, "description": "Begin UserTimer business object and tests"},
+{"contributor": "JohnLockwood", "date": "10/20/15", "hours": 1.5, "description": "Continue UserTimer.  Working timer, tests, testing in shell as well."}
 ]}
