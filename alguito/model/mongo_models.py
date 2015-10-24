@@ -1,6 +1,8 @@
 from alguito.datastore import db
 from flask.ext.security import UserMixin, RoleMixin
 from datetime import datetime
+from pytz import timezone
+from json import loads
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -20,7 +22,57 @@ class Task(db.Document):
     name = db.StringField(max_length=80)
     description = db.StringField(max_length=255)
 
-class Timer(db.Document):
+# This is a mixin which has knowledge of Timer.  From a design point of view maybe that's not ideal?
+class DateFormat(object):
+    def __str__(self):
+        fmtstr="{:<20}:  {}"
+        start = self.fmt_date(self.utc_to_pacific_datetime(getattr(self, "startTime")))
+        last_restart = self.fmt_date(self.utc_to_pacific_datetime(getattr(self, "lastRestart")))
+        seconds = getattr(self, "seconds")
+        total_elapsed = self.total_elapsed()
+        formatted = \
+            fmtstr.format("startTime (PST)", start) + "\n" + \
+            fmtstr.format("lastRestart (PST)", last_restart) + "\n" + \
+            fmtstr.format("elapsed (total)", total_elapsed) + "\n" + \
+            fmtstr.format("seconds", seconds)
+
+        return formatted
+
+    # assumes naive utc_datetime
+    def utc_to_pacific_datetime(self, utc_datetime):
+        tz_pacific = timezone("America/Los_Angeles")
+        tz_utc = timezone("UTC")
+        utc2 = utc_datetime.replace(tzinfo = tz_utc)
+        return utc2.astimezone(tz_pacific)
+
+    # I've hard coded the contributor for now since I'm collaborating with myself.  Todo, collaborate with someone else, then
+    # fix this.  Really this shouldn't be part of basic formatting, but moved into a report class.
+    def to_output_json(self):
+        snapshot = self.snapshot_dict()
+        start = self.utc_to_pacific_datetime(getattr(self, "startTime")).strftime("%m/%d/%Y")
+        notes = getattr(self, "notes")
+        seconds = self.total_elapsed()
+        hours = round((seconds / 3600), 1)
+        fmt_str = '{{"contributor": "JohnLockwood", "date": "{}", "hours": {}, "description": "{}"}}'
+        return fmt_str.format(start, hours, notes)
+
+    def fmt_date(self, dt):
+        return dt.strftime("%a, %b %d, %Y %H:%M")
+
+    def fmt_seconds(self, seconds):
+        hrs = int(seconds/3600)
+        mins_secs = seconds % 3600
+        mins = int(mins_secs / 60)
+        secs = mins_secs % 60
+
+        return "{:0>2}:{:0>2}:{:0>2}".format(hrs, mins, secs)
+
+    def __repr__(self):
+        #startTime = getattr(self, "startTime")
+        #s = "startTime: " + self.fmt_date(startTime) + " UTC (pacific time:  " + self.fmt_date(self.utc_to_pacific_datetime(startTime)) + ")"
+        return self.to_json()
+
+class Timer(DateFormat, db.Document):
 
     def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
         super().__init__(userId=userId, startTime=startTime, **kwargs)
@@ -66,3 +118,6 @@ class Timer(db.Document):
 
     def _update_time_on_stop(self):
         setattr(self, "seconds", self.total_elapsed())
+
+    def snapshot_dict(self):
+        return loads(self.to_json())

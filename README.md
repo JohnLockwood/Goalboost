@@ -27,11 +27,11 @@ We keep track of our hours in [docs/hours.json](docs/hours.json)
 * "Billable" -- can be a project, a company, or a person.  
 * Invoices, which consist of invoice lines and reference a billable.
 * InvoiceItem:
-	Is either a service or expense
-	Assumption for services is rate * hours = amount.  May elect to show hours and rates on invoice or not.
-	Contains a description of task (timer description), a short service title (e.g senior partner, designer, paralegal, etc.)
-	Edit form contains simple checkbox to exclude or not, edit controls for everything else to adjust (hours etc.)
-Rates:
-	are either by Billable (client, project etc.) or by ServiceTitle (Senior Partner, Senior Partner Courtroom, etc.)
-* Rates - can be per
+	* Is either a service or expense
+	* Assumption for services is rate * hours = amount.  May elect to show hours and rates on invoice or not.
+	* Contains a description of task (timer description), a short service title (e.g senior partner, designer, paralegal, etc.)
+	* Edit form contains simple checkbox to exclude or not, edit controls for everything else to adjust (hours etc.)
+* Rates:
+	* Are either by Billable (client, project etc.) or by ServiceTitle (Senior Partner, Senior Partner Courtroom, etc.), or both.
+
 

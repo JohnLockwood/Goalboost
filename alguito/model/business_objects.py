@@ -21,3 +21,8 @@ class UserTimer:
         self.timer = None
         self.user.timer = None
         self.user.save()
+
+class PacificTimeConverter:
+    @classmethod
+    def naive_utc_to_pacific_time(cls, pacific):
+        return "Foobar"
