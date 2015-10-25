@@ -2,7 +2,7 @@ from alguito.datastore import db
 from flask.ext.security import UserMixin, RoleMixin
 from datetime import datetime
 from pytz import timezone
-from json import loads
+from json import loads, dumps
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -17,6 +17,13 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     timer = db.ObjectIdField(null=True)
+
+    def public_json(self):
+        json = self.to_json()
+        as_dict = loads(json)
+        del(as_dict["password"])
+        return dumps(as_dict)
+
 
 class Task(db.Document):
     name = db.StringField(max_length=80)

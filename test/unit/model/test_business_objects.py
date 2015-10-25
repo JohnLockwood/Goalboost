@@ -3,7 +3,7 @@ from flask_security.utils import encrypt_password
 from alguito.model.business_objects import UserTimer
 from test.common.test_helper import TestHelper
 from alguito.datastore import db
-from alguito.model.mongo_models import Task
+from alguito.model.mongo_models import Task, User
 from datetime import datetime
 from alguito.model.mongo_models import Timer
 
@@ -54,6 +54,15 @@ class UserTimerTest(TestCase):
         timer = user_timer.timer_get()
         assert(timer is None)
         assert(user_timer.user.timer is None)
+
+    def test_can_create_john_timer(self):
+        query_result = User.objects(email="elitepropertiesbroker@gmail.com")
+        u = query_result.first()
+        user_timer = UserTimer(u, db)
+        timer = user_timer.timer_create()
+        timer.notes = "John's perpetual timer"
+        timer.start()
+        timer.save()
 
     def test_timer_not_running_when_created(self):
         user_timer = UserTimer(self.user, db)

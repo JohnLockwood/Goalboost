@@ -18,6 +18,7 @@ def create_app(config_name):
 
     app.register_blueprint(mod_index)
     app.register_blueprint(mod_auth)
+    # app.register_blueprint(mod_api)
     init_api(app)
 
     config[config_name].init_app(app)

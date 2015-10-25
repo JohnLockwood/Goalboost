@@ -4,11 +4,19 @@ class UserTimer:
     def __init__(self, user, db):
         self.user = user
         if self.user.timer is not None:
-            self.timer = Timer.find(id = self.user.timer)
+            timerid = self.user.timer
+            query_set = Timer.objects(id = self.user.timer)
+            try:
+                self.user.timer = query_set.first()
+            except:
+                self.user.timer = None
         self.db = db
 
     def timer_get(self):
         return self.user.timer
+
+    def timer_get_timer_object(self):
+        pass
 
     def timer_create(self):
         self.timer = Timer(userId = self.user.id)
