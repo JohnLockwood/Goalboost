@@ -28,8 +28,6 @@ class UserTimerTest(TestCase):
             user_data_store = self.security.datastore
             user_data_store.delete_user(self.user)
 
-
-
     def test_can_create_user_timer(self):
         user_timer = UserTimer(self.user, db)
         assert(user_timer.timer_get() is None)

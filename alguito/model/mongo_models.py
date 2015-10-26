@@ -29,7 +29,8 @@ class Task(db.Document):
     name = db.StringField(max_length=80)
     description = db.StringField(max_length=255)
 
-# This is a mixin which has knowledge of Timer.  From a design point of view maybe that's not ideal?
+# This is a "mixin" which has knowledge of Timer internals.
+# From a design point of view maybe that's not ideal.
 class DateFormat(object):
     def __str__(self):
         fmtstr="{:<20}:  {}"
@@ -79,6 +80,16 @@ class DateFormat(object):
         #s = "startTime: " + self.fmt_date(startTime) + " UTC (pacific time:  " + self.fmt_date(self.utc_to_pacific_datetime(startTime)) + ")"
         return self.to_json()
 
+    def public_json(self):
+        vals = self.snapshot_dict()
+        # Datetime to string
+        vals["startTime"] = self.fmt_date(vals["startTime"])
+        vals["lastRestart"] = self.fmt_date(vals["lastRestart"])
+        #return dumps(vals, indent=4, separators=(',', ': '))
+        return dumps(vals)
+
+
+
 class Timer(DateFormat, db.Document):
 
     def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
@@ -127,4 +138,13 @@ class Timer(DateFormat, db.Document):
         setattr(self, "seconds", self.total_elapsed())
 
     def snapshot_dict(self):
-        return loads(self.to_json())
+        vals = dict()
+        vals["startTime"] = self.startTime
+        vals["lastRestart"] = self.lastRestart
+        vals["notes"] = self.notes
+        vals["seconds"] = self.seconds
+        vals["userId"] = self.userId
+        vals["running"] = self.running
+        vals["total_elapsed"] = self.total_elapsed()
+        vals["current_elapsed"] = self.current_elapsed()
+        return vals
