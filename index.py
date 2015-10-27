@@ -1,7 +1,9 @@
 import sys
 sys.path.insert(0, "/home/johnlockwood/webapps/goalboost/htdocs")
 from alguito import create_app
+
 application = create_app('production')
+
 
 '''
 def application(environ, start_response):
