@@ -42,5 +42,5 @@
 {"contributor": "JohnLockwood", "date": "10/24/2015", "hours": 1.1, "description": "User and Timer RESTful API work.  Basic brain-dead get in place."},
 {"contributor": "JohnLockwood", "date": "10/25/2015", "hours": 1.3, "description": "Continue work on RESTful API for timer"},
 {"contributor": "JohnLockwood", "date": "10/26/2015", "hours": 1.0, "description": "Continue work on timer PATCH method, also single contributor hours timer"},
-{"contributor": "JohnLockwood", "date": "10/26/2015", "hours": 1.2, "description": "Work on deployment of pre-alpha version to public site"}
+{"contributor": "JohnLockwood", "date": "10/26/2015", "hours": 1.6, "description": "Work on deployment of pre-alpha version to public site"}
 ]}
