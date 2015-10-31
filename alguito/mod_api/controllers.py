@@ -1,6 +1,7 @@
 # Import flask dependencies
 #from json import loads, dumps
-from flask import Blueprint, jsonify, request
+import os
+from flask import Blueprint, jsonify, request, current_app
 from alguito.model.mongo_models import User, Timer
 from alguito.model.business_objects import UserTimer
 from alguito.datastore import db
@@ -9,6 +10,11 @@ from alguito.datastore import db
 mod_api = Blueprint('api', __name__, url_prefix='/api')
 
 from flask_restful import Resource
+
+class EnvironmentLogger(Resource):
+    def get(self):
+        #return os.getenv('GOALBOOST_MAIL_SERVER')
+        return "Check the logs"
 
 class ErrorHandler(Resource):
     @classmethod

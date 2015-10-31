@@ -75,6 +75,9 @@ class DateFormat(object):
 
         return "{:0>2}:{:0>2}:{:0>2}".format(hrs, mins, secs)
 
+    def counter(self):
+        return self.fmt_seconds(self.total_elapsed())
+
     def __repr__(self):
         #startTime = getattr(self, "startTime")
         #s = "startTime: " + self.fmt_date(startTime) + " UTC (pacific time:  " + self.fmt_date(self.utc_to_pacific_datetime(startTime)) + ")"
