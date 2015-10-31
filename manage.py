@@ -5,7 +5,8 @@ from flask_mail import Mail
 from alguito.datastore import db
 from flask.ext.script import Manager, Shell
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+from alguito import app
+#app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 
 def make_shell_context():

@@ -1,6 +1,6 @@
 import random
 import string
-from alguito import create_app
+from alguito import app
 from pymongo import MongoClient
 
 class TestHelper():
@@ -9,7 +9,7 @@ class TestHelper():
 
     """
     def __init__(self):
-        self._app = create_app('default')
+        self._app = app
 
     def __del__(self):
         pass

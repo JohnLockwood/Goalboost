@@ -8,8 +8,10 @@ from .mod_index.controllers import mod_index
 from .datastore import init_db, db
 from flask_mail import Mail
 
+app = Flask(__name__)
+
 def create_app(config_name):
-    app = Flask(__name__)
+    global app
     app.config.from_object(config[config_name])
 
     # Setup database
@@ -22,11 +24,12 @@ def create_app(config_name):
     init_api(app)
 
     config[config_name].init_app(app)
-
-
     #
     init_flask_security(app)
 
     mail = Mail(app)
 
     return app
+
+create_app("production")
+
