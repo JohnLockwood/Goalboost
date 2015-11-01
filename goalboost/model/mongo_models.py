@@ -1,4 +1,4 @@
-from alguito.datastore import db
+from goalboost.datastore import db
 from flask.ext.security import UserMixin, RoleMixin
 from datetime import datetime
 from pytz import timezone

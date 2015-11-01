@@ -1,9 +1,9 @@
 from flask.ext.login import LoginManager
 
 login_manager = LoginManager()
-from alguito.model.mongo_models import User, Role
+from goalboost.model.mongo_models import User, Role
 from flask.ext.security import Security, SQLAlchemyUserDatastore, MongoEngineUserDatastore
-from alguito.datastore import db
+from goalboost.datastore import db
 
 
 def init_flask_security_sqlalchemy(app):

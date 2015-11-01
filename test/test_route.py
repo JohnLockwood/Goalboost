@@ -2,12 +2,12 @@
 import unittest
 
 # modules under test
-import alguito.app
+import goalboost.app
 
 class TestStringMethods(unittest.TestCase):
 
     def setUp(self):
-        self.app = alguito.app.app.test_client()
+        self.app = goalboost.app.app.test_client()
 
     def test_root(self):
         rv = self.app.get("/")

@@ -3,8 +3,8 @@ from flask import Blueprint, redirect
 import flask.ext.login
 from flask.ext.login import login_required, logout_user
 
-from alguito.model.mongo_models import User
-from alguito.mod_auth.forms import LoginForm
+from goalboost.model.mongo_models import User
+from goalboost.mod_auth.forms import LoginForm
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')

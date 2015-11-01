@@ -1,4 +1,4 @@
-from alguito.model.mongo_models import Timer
+from goalboost.model.mongo_models import Timer
 
 class UserTimer:
     def __init__(self, user, db):

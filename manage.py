@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import os
-from alguito import create_app
+from goalboost import create_app
 from flask_mail import Mail
-from alguito.datastore import db
+from goalboost.datastore import db
 from flask.ext.script import Manager, Shell
 
-from alguito import app
+from goalboost import app
 #app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 

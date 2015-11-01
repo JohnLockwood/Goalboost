@@ -1,9 +1,9 @@
 from unittest import TestCase
 from test.common.test_helper import TestHelper
-from alguito.model.mongo_models import Task
+from goalboost.model.mongo_models import Task
 from datetime import datetime, timedelta
-from alguito.model.datastore import create_timer
-from alguito.model.mongo_models import Timer
+from goalboost.model.datastore import create_timer
+from goalboost.model.mongo_models import Timer
 
 
 # -------------- Tasks ---------------------------

@@ -1,6 +1,6 @@
 import random
 import string
-from alguito import app
+from goalboost import app
 from pymongo import MongoClient
 
 class TestHelper():
