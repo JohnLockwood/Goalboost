@@ -1,8 +1,11 @@
-from goalboost.datastore import db
-from flask.ext.security import UserMixin, RoleMixin
 from datetime import datetime
-from pytz import timezone
 from json import loads, dumps
+
+from flask.ext.security import UserMixin, RoleMixin
+from pytz import timezone
+
+from goalboost.model import db
+
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):

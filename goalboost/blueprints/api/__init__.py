@@ -1,6 +1,8 @@
-from flask import Flask, Blueprint
-from flask_restful import Api, Resource, url_for
-from .controllers import People, Person, UserResource, UserTimerResource, EnvironmentLogger
+from flask import Blueprint
+from flask_restful import Api
+
+from goalboost.blueprints.api.controllers import People, Person, UserResource, UserTimerResource, EnvironmentLogger
+
 
 def init_api(app):
     bp_api = Blueprint('api', __name__, url_prefix='/api')

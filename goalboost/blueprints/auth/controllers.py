@@ -4,13 +4,14 @@ import flask.ext.login
 from flask.ext.login import login_required, logout_user
 
 from goalboost.model.mongo_models import User
-from goalboost.mod_auth.forms import LoginForm
+from goalboost.blueprints.auth.forms import LoginForm
+
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
+bp_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 # Set the route and accepted methods
-@mod_auth.route('/login/', methods=['GET', 'POST'])
+@bp_auth.route('/login/', methods=['GET', 'POST'])
 def signin():
     form = LoginForm()
     if form.validate_on_submit():
@@ -37,13 +38,13 @@ def signin():
                                  title='Sign In',
                                  form=form)
 
-@mod_auth.route("/logout")
+@bp_auth.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
-@mod_auth.route("/protected/",methods=["GET"])
+@bp_auth.route("/protected/",methods=["GET"])
 @login_required
 def protected():
     return flask.render_template("mod_auth/protected.html")

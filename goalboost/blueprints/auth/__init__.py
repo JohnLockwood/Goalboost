@@ -3,14 +3,14 @@ from flask.ext.login import LoginManager
 login_manager = LoginManager()
 from goalboost.model.mongo_models import User, Role
 from flask.ext.security import Security, SQLAlchemyUserDatastore, MongoEngineUserDatastore
-from goalboost.datastore import db
+from goalboost.model import db
 
 
-def init_flask_security_sqlalchemy(app):
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
-    # Not sure we need this step, YAGNI?
-    app.security = security
+# def init_flask_security_sqlalchemy(app):
+#     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+#     security = Security(app, user_datastore)
+#     # Not sure we need this step, YAGNI?
+#     app.security = security
 
 
 def init_flask_security(app):

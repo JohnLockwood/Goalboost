@@ -1,11 +1,10 @@
 from unittest import TestCase
-from flask_security.utils import encrypt_password
+
 from goalboost.model.business_objects import UserTimer
 from test.common.test_helper import TestHelper
-from goalboost.datastore import db
-from goalboost.model.mongo_models import Task, User
-from datetime import datetime
-from goalboost.model.mongo_models import Timer
+from goalboost.model import db
+from goalboost.model.mongo_models import User
+
 
 class UserTimerTest(TestCase):
 

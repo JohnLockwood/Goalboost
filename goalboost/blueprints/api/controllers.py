@@ -1,10 +1,11 @@
 # Import flask dependencies
 #from json import loads, dumps
-import os
-from flask import Blueprint, jsonify, request, current_app
-from goalboost.model.mongo_models import User, Timer
+from flask import Blueprint, jsonify, request
+
+from goalboost.model.mongo_models import User
 from goalboost.model.business_objects import UserTimer
-from goalboost.datastore import db
+from goalboost.model import db
+
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_api = Blueprint('api', __name__, url_prefix='/api')
