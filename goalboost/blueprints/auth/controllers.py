@@ -38,11 +38,15 @@ def signin():
                                  title='Sign In',
                                  form=form)
 
-@bp_auth.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect("/")
+#@bp_auth.route("/logout")
+#def logout():
+#    logout_user()
+#    return redirect("/")
+
+@bp_auth.route("/logged_out")
+def logged_out():
+    return flask.render_template("mod_auth/logged_out.html")
+
 
 @bp_auth.route("/protected/",methods=["GET"])
 @login_required

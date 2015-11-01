@@ -11,11 +11,13 @@ class Config:
     SECURITY_PASSWORD_HASH = os.environ.get("GOALBOOST_SECURITY_PASSWORD_HASH") or "pbkdf2_sha256"
     SECURITY_PASSWORD_SALT = os.environ.get("GOALBOOST_SECURITY_PASSWORD_SALT") or "SECRET" 
     SECURITY_REGISTERABLE = True
+    SECURITY_EMAIL_SENDER =  os.environ.get("GOALBOOST_SECURITY_EMAIL_SENDER") or "someuser@example.com"
+    SECURITY_POST_LOGOUT_VIEW = '/auth/logged_out'
 
-    # Mail configuration - revisit
+    # Mail configuration
     MAIL_SERVER = os.environ.get("GOALBOOST_MAIL_SERVER") or "smtp.example.com"
     MAIL_DEFAULT_SENDER = os.environ.get("GOALBOOST_MAIL_DEFAULT_SENDER") or "someuser@example.com"
-    SECURITY_EMAIL_SENDER =  os.environ.get("GOALBOOST_SECURITY_EMAIL_SENDER") or "someuser@example.com"
+
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get("GOALBOOST_MAIL_USERNAME") or "codesolid"
