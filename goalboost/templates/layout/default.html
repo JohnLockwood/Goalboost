@@ -1,90 +1,92 @@
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/static/css/site.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/app.css">
+
+    <title>{% block title %}{% endblock %}</title>    
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
-        {% set navigation_bar_left = [
-        ('/timer/user', 'user_timer', 'Current Timer')
-        ] -%}
+</head>
+<body>
+<div class="off-canvas-wrap">
+    <div class="inner-wrap">
+        <!-- mobile top bar to activate nav -->
+        <nav class="tab-bar show-for-small">
+            <section class="left-small">
+                <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+            </section>
 
-        {% set navigation_bar_right = [
-            ('/register', 'register_register', 'Sign Up'),
-            ('/login', 'register_login', 'Log In'),
-            ('/logout', 'register_logout', 'Log Out')
-        ] -%}
+            <section class="middle tab-bar-section">
+                <h1 class="title">CodeSolid</h1>
+            </section>
+        </nav>
+        <!-- top bar nav -->
+        <nav class="top-bar hide-for-small-only" data-topbar>
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="/">Goalboost</a></h1>
+                </li>
+            </ul>
 
-        {% set active_page = active_page|default('index') -%}
-
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Goalboost</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse nav">
-
-                <ul class="nav navbar-nav">
-
-                    {% for href, id, caption in navigation_bar_left %}
-                    <li {% if id == active_page %} class="active"{% endif%}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-                    {% endfor %}
-                    <!--
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Test Only (Risky)<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/api/root">API Root (Broken)</a></li>
-                            <li><a href="/api/people">/api/people</a></li>
-                            <li><a href="/api/users/56259a278c57cf02f9692b31">John (User restful endpoint)</a></li>
-                            <li><a href="/api/users/56259a278c57cf02f9692b31/timer">John's Current Timer (Timer restful endpoint)</a></li>
-
-                            <li><a href="/auth/login">Old Login form (nicely styled)</a></li>
-                            <li role="separator" class="divider"></li>
-
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                -->
-
+            <section class="top-bar-section">
+                <ul class="left">                    
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+
+                {% set navigation_bar_left = [
+                ('/timer/user', 'user_timer', 'Current Timer'),
+                ] -%}
+
+                {% set navigation_bar_right = [
+            		('/register', 'register_register', 'Sign Up'),
+            		('/login', 'register_login', 'Log In'),
+        	    	('/logout', 'register_logout', 'Log Out')
+		        ] -%}
+
+                <ul class="left">
+                    {% for href, id, caption in navigation_bar_left %}
+                    <li {% if id == active_page %} class="active"{% endif
+                        %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+                    {% endfor %}
+                </ul>
+
+                <ul class="right">
                     {% for href, id, caption in navigation_bar_right %}
                     <li {% if id == active_page %} class="active"{% endif
                     %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
                     {% endfor %}
-                    <li><a href="https://bitbucket.org/John_Lockwood/alguito">Bitbucket Git Repo</a></li>
+                    <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>                                
                 </ul>
-            </div>
-            <!--/.nav-collapse -->
-        </div>
-        <!--/.container-fluid -->
-    </nav>
-<div class="container">
+                
+            </section>
+        </nav>
 
-{% block content %}
-        TODO -- If you're seeing this, your child template has no content block!
-{% endblock %}
-</div>
+        <!-- Main Page Content and Sidebar -->
+        <section class="main-section">
+            <div class="row">
+                <!-- Main Content -->
+                <div class="medium-12 small-12 columns" role="content">
+                    <div class="row">
+                        <div class="small-12 columns">
+                        {% block content %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <a class="exit-off-canvas"></a>
+    </div><!--off-canvas inner-->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Angular -->
-    
 
+
+</div><!--off-canvas wrap-->
 </body>
-</html>	
+</html>

@@ -9,5 +9,3 @@ bp_index = Blueprint('index', __name__, url_prefix='/')
 def index():
     return render_template("index.html")
 
-
-

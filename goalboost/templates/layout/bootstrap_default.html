@@ -1,0 +1,96 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/site.css">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <!--
+        {% set navigation_bar_left = [
+        ('/', 'index', 'Home')
+        ] -%}
+-->
+        {% set navigation_bar_right = [
+            ('/register', 'register_register', 'Sign Up'),
+            ('/auth/protected', 'register_protected', 'Protected Resource'),
+            ('/login', 'register_login', 'Log In'),
+            ('/logout', 'register_logout', 'Log Out')
+        ] -%}
+
+        {% set active_page = active_page|default('index') -%}
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Goalboost</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse nav">
+
+                <ul class="nav navbar-nav">
+                    <!--
+                    {% for href, id, caption in navigation_bar_left %}
+                    <li {% if id == active_page %} class="active"{% endif%}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+                    {% endfor %}
+                    -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Test Only (Risky)<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/api/root">API Root (Broken)</a></li>
+                            <li><a href="/api/people">/api/people</a></li>
+                            <li><a href="/api/users/56259a278c57cf02f9692b31">John (User restful endpoint)</a></li>
+                            <li><a href="/api/users/56259a278c57cf02f9692b31/timer">John's Current Timer (Timer restful endpoint)</a></li>
+                            <li><a href="/foundation">Foundation Example</a></li>
+                            <li><a href="/auth/login">Old Login form (nicely styled)</a></li>
+                            <li role="separator" class="divider"></li>
+<!--
+                            <li class="dropdown-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+-->
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% for href, id, caption in navigation_bar_right %}
+                    <li {% if id == active_page %} class="active"{% endif
+                    %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+                    {% endfor %}
+                    <li><a href="https://bitbucket.org/John_Lockwood/alguito">Bitbucket Git Repo</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+<div class="container">
+
+{% block content %}
+        TODO -- If you're seeing this, your child template has no content block!
+{% endblock %}
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<!--
+    Deprectated -- remove!
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function() {
+            $(active_tab).addClass('active');
+        });
+    </script>
+-->
+</body>
+</html>	
