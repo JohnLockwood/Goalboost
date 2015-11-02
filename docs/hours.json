@@ -48,5 +48,6 @@
 {"contributor": "JohnLockwood", "date": "10/28/2015", "hours": 0.8, "description": "Deployment work, get mongo auto-restarted, verify connection, fix index.py issue, fix flask security in production.  Awesome!"},
 {"contributor": "JohnLockwood", "date": "10/30/2015", "hours": 0.5, "description": "Consolidate production fixes and improve deployment files to make them more like dev environment"},
 {"contributor": "JohnLockwood", "date": "10/31/2015", "hours": 1.7, "description": "Timer improvements; production work to consolidate dev / production"},
-{"contributor": "JohnLockwood", "date": "11/01/2015", "hours": 1.1, "description": "Refactor packages alguito and mod_*, UI fixes, validate eariler consolidation by redeploying to production"}
+{"contributor": "JohnLockwood", "date": "11/01/2015", "hours": 1.1, "description": "Refactor packages alguito and mod_*, UI fixes, validate eariler consolidation by redeploying to production"},
+{"contributor": "JohnLockwood", "date": "11/01/2015", "hours": 1.3, "description": "Incorporate foundation (css framework)"}
 ]}
