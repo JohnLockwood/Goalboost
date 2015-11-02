@@ -1,0 +1,24 @@
+{% extends "layout/default.html" %}
+{% set active_page = "user_timer" %}
+{% block content %}
+<script language="JavaScript">
+    // var userId = {{user.id}};
+    var myApp = angular.module('myApp',[]);
+
+    myApp.controller('TimerController', ['$scope', function($scope) {
+        $scope.greeting = 'Hola!';
+    }]);
+</script>
+<div ng-app="myApp" ng-controller="TimerController">
+
+    <h1>What am I working on?</h1>
+    <p>Welcome {{user.email}}.  Seems you were last working on {{user_timer.timer_get().notes}}.</p>
+    <p>
+        {% raw %}
+        {{ greeting }}
+        {% endraw %}
+    </p>
+
+</div>
+{% endblock %}
+

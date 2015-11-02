@@ -5,8 +5,10 @@ from config import config
 from goalboost.blueprints import api
 from goalboost.blueprints.auth import init_flask_security
 from goalboost.blueprints.auth.controllers import bp_auth
+from goalboost.blueprints.index.controllers import bp_index
+from goalboost.blueprints.timer.controllers import bp_timer
 from goalboost.blueprints.api import init_api
-from goalboost.blueprints.index.controllers import mod_index
+
 from goalboost.model import init_db, db
 
 app = Flask(__name__)
@@ -20,8 +22,9 @@ def create_app(config_name):
     init_db(app)
 
     # Todo make intializing blueprints consistent
-    app.register_blueprint(mod_index)
+    app.register_blueprint(bp_index)
     app.register_blueprint(bp_auth)
+    app.register_blueprint(bp_timer)
     init_api(app)
 
     config[config_name].init_app(app)
