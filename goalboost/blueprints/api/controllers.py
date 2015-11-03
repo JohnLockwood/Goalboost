@@ -1,14 +1,27 @@
 # Import flask dependencies
 #from json import loads, dumps
 from flask import Blueprint, jsonify, request
-
 from goalboost.model.mongo_models import User
 from goalboost.model.business_objects import UserTimer
 from goalboost.model import db
+from json import dumps, loads
+from flask import Blueprint
+from flask_restful import Api
+
+bp_api = Blueprint('api', __name__, url_prefix='/api')
+api = Api(bp_api)
+
+def init_api(app):
+    api.add_resource(People, '/people')
+    api.add_resource(Person,  '/people/<string:id>')
+    api.add_resource(UserResource, '/users/<string:id>')
+    api.add_resource(UserTimerResource, '/users/<string:id>/timer')
+    api.add_resource(EnvironmentLogger, "/env", )
+    app.register_blueprint(bp_api)
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_api = Blueprint('api', __name__, url_prefix='/api')
+# mod_api = Blueprint('api', __name__, url_prefix='/api')
 
 from flask_restful import Resource
 
@@ -49,6 +62,7 @@ class UserResource(Resource):
 
 # Todo authorization, and check id is valid ObjectId
 class UserTimerResource(Resource):
+    #@api.representation("application/json")
     def get(self, id):
         timer = self._get_timer(id)
         if timer is not None:

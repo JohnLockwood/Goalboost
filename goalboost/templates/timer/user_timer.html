@@ -2,11 +2,22 @@
 {% set active_page = "user_timer" %}
 {% block content %}
 <script language="JavaScript">
-    // var userId = {{user.id}};
+
     var myApp = angular.module('myApp',[]);
 
-    myApp.controller('TimerController', ['$scope', function($scope) {
-        $scope.greeting = 'Hola de Angula.js tambien!';
+    myApp.controller('TimerController', ['$scope', '$http', function($scope, $http) {
+        var userId = "{{user.id}}"  ;
+
+        var url = "/api/users/" + userId + "/timer";
+        console.log(url);
+        $http.get(url).success(
+                function(response) {
+                    var timer = JSON.parse(response);
+                    $scope.timer = timer;
+
+                }
+        );
+        $scope.greeting = 'Hello...';
     }]);
 </script>
 <div ng-app="myApp" ng-controller="TimerController">
@@ -15,7 +26,8 @@
     <p>Welcome {{user.email}}.  Seems you were last working on {{user_timer.timer_get().notes}}.</p>
     <p>
         {% raw %}
-        {{ greeting }}
+        {{ greeting }} from Angular.  Angualr reports timer notes as:
+        {{ timer.notes }}
         {% endraw %}
     </p>
 

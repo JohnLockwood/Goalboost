@@ -7,7 +7,7 @@ from goalboost.blueprints.auth import init_flask_security
 from goalboost.blueprints.auth.controllers import bp_auth
 from goalboost.blueprints.index.controllers import bp_index
 from goalboost.blueprints.timer.controllers import bp_timer
-from goalboost.blueprints.api import init_api
+from goalboost.blueprints.api.controllers import init_api
 
 from goalboost.model import init_db, db
 
