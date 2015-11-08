@@ -1,48 +1,163 @@
 {% extends "layout/default.html" %}
-{% set active_page = "index" %}
+{% set active_page = "development_links" %}
 {% block content %}
 
 <script language="JavaScript">
 
-    var samplesApp = angular.module('samplesApp', []);
+    var samplesApp = angular.module('samplesApp', ['ngSanitize']);
 
     samplesApp.sampleTimer = ""
     samplesApp.controller('APISamplesController', ['$scope',  '$http', function($scope, $http) {
-        $scope.putCurrentTimerDev = function() {
+
+
+        $scope.samples = [
+            {
+                method: "GET",
+                endpoint: "/api/user/:id",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724",
+                data: '',
+                notes: 'Get a user by ID',
+                status: 'Works'
+            },
+            {
+                method: "POST",
+                endpoint: "/api/user/:id/timer",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Creates a new timer for the user. Does not affect current user timer.",
+                status: 'To do'
+            },
+            {
+                method: "PUT",
+                endpoint: "/api/user/:id/timer",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Replaces an existing timer for a user (Update).  Does not affect current user timer.",
+                status: 'To do'
+            },
+            {
+                method: "GET",
+                endpoint: "/api/user/:id/timer/current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                data: '',
+                notes: "Get the users's current timer.  If not set return 404",
+                status: 'Works'
+            },
+            {
+                method: "POST",
+                endpoint: "/api/user/:id/timer/current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Creates a new timer and sets it as user's timer",
+                status: 'To do'
+            },
+
+            {
+                method: "PUT",
+                endpoint: "/api/user/:id/timer/current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Set's the user's current timer to an existing timer.",
+                status: 'In progress / broken'
+            }
+
+        ];
+
+        $scope.lastSample = $scope.samples[0];
+
+        $scope.sendRequestItem = function(item, dev) {
+            $scope.lastSample = item;
+            url = dev ? item.devurl : item.produrl;
             $http({
-                method: 'PUT',
-                url: 'http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current'
+                url: url,
+                method: item.method,
+                data: item.data
             }).then(function successCallback(response) {
                 var data = JSON.stringify(response.data,null,2);
                 $scope.dataReceived = data;
+                $scope.responseCodeReceived = response.status;
+
+            }, function errorCallback(response) {
+                var data = JSON.stringify(response.data,null,2);
+                $scope.dataReceived = data;
+                $scope.responseCodeReceived = response.status;
+            });
+        };
+
+        $scope.sendRequest = function(url, method) {
+            $http({
+                url: url,
+                method: method
+            }).then(function successCallback(response) {
+                var data = JSON.stringify(response.data,null,2);
+                $scope.dataReceived = data;
+                $scope.responseCodeReceived = ""
+
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
             });
         };
 
-        $scope.dataReceived = "No data yet";
+
+        $scope.putCurrentTimerDev = function() {
+            $http({
+                method: 'PUT',
+                url: 'http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current'
+
+            }).then(function successCallback(response) {
+                var data = JSON.stringify(response.data,null,2);
+                $scope.dataReceived = data;
+                $scope.responseCodeReceived = ""
+
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
+        };
+
+        $scope.dataReceived = "";
         $scope.putCurrentTimerProd = function() {
             alert("Prod Put it!");
         }
     }]);
 </script>
 <div ng-app="samplesApp" ng-controller="APISamplesController">
-<h1>Development Links</h1>
-<h2>API Endpoints</h2>
-<table>
-<tr><th>Request Type</th><th>Endpoint</th><th>Development Example</th><th>Production Example</th><th>Notes</th></tr>
-<tr><td>GET</td><td>/api/user/:id</td><td><a href="http://localhost:5000/api/user/56259a278c57cf02f9692b31">John</a></td><td><a href="http://goalboost.com/api/user/56322c59e1539b0ef4855724">John</td><td>Get a user by ID</td></tr>
-<tr><td>GET</td><td>/api/user/:id/timer/current</td><td><a href="http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current">John</a></td><td><a href="http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current">John</td><td>Get the user's current timer.  If not set, receive 404</td></tr>
-    <tr><td>PUT</td><td>/api/user/:id/timer/current</td><td><a href="#" ng-click="putCurrentTimerDev()">John</a></td><td><a href="" ng-click="putCurrentTimerProd()">Put Timer For John</a></td><td>Get the user's current timer.  If not set, receive 404</td></tr>
+    {% raw %}
 
-</table>
+    <h1>Goalboost API Endpoints</h1>
+<p class="lead">The endpoints below are under development.</p>
+
+    <table>
+        <tr><th>Request Type</th><th>Endpoint</th><th>Development Example</th><th>Production Example</th><th>Notes</th><th>Development Status</th></tr>
+        <tr ng-repeat="item in samples">
+            <td ng-bind="item.method" />
+            <td ng-bind="item.endpoint" />
+            <td><a href="#" ng-click="sendRequestItem(item, true)">Link</a></td>
+            <td><a href="#" ng-click="sendRequestItem(item, false)">Link</a></td>
+            <td ng-bind="item.notes" />
+            <td ng-bind="item.status" />
+        </tr>
+    </table>
 
     <div>
-        {% raw %}
-        <pre>{{ dataReceived }}</pre>
-        {% endraw %}
+        <p class="lead">Data Received</p>
+        <p>Response status:  {{ responseCodeReceived }}</p>
+        <textarea rows="18">{{ dataReceived }}</textarea>
     </div>
+
+    <div>
+        <p class="lead">Data sent (if any)</p>
+        <pre>{{ lastSample.data }}</pre>
+    </div>
+
+    {% endraw %}
 </div>
 
 {% endblock %}

@@ -1,9 +1,58 @@
 {% extends "layout/default.html" %}
 {% set active_page = "index" %}
+{% block title %}All Your Time Are Us{% endblock %}
+{% block header %}
+    <script src="/static/js/timer/timer.js"></script>
+{% endblock  %}
 {% block content %}
-<h1>Index.html</h1>
-<p>This will be the root of the site. I live in template/development/index.html.  Seriously</p>
-<p>The people endpoint is here: <a href="/api/people">/api/people</a>.  The API and everything else needs more work</p>
+
+{% raw %}
+<div >
+    <div class="row">
+        <h1>What Are You Working On?</h1>
+    </div>
+    <div class="row" ng-app="myApp" ng-controller="TimerController" ng-cloak>
+        <div class="large-1 columns panel text-center" style="padding-left:0;padding-right:0" >{{timeFormatted}}</div>
+        <div class="fullwidth large-10 columns"><textarea rows=3 placeholder="Task description..."></textarea></div>
+        <div class="large-1 columns" style="padding:0px;" >
+            <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
+                {{startButtonText}}
+            </button>
+        </div>
+        <div class="large-12  columns">
+            <!-- <pre ng-bind="timers_json"></pre> -->
+        </div>
+    </div>
+    <div class="row">
+        <p class="fullwidth large-12 columns">
+            <p class="lead">But wait, there's less!</p>
+            <p>Sorry, but that cool UI above is not wired up yet, let alone the rest of the coolness.</p>
+
+            <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the employee owned source company.</p>
+            <p></p>We're hard at work on <a href="/development">the API</a>, the <a href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
+            the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands between entropy and awesomeness.</p>
+
+            </p>
+
+        </div>
+    </div>
+<!--
+    <div class="row">
+        <a href="#" data-reveal-id="myModal">Click Me For A Modal</a>
+    </div>
+
+    <div id="myModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+         role="dialog">
+        <h2 id="modalTitle">Awesome. I have it.</h2>
+
+        <p class="lead">Your couch. It is mine.</p>
+
+        <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+-->
+</div>
+{% endraw %}
 
 {% endblock %}
 

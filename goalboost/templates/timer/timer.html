@@ -3,7 +3,6 @@
 	<title>Test File</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular-sanitize.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/g/js-data@2.8.2,js-data-angular@3.1.0,js-data-http@3.0.0-beta.1,js-data-localstorage@2.1.1,js-data-firebase@2.1.1"></script>
     <meta charset="utf-8">    
     <link rel="stylesheet" type="text/css" href="../../static/stylesheets/app.css" />
@@ -54,7 +53,7 @@
     myApp.controller('TimerController', ['$scope',  '$http', function($scope, $http) {
         $scope.msg = 'Hello...';
         $scope.header = "What Are You Doing?";
-        $scope.timerIndex = -1;
+        $scope.timerIndex = 0;
         //$scope.someTimerValue = 99;
         $scope.timeFormatter = new TimeFormatter();
         $scope.timeFormatted = $scope.timeFormatter.formatSeconds(1);
@@ -62,22 +61,23 @@
         
         $scope.startButtonClass = "success";
         $scope.startButtonText = "Start";
-        $scope.timers = [];
+        $scope.timers = [{}];
         $scope.timers_json = $scope.timers;
         $scope.startDisplayed = true;
         $scope.setHeader = function() {
         	var d = new Date();
         	$scope.header = "The Time"
         	$scope.msg = "<table cellpadding=\"20px;\">" +
-        		"<tr><td>Date.toISOString()</td><td>" + d.toISOString() +  "</td></tr>" +  
-        		"<tr><td>Date.toLocaleString()</td><td>" + d.toLocaleString() +  "</td></tr>" +  
+        		"<tr><td>Date.toISOString()</td><td>" + d.toISOString() +  "</td></tr>" +
+        		"<tr><td>Date.toLocaleString()</td><td>" + d.toLocaleString() +  "</td></tr>" +
         		"<tr><td>Date.getTimte()</td><td>" + d.getTime() + "</td></tr></table>";
         };
-        $scope.startTimer = function()  {            
+        $scope.startTimer = function()  {
             $scope.startButtonClass = "alert";
             $scope.startButtonText = "Stop";
-        	$scope.timerIndex++;
+
         	$scope.timers[$scope.timerIndex] = {"startTime": new Date()}
+            $scope.timerIndex++;
         	$scope.header = "Started";
             $scope.updateTimersJson();
         }
