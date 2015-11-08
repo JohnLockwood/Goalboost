@@ -11,8 +11,9 @@ total_hours_this_week = 0
 for i in data["hours"]:
 	the_date = parse(i["date"])
 	delta_t = now - the_date
-	#print("time_diff:", delta_t.days, "hours:", i["hours"])
-	if delta_t.days <= 7:
+
+	if delta_t.days < 7:
+		print(i["date"], " - ", i["hours"], " - ", i["description"])
 		total_hours_this_week = total_hours_this_week + i["hours"]
 
 print("Total hours this week: ", round(total_hours_this_week, 1))

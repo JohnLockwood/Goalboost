@@ -1,0 +1,49 @@
+{% extends "layout/default.html" %}
+{% set active_page = "index" %}
+{% block content %}
+
+<script language="JavaScript">
+
+    var samplesApp = angular.module('samplesApp', []);
+
+    samplesApp.sampleTimer = ""
+    samplesApp.controller('APISamplesController', ['$scope',  '$http', function($scope, $http) {
+        $scope.putCurrentTimerDev = function() {
+            $http({
+                method: 'PUT',
+                url: 'http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current'
+            }).then(function successCallback(response) {
+                var data = JSON.stringify(response.data,null,2);
+                $scope.dataReceived = data;
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+            });
+        };
+
+        $scope.dataReceived = "No data yet";
+        $scope.putCurrentTimerProd = function() {
+            alert("Prod Put it!");
+        }
+    }]);
+</script>
+<div ng-app="samplesApp" ng-controller="APISamplesController">
+<h1>Development Links</h1>
+<h2>API Endpoints</h2>
+<table>
+<tr><th>Request Type</th><th>Endpoint</th><th>Development Example</th><th>Production Example</th><th>Notes</th></tr>
+<tr><td>GET</td><td>/api/user/:id</td><td><a href="http://localhost:5000/api/user/56259a278c57cf02f9692b31">John</a></td><td><a href="http://goalboost.com/api/user/56322c59e1539b0ef4855724">John</td><td>Get a user by ID</td></tr>
+<tr><td>GET</td><td>/api/user/:id/timer/current</td><td><a href="http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current">John</a></td><td><a href="http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current">John</td><td>Get the user's current timer.  If not set, receive 404</td></tr>
+    <tr><td>PUT</td><td>/api/user/:id/timer/current</td><td><a href="#" ng-click="putCurrentTimerDev()">John</a></td><td><a href="" ng-click="putCurrentTimerProd()">Put Timer For John</a></td><td>Get the user's current timer.  If not set, receive 404</td></tr>
+
+</table>
+
+    <div>
+        {% raw %}
+        <pre>{{ dataReceived }}</pre>
+        {% endraw %}
+    </div>
+</div>
+
+{% endblock %}
+

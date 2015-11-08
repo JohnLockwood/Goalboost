@@ -14,8 +14,8 @@ api = Api(bp_api)
 def init_api(app):
     api.add_resource(People, '/people')
     api.add_resource(Person,  '/people/<string:id>')
-    api.add_resource(UserResource, '/users/<string:id>')
-    api.add_resource(UserTimerResource, '/users/<string:id>/timer')
+    api.add_resource(UserCurrentTimerResource, '/user/<string:id>')
+    api.add_resource(UserTimerResource, '/user/<string:id>/timer/current')
     api.add_resource(EnvironmentLogger, "/env", )
     app.register_blueprint(bp_api)
 
@@ -51,12 +51,12 @@ class ErrorHandler(Resource):
 
 
 # Todo authorization, and check id is valid ObjectId
-class UserResource(Resource):
+class UserCurrentTimerResource(Resource):
     def get(self, id):
         query_set = User.objects(id=id)
         try:
             u = query_set.first()
-            return u.public_json()
+            return loads(u.public_json())
         except:
             return ErrorHandler.not_found()
 
@@ -66,9 +66,23 @@ class UserTimerResource(Resource):
     def get(self, id):
         timer = self._get_timer(id)
         if timer is not None:
-            return timer.to_json()
+            timer.thisNeedsWork = "HEY-- THIS IS NOT WORKING YET.  JCL TODO FIX THIS"
+            return loads(timer.to_json())
         else:
             return ErrorHandler.not_found()
+
+    # JCL TODO !!!
+    # Makes another timer the current timer.
+    def put(self, id):
+        return self.get(id)
+        # query_set = User.objects(id=id)
+        # try:
+        #     u = query_set.first()
+        #     user_timer = UserTimer(u, db)
+        #     print(loads(user_timer.timer_get()))
+        #     return loads(user_timer.timer_get())
+        # except:
+        #     return None
 
     # Based loosely on http://williamdurand.fr/2014/02/14/please-do-not-patch-like-an-idiot/,
     # but is probably still idiotic according to the purists.
