@@ -9,6 +9,18 @@
     samplesApp.sampleTimer = ""
     samplesApp.controller('APISamplesController', ['$scope',  '$http', function($scope, $http) {
 
+        $scope.dataPost =
+        {
+            "notes": "A test",
+            "running": false,
+            "seconds": 6189,
+            "startTime": {
+                "$date": 1445745068103
+            },
+            "userId": {
+                "$oid": "56259a278c57cf02f9692b31"
+            }
+        };
 
         $scope.samples = [
             {
@@ -22,7 +34,7 @@
             },
             {
                 method: "POST",
-                endpoint: "/api/user/:id/timer",
+                endpoint: "/api/user/:userid/timer",
                 devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
                 produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
                 data: '{"wewant": "ashrubbery"}',
@@ -31,11 +43,30 @@
             },
             {
                 method: "PUT",
+                endpoint: "/api/timer/:timerid",
+                devurl: "http://localhost:5000/api/timer/someId",
+                produrl: "http://goalboost.com/api/timer/someId",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Replaces an existing timer for a user (Update).  Does not affect current user timer.",
+                status: 'To do'
+            },
+            {
+                method: "GET",
+                endpoint: "/api/timer/:timerid",
+                devurl: "http://localhost:5000/api/timer/someId",
+                produrl: "http://goalboost.com/api/timer/someId",
+                data: '{"wewant": "ashrubbery"}',
+                notes: "Gets a specific timer by Id",
+                status: 'To do'
+            },
+
+            {
+                method: "GET",
                 endpoint: "/api/user/:id/timer",
                 devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
                 produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
                 data: '{"wewant": "ashrubbery"}',
-                notes: "Replaces an existing timer for a user (Update).  Does not affect current user timer.",
+                notes: "Gets all timers for a user.  Most recent first.  Need to work out pagination",
                 status: 'To do'
             },
             {
@@ -54,7 +85,7 @@
                 produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Creates a new timer and sets it as user's timer",
-                status: 'To do'
+                status: 'To do -- note can do with a more general post followed by a PUT'
             },
 
             {

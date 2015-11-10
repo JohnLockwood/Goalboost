@@ -15,6 +15,8 @@ def init_api(app):
     api.add_resource(People, '/people')
     api.add_resource(Person,  '/people/<string:id>')
     api.add_resource(UserCurrentTimerResource, '/user/<string:id>')
+    api.add_resource(TimerResource, '/user/<string:userid>/timer')
+    api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
     api.add_resource(UserTimerResource, '/user/<string:id>/timer/current')
     api.add_resource(EnvironmentLogger, "/env", )
     app.register_blueprint(bp_api)
@@ -49,6 +51,24 @@ class ErrorHandler(Resource):
         response.status_code = 409
         return response
 
+class TimerResource(Resource):
+    # TODO implementation is wrong
+    def get(self, userid):
+        return dict(todo="Return list of timers for user from TimerResource.get")
+
+    def post(self, userid):
+        return dict(todo="Handle timer post in TimerResource.post")
+
+    #def put(self, id):
+    #    return dict(todo="Handle timer put in TimerResource.put")
+class TimerResourceById(Resource):
+    # TODO implementation is wrong
+    def get(self, timer_id):
+        return dict(todo="Return a single resource TimerResourceById.get")
+
+    def put(self, timer_id):
+        return dict(todo="Replace the timer identified by timer_id in TimerResourceById.put")
+
 
 # Todo authorization, and check id is valid ObjectId
 class UserCurrentTimerResource(Resource):
@@ -59,6 +79,9 @@ class UserCurrentTimerResource(Resource):
             return loads(u.public_json())
         except:
             return ErrorHandler.not_found()
+
+
+
 
 # Todo authorization, and check id is valid ObjectId
 class UserTimerResource(Resource):
@@ -127,6 +150,9 @@ class UserTimerResource(Resource):
         else:
             return ErrorHandler.not_found()
 
+    def post(self, id):
+        return dict(todo="Replace the user timer with the new timer in UserTimerResource.post")
+
 
     def _get_timer(self, id):
         query_set = User.objects(id=id)
@@ -136,6 +162,7 @@ class UserTimerResource(Resource):
             return user_timer.timer_get()
         except:
             return None
+
 
 
 # Throwaway test / demo stuff

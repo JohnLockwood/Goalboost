@@ -57,5 +57,8 @@
 {"contributor": "JohnLockwood", "date": "11/05/2015", "hours": 1.1, "description": "Timer UI work - foundation, styling timer row, rearrange page elements"},
 {"contributor": "JohnLockwood", "date": "11/07/2015", "hours": 1.1, "description": "Timer UI, foundation modal dialogs, etc.  Need more work on default layout."},
 {"contributor": "JohnLockwood", "date": "11/07/2015", "hours": 1.7, "description": "Dev page - working on user / timer RESTful API"},
-{"contributor": "JohnLockwood", "date": "11/08/2015", "hours": 2.5, "description": "Timer UI / Timer API.  Improve production experience such as it is to date"}
+{"contributor": "JohnLockwood", "date": "11/08/2015", "hours": 2.5, "description": "Timer UI / Timer API.  Improve production experience such as it is to date"},
+{"contributor": "JohnLockwood", "date": "11/08/2015", "hours": 0.5, "description": "Timer API work - development page"},
+{"contributor": "JohnLockwood", "date": "11/09/2015", "hours": 0.5, "description": "Timer API work"},
+{"contributor": "JohnLockwood", "date": "11/09/2015", "hours": 1.0, "description": "API work; to_json/ from_json on timer"}
 ]}

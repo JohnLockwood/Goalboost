@@ -7,6 +7,7 @@ from pytz import timezone
 from goalboost.model import db
 
 
+
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
@@ -154,3 +155,26 @@ class Timer(DateFormat, db.Document):
         vals["total_elapsed"] = self.total_elapsed()
         vals["current_elapsed"] = self.current_elapsed()
         return vals
+
+    def fmt_string_or_null(self, val):
+        sval = ""
+        if val:
+            sval = "".join(['"', str(val), '"'])
+        else:
+            sval = None
+        return sval
+
+    def to_public_json(self):
+        id = self.fmt_string_or_null(self.id)
+        notes = self.fmt_string_or_null(self.notes)
+
+        fmt_string = \
+        """{{"id" : {0}, "startTime" : "{1}", "lastRestart" : "{2}", "seconds" : {3}, "running" : {4}, "notes" : {5}}}"""
+        return fmt_string.format(
+            id,                   \
+            self.startTime.isoformat(),  \
+            self.lastRestart.isoformat(), \
+            self.seconds,
+            self.running,
+            notes
+        )

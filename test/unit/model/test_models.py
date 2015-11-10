@@ -1,11 +1,12 @@
 from unittest import TestCase
 from test.common.test_helper import TestHelper
 from goalboost.model.mongo_models import Task
+from goalboost.model import db
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
 from goalboost.model.mongo_models import Timer
-
-
+import dateutil.parser
+from bson.objectid import ObjectId
 # -------------- Tasks ---------------------------
 class TestTask(TestCase):
     def setUp(self):
@@ -65,6 +66,20 @@ class TestTimer(TestCase):
         total = timer.total_elapsed()
         assert(elapsed == 10)
         assert(total == 30)
+
+    def test_public_json_correct(self):
+        start_time = dateutil.parser.parse('2008-09-03T20:00:00.000000Z')
+        # Timer must be running or elapsed time will be zero
+        timer = Timer(startTime = start_time, seconds = 20, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
+        json = timer.to_public_json()
+        assert('"notes" : None' in json)
+        assert('"id" : "56259a278c57cf02f9692b31"' in json)
+        assert('"seconds" : 20' in json)
+        timer.notes = "Testing the JSON!"
+        json = timer.to_public_json()
+        assert('"notes" : "Testing the JSON!"' in json)
+
+
 
 # -------------- Users -----------------------------
 
