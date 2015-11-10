@@ -2,11 +2,12 @@
 #from json import loads, dumps
 from flask import Blueprint, jsonify, request
 from goalboost.model.mongo_models import User
-from goalboost.model.business_objects import UserTimer
+from goalboost.model.business_objects import UserTimer, TimerDao
 from goalboost.model import db
 from json import dumps, loads
 from flask import Blueprint
 from flask_restful import Api
+from mongoengine.errors import ValidationError
 
 bp_api = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bp_api)
@@ -54,18 +55,30 @@ class ErrorHandler(Resource):
 class TimerResource(Resource):
     # TODO implementation is wrong
     def get(self, userid):
-        return dict(todo="Return list of timers for user from TimerResource.get")
+        try:
+            l = TimerDao.timers_for_user(userid)
+            return [timer.to_api_dict() for timer in l]
+        except ValidationError as detail:
+            return ErrorHandler.bad_request("Invalid ID format")
 
-    def post(self, userid):
+
+def post(self, userid):
         return dict(todo="Handle timer post in TimerResource.post")
 
-    #def put(self, id):
-    #    return dict(todo="Handle timer put in TimerResource.put")
 class TimerResourceById(Resource):
-    # TODO implementation is wrong
-    def get(self, timer_id):
-        return dict(todo="Return a single resource TimerResourceById.get")
 
+    # Working.  Review
+    def get(self, timer_id):
+        try:
+            timer = TimerDao.timer_by_id(timer_id)
+            if timer:
+                return timer.to_api_dict()
+            else:
+                return ErrorHandler.not_found()
+        except ValidationError as detail:
+            return ErrorHandler.bad_request("Invalid ID format")
+
+    # Todo
     def put(self, timer_id):
         return dict(todo="Replace the timer identified by timer_id in TimerResourceById.put")
 
@@ -90,7 +103,7 @@ class UserTimerResource(Resource):
         timer = self._get_timer(id)
         if timer is not None:
             timer.thisNeedsWork = "HEY-- THIS IS NOT WORKING YET.  JCL TODO FIX THIS"
-            return loads(timer.to_json())
+            return timer.to_api_dict()  #loads(timer.to_json())
         else:
             return ErrorHandler.not_found()
 

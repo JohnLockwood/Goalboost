@@ -1,12 +1,9 @@
 from datetime import datetime
 from json import loads, dumps
-
 from flask.ext.security import UserMixin, RoleMixin
 from pytz import timezone
-
 from goalboost.model import db
-
-
+from bson.objectid import ObjectId
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -95,6 +92,44 @@ class DateFormat(object):
         #return dumps(vals, indent=4, separators=(',', ': '))
         return dumps(vals)
 
+    def to_api_json(self):
+        id = self.fmt_string_or_null(self.id)
+        notes = self.fmt_string_or_null(self.notes)
+        fmt_string = \
+            """{{"id" : {0}, "startTime" : "{1}", "lastRestart" : "{2}", "seconds" : {3}, "running" : {4}, "notes" : {5}}}"""
+        return fmt_string.format(
+            id, \
+            self.startTime.isoformat(), \
+            self.lastRestart.isoformat(), \
+            self.seconds,
+            self.running,
+            notes
+        )
+
+    def fmt_string_or_null(self, val):
+        sval = ""
+        if val:
+            sval = "".join(['"', str(val), '"'])
+        else:
+            sval = None
+        return sval
+
+    @classmethod
+    def load_from_dict(cls, input):
+        # More pythonic way
+        t = Timer(**input) # id = input["id"], notes = input["notes"])
+        return t
+
+    # BUG!!! None becomes "None", not null
+    def to_api_dict(self):
+        d = dict(id = str(self.id or None), \
+                 notes = self.notes, \
+                 seconds = self.seconds, \
+                 startTime = self.startTime.isoformat(), \
+                 lastRestart = self.lastRestart.isoformat(), \
+                 userId = str(self.userId or None), \
+                 running = self.running)
+        return d
 
 
 class Timer(DateFormat, db.Document):
@@ -156,25 +191,4 @@ class Timer(DateFormat, db.Document):
         vals["current_elapsed"] = self.current_elapsed()
         return vals
 
-    def fmt_string_or_null(self, val):
-        sval = ""
-        if val:
-            sval = "".join(['"', str(val), '"'])
-        else:
-            sval = None
-        return sval
 
-    def to_public_json(self):
-        id = self.fmt_string_or_null(self.id)
-        notes = self.fmt_string_or_null(self.notes)
-
-        fmt_string = \
-        """{{"id" : {0}, "startTime" : "{1}", "lastRestart" : "{2}", "seconds" : {3}, "running" : {4}, "notes" : {5}}}"""
-        return fmt_string.format(
-            id,                   \
-            self.startTime.isoformat(),  \
-            self.lastRestart.isoformat(), \
-            self.seconds,
-            self.running,
-            notes
-        )

@@ -30,7 +30,11 @@ class UserTimer:
         self.user.timer = None
         self.user.save()
 
-class PacificTimeConverter:
+class TimerDao:
     @classmethod
-    def naive_utc_to_pacific_time(cls, pacific):
-        return "Foobar"
+    def timer_by_id(cls, id):
+        return Timer.objects(id = id).first()
+
+    @classmethod
+    def timers_for_user(cls, user_id):
+        return [t for t in Timer.objects(userId = user_id).order_by("-lastRestart").all()]

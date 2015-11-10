@@ -53,13 +53,12 @@
             {
                 method: "GET",
                 endpoint: "/api/timer/:timerid",
-                devurl: "http://localhost:5000/api/timer/someId",
+                devurl: "http://localhost:5000/api/timer/5641eefe8c57cf6d1d09254d",
                 produrl: "http://goalboost.com/api/timer/someId",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Gets a specific timer by Id",
-                status: 'To do'
+                status: 'Works'
             },
-
             {
                 method: "GET",
                 endpoint: "/api/user/:id/timer",
@@ -67,7 +66,7 @@
                 produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Gets all timers for a user.  Most recent first.  Need to work out pagination",
-                status: 'To do'
+                status: 'Works.  Needs review and pagination.'
             },
             {
                 method: "GET",

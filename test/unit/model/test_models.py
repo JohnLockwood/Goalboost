@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
 from goalboost.model.mongo_models import Timer
 import dateutil.parser
+from json import dumps
 from bson.objectid import ObjectId
 # -------------- Tasks ---------------------------
 class TestTask(TestCase):
@@ -67,17 +68,32 @@ class TestTimer(TestCase):
         assert(elapsed == 10)
         assert(total == 30)
 
-    def test_public_json_correct(self):
+    def test_to_api_dict_correct(self):
         start_time = dateutil.parser.parse('2008-09-03T20:00:00.000000Z')
         # Timer must be running or elapsed time will be zero
         timer = Timer(startTime = start_time, seconds = 20, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
-        json = timer.to_public_json()
-        assert('"notes" : None' in json)
-        assert('"id" : "56259a278c57cf02f9692b31"' in json)
-        assert('"seconds" : 20' in json)
+        d = timer.to_api_dict()
+        json = dumps(d)
+        assert('"notes": null' in json)
+        assert('"id": "56259a278c57cf02f9692b31"' in json)
+        assert('"seconds": 20' in json)
         timer.notes = "Testing the JSON!"
-        json = timer.to_public_json()
-        assert('"notes" : "Testing the JSON!"' in json)
+        d = timer.to_api_dict()
+        json = dumps(d)
+        assert('"notes": "Testing the JSON!"' in json)
+
+    def test_can_load_from_api_dict(self):
+        start_time = dateutil.parser.parse('2008-09-03T20:00:00.000000Z')
+        # Timer must be running or elapsed time will be zero
+        timer = Timer(startTime = start_time, seconds = 20, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
+        d = timer.to_api_dict()
+        t2 = Timer.load_from_dict(d)
+        assert(timer.notes == t2.notes)
+        assert(timer.id == t2.id)
+        assert(t2.seconds == 20)
+        d["notes"] = "Testing"
+        t2 = Timer.load_from_dict(d)
+        assert(t2.notes == "Testing")
 
 
 
