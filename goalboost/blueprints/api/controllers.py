@@ -1,13 +1,15 @@
-# Import flask dependencies
-#from json import loads, dumps
 from flask import Blueprint, jsonify, request
 from goalboost.model.mongo_models import User
 from goalboost.model.business_objects import UserTimer, TimerDao
 from goalboost.model import db
-from json import dumps, loads
 from flask import Blueprint
 from flask_restful import Api
 from mongoengine.errors import ValidationError
+from flask.ext.login import login_required, logout_user
+from flask import current_app
+from flask_security.core import current_user
+
+#from json import dumps, loads
 
 bp_api = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bp_api)
@@ -67,7 +69,11 @@ def post(self, userid):
 
 class TimerResourceById(Resource):
 
-    # Working.  Review
+    # /api/timer/:timerid
+    # Gets a specific timer by id
+    # Working.  Review.
+    # Need to verify that the logged in user is this user, or member of same account?
+#    @login_required
     def get(self, timer_id):
         try:
             timer = TimerDao.timer_by_id(timer_id)
@@ -92,9 +98,6 @@ class UserCurrentTimerResource(Resource):
             return loads(u.public_json())
         except:
             return ErrorHandler.not_found()
-
-
-
 
 # Todo authorization, and check id is valid ObjectId
 class UserTimerResource(Resource):
@@ -175,8 +178,6 @@ class UserTimerResource(Resource):
             return user_timer.timer_get()
         except:
             return None
-
-
 
 # Throwaway test / demo stuff
 class People(Resource):

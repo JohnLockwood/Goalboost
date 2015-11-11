@@ -14,6 +14,7 @@ class Config:
     SECURITY_EMAIL_SENDER =  os.environ.get("GOALBOOST_SECURITY_EMAIL_SENDER") or "someuser@example.com"
     SECURITY_POST_LOGOUT_VIEW = '/auth/logged_out'
 
+    WTF_CSRF_ENABLED = False
     # Mail configuration
     MAIL_SERVER = os.environ.get("GOALBOOST_MAIL_SERVER") or "smtp.example.com"
     MAIL_DEFAULT_SENDER = os.environ.get("GOALBOOST_MAIL_DEFAULT_SENDER") or "someuser@example.com"

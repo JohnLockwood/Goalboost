@@ -4,6 +4,9 @@ from flask.ext.security import UserMixin, RoleMixin
 from pytz import timezone
 from goalboost.model import db
 from bson.objectid import ObjectId
+from itsdangerous import (TimedJSONWebSignatureSerializer
+                          as Serializer, BadSignature, SignatureExpired)
+from flask import current_app
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -18,6 +21,14 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     timer = db.ObjectIdField(null=True)
+
+    # Work in progress, cf.
+    # http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
+    # See also blueprints.auth.__init__py verify_auth_token comments
+    #def get_auth_token(self, expiration = 600):
+    #    s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
+    #    return s.dumps({ 'id': str(self.id) })
+
 
     def public_json(self):
         json = self.to_json()
