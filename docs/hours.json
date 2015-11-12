@@ -62,5 +62,6 @@
 {"contributor": "JohnLockwood", "date": "11/09/2015", "hours": 0.5, "description": "Timer API work"},
 {"contributor": "JohnLockwood", "date": "11/09/2015", "hours": 1.0, "description": "API work; to_json/ from_json on timer"},
 {"contributor": "JohnLockwood", "date": "11/10/2015", "hours": 1.4, "description": "More timer api work; dictionary interface in / out for timer object.  Finish get with :timerid"},
-{"contributor": "JohnLockwood", "date": "11/11/2015", "hours": 1.4, "description": "Security test token auth"}
+{"contributor": "JohnLockwood", "date": "11/11/2015", "hours": 1.4, "description": "Security test token auth"},
+{"contributor": "JohnLockwood", "date": "11/11/2015", "hours": 2.7, "description": "Refactor timer structure - daily entries"}
 ]}
