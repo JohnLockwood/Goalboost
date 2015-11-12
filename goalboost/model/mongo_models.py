@@ -3,6 +3,8 @@ from json import loads, dumps
 from flask.ext.security import UserMixin, RoleMixin
 from pytz import timezone
 from goalboost.model import db
+from datetime import date
+from dateutil import parser
 from bson.objectid import ObjectId
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
@@ -48,7 +50,7 @@ class DateFormat(object):
         fmtstr="{:<20}:  {}"
         start = self.fmt_date(self.utc_to_pacific_datetime(getattr(self, "startTime")))
         last_restart = self.fmt_date(self.utc_to_pacific_datetime(getattr(self, "lastRestart")))
-        seconds = getattr(self, "seconds")
+        seconds = self.get_seconds()
         total_elapsed = self.total_elapsed()
         formatted = \
             fmtstr.format("startTime (PST)", start) + "\n" + \
@@ -112,7 +114,7 @@ class DateFormat(object):
             id, \
             self.startTime.isoformat(), \
             self.lastRestart.isoformat(), \
-            self.seconds,
+            self.get_seconds(),
             self.running,
             notes
         )
@@ -129,32 +131,51 @@ class DateFormat(object):
     def load_from_dict(cls, input):
         # More pythonic way
         t = Timer(**input) # id = input["id"], notes = input["notes"])
+        for item in t.entries:
+            item.dateRecorded = parser.parse(item.dateRecorded)
         return t
 
     # BUG!!! None becomes "None", not null
     def to_api_dict(self):
+        entries = [ dict(dateRecorded = str(item.dateRecorded), seconds = item.seconds) for item in self.entries]
         d = dict(id = str(self.id or None), \
                  notes = self.notes, \
-                 seconds = self.seconds, \
+                 entries = entries, \
                  startTime = self.startTime.isoformat(), \
                  lastRestart = self.lastRestart.isoformat(), \
                  userId = str(self.userId or None), \
                  running = self.running)
         return d
 
+class TimerForDate(db.EmbeddedDocument):
+    dateRecorded = db.DateTimeField(default=datetime.fromordinal(date.today().toordinal()))
+    seconds = db.IntField(min_value=0, default=0)
+
+
+    def __repr__(self):
+        return "dateRecorded={{{0}, seconds={1}}}".format(self.dateRecorded, self.seconds)
 
 class Timer(DateFormat, db.Document):
-
-    def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
-        super().__init__(userId=userId, startTime=startTime, **kwargs)
-        setattr(self, "lastRestart", startTime)
 
     startTime = db.DateTimeField()
     lastRestart = db.DateTimeField()
     notes = db.StringField()
-    seconds = db.IntField(min_value=0, default=0)
+    # seconds = db.IntField(min_value=0, default=0)
     userId = db.ObjectIdField(null=True)
     running = db.BooleanField(default=False)
+    entries = db.EmbeddedDocumentListField(TimerForDate)
+
+    def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
+        super().__init__(userId=userId, startTime=startTime, **kwargs)
+        setattr(self, "lastRestart", startTime)
+        #self.set_seconds_today(seconds)
+
+    def set_seconds_today(self, seconds):
+        if 0 == len([x.dateRecorded for x in self.entries if x.dateRecorded.toordinal() == date.today().toordinal()]):
+            self.entries.append(TimerForDate())
+        todays_record = self.entries.get(dateRecorded=datetime.fromordinal(date.today().toordinal()))
+        # Need to rework if rework total elapsed I think?
+        todays_record.seconds = seconds
 
     def start(self):
         if self.is_running():
@@ -182,13 +203,21 @@ class Timer(DateFormat, db.Document):
         return self.current_elapsed() + self.get_seconds()
 
     def get_seconds(self):
-        return getattr(self, "seconds")
+        return sum([x.seconds for x in self.entries])
+        # return getattr(self, "seconds")
 
     def is_running(self):
         return getattr(self, "running")
 
     def _update_time_on_stop(self):
-        setattr(self, "seconds", self.total_elapsed())
+        self.set_seconds_today(self.get_seconds_today() + self.current_elapsed())
+
+    def get_seconds_today(self):
+        if 0 == len([x.dateRecorded for x in self.entries if x.dateRecorded.toordinal() == date.today().toordinal()]):
+            return 0
+        todays_record = self.entries.get(dateRecorded=datetime.fromordinal(date.today().toordinal()))
+        return todays_record.seconds
+
 
     def snapshot_dict(self):
         vals = dict()

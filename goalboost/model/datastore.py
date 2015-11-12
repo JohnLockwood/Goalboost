@@ -6,5 +6,5 @@ def add_timer_to_user():
 
 # Todo we need a user here
 def create_timer(userId=None, startTime=datetime.utcnow(), **kwargs):
-    timer = Timer(userId, startTime, **kwargs)
+    timer = Timer(userId=userId, startTime=startTime, **kwargs)
     return timer

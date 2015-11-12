@@ -57,6 +57,7 @@ class UserTimerTest(TestCase):
         u = query_result.first()
         user_timer = UserTimer(u, db)
         timer = user_timer.timer_create()
+        timer.set_seconds_today(300)
         timer.notes = "John's perpetual timer"
         timer.start()
         timer.save()
