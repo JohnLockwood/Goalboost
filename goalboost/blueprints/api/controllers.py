@@ -5,22 +5,28 @@ from goalboost.model import db
 from flask import Blueprint
 from flask_restful import Api
 from mongoengine.errors import ValidationError
-from flask.ext.login import login_required, logout_user
-from flask import current_app
-from flask_security.core import current_user
+from flask_restful import Resource
 
-#from json import dumps, loads
 
 bp_api = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bp_api)
 
 def init_api(app):
-    api.add_resource(People, '/people')
-    api.add_resource(Person,  '/people/<string:id>')
-    api.add_resource(UserCurrentTimerResource, '/user/<string:id>')
-    api.add_resource(TimerResource, '/user/<string:userid>/timer')
+
+    # Just the User
+    api.add_resource(UserResource, '/user/<string:id>')
+
+    # All timers for a user
+    api.add_resource(UserAllTimersResource, '/user/<string:userid>/timers')
+
+    # Current timer for user;
+    api.add_resource(UserCurrentTimerResource, '/user/<string:id>/timer_current')
+
+    # User Timers other than current:
+    api.add_resource(UserTimerResource, '/user/<string:user_id>/timer')
+
     api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
-    api.add_resource(UserTimerResource, '/user/<string:id>/timer/current')
+
     api.add_resource(EnvironmentLogger, "/env", )
     app.register_blueprint(bp_api)
 
@@ -28,7 +34,6 @@ def init_api(app):
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 # mod_api = Blueprint('api', __name__, url_prefix='/api')
 
-from flask_restful import Resource
 
 class EnvironmentLogger(Resource):
     def get(self):
@@ -54,8 +59,9 @@ class ErrorHandler(Resource):
         response.status_code = 409
         return response
 
-class TimerResource(Resource):
-    # TODO implementation is wrong
+class UserAllTimersResource(Resource):
+    # /api/user/:id/timers
+    # Gets all timers for a user. Most recent first. Need to work out pagination
     def get(self, userid):
         try:
             l = TimerDao.timers_for_user(userid)
@@ -73,7 +79,7 @@ class TimerResourceById(Resource):
     # Gets a specific timer by id
     # Working.  Review.
     # Need to verify that the logged in user is this user, or member of same account?
-#    @login_required
+    # @login_required
     def get(self, timer_id):
         try:
             timer = TimerDao.timer_by_id(timer_id)
@@ -90,7 +96,7 @@ class TimerResourceById(Resource):
 
 
 # Todo authorization, and check id is valid ObjectId
-class UserCurrentTimerResource(Resource):
+class UserResource(Resource):
     def get(self, id):
         query_set = User.objects(id=id)
         try:
@@ -99,8 +105,14 @@ class UserCurrentTimerResource(Resource):
         except:
             return ErrorHandler.not_found()
 
-# Todo authorization, and check id is valid ObjectId
 class UserTimerResource(Resource):
+
+    # /api/user/:userid/timer
+    def post(self, user_id):
+        return dict(todo="Replace the code in UserTimerResource.post")
+
+# Todo authorization, and check id is valid ObjectId
+class UserCurrentTimerResource(Resource):
     #@api.representation("application/json")
     def get(self, id):
         timer = self._get_timer(id)
@@ -166,9 +178,10 @@ class UserTimerResource(Resource):
         else:
             return ErrorHandler.not_found()
 
+    # Creates a new timer and sets it as user's timer
+    # /api/user/:id/timer/current
     def post(self, id):
         return dict(todo="Replace the user timer with the new timer in UserTimerResource.post")
-
 
     def _get_timer(self, id):
         query_set = User.objects(id=id)
@@ -179,13 +192,3 @@ class UserTimerResource(Resource):
         except:
             return None
 
-# Throwaway test / demo stuff
-class People(Resource):
-    def get(self):
-        return [{'name': 'Johnsin'}, {'name': 'Jenniffer'}]
-
-    def post(self):
-        return {'name': 'Johnsin Chiquilin'}, 201
-class Person(Resource):
-    def get(self, id):
-        return {'name': 'Johnsin!'}

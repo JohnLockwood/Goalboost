@@ -11,15 +11,19 @@
 
         $scope.dataPost =
         {
-            "notes": "A test",
-            "running": false,
-            "seconds": 6189,
-            "startTime": {
-                "$date": 1445745068103
-            },
-            "userId": {
-                "$oid": "56259a278c57cf02f9692b31"
-            }
+            "entries": [
+                {
+                    "dateRecorded": "2015-11-12 00:00:00",
+                    "seconds": 300
+                }
+            ],
+            "id": "5644ad058c57cf133c3b7c49",
+            "lastRestart": "2015-11-12T15:15:16.855000",
+            "notes": "John's perpetual timer",
+            "running": true,
+            "startTime": "2015-11-12T15:15:16.855000",
+            "userId": "56259a278c57cf02f9692b31"            // API design -- Note just need timer
+                                                            // post because user is included here
         };
 
         $scope.samples = [
@@ -37,7 +41,7 @@
                 endpoint: "/api/user/:userid/timer",
                 devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
                 produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
-                data: '{"wewant": "ashrubbery"}',
+                data: $scope.dataPost,
                 notes: "Creates a new timer for the user. Does not affect current user timer.",
                 status: 'To do'
             },
@@ -61,37 +65,37 @@
             },
             {
                 method: "GET",
-                endpoint: "/api/user/:id/timer",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
+                endpoint: "/api/user/:id/timers",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timers",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timers",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Gets all timers for a user.  Most recent first.  Need to work out pagination",
                 status: 'Works.  Needs review and pagination.'
             },
             {
                 method: "GET",
-                endpoint: "/api/user/:id/timer/current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                endpoint: "/api/user/:id/timer_current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
                 data: '',
                 notes: "Get the users's current timer.  If not set return 404",
                 status: 'Works'
             },
             {
                 method: "POST",
-                endpoint: "/api/user/:id/timer/current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                endpoint: "/api/user/:id/timer_current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
                 data: '{"wewant": "ashrubbery"}',
-                notes: "Creates a new timer and sets it as user's timer",
+                notes: "Creates a new timer and sets it as user's timer current timer",
                 status: 'To do -- note can do with a more general post followed by a PUT'
             },
 
             {
                 method: "PUT",
                 endpoint: "/api/user/:id/timer/current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer/current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer/current",
+                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
+                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Set's the user's current timer to an existing timer.",
                 status: 'In progress / broken'
