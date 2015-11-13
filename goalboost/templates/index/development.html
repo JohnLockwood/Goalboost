@@ -14,12 +14,11 @@
             "entries": [
                 {
                     "dateRecorded": "2015-11-12 00:00:00",
-                    "seconds": 300
+                    "seconds": 989
                 }
             ],
-            "id": "5644ad058c57cf133c3b7c49",
             "lastRestart": "2015-11-12T15:15:16.855000",
-            "notes": "John's perpetual timer",
+            "notes": "Posted from the API",
             "running": true,
             "startTime": "2015-11-12T15:15:16.855000",
             "userId": "56259a278c57cf02f9692b31"            // API design -- Note just need timer
@@ -38,9 +37,9 @@
             },
             {
                 method: "POST",
-                endpoint: "/api/user/:userid/timer",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer",
+                endpoint: "/api/timer",
+                devurl: "http://localhost:5000/api/timer",
+                produrl: "http://goalboost.com/api/timer",
                 data: $scope.dataPost,
                 notes: "Creates a new timer for the user. Does not affect current user timer.",
                 status: 'To do'

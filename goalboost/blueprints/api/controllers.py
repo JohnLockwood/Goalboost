@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
-from goalboost.model.mongo_models import User
+from goalboost.model.mongo_models import User, Timer
 from goalboost.model.business_objects import UserTimer, TimerDao
 from goalboost.model import db
 from flask import Blueprint
 from flask_restful import Api
 from mongoengine.errors import ValidationError
 from flask_restful import Resource
-
+from json import loads, dumps
 
 bp_api = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bp_api)
@@ -23,7 +23,7 @@ def init_api(app):
     api.add_resource(UserCurrentTimerResource, '/user/<string:id>/timer_current')
 
     # User Timers other than current:
-    api.add_resource(UserTimerResource, '/user/<string:user_id>/timer')
+    api.add_resource(TimerResource, '/timer')
 
     api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
 
@@ -64,14 +64,21 @@ class UserAllTimersResource(Resource):
     # Gets all timers for a user. Most recent first. Need to work out pagination
     def get(self, userid):
         try:
-            l = TimerDao.timers_for_user(userid)
+            l = TimerDao().timers_for_user(userid)
             return [timer.to_api_dict() for timer in l]
         except ValidationError as detail:
             return ErrorHandler.bad_request("Invalid ID format")
 
+class TimerResource(Resource):
+    # /api/user/:userid/timer
+    def post(self):
+        json = request.json
+        timer = Timer.load_from_dict(json)
+        timer.save()
+        response = jsonify({'code': 201,'message': 'Created', 'timerId': str(timer.id)})
+        response.status_code = 201
+        return response
 
-def post(self, userid):
-        return dict(todo="Handle timer post in TimerResource.post")
 
 class TimerResourceById(Resource):
 
@@ -82,7 +89,7 @@ class TimerResourceById(Resource):
     # @login_required
     def get(self, timer_id):
         try:
-            timer = TimerDao.timer_by_id(timer_id)
+            timer = TimerDao().timer_by_id(timer_id)
             if timer:
                 return timer.to_api_dict()
             else:
@@ -105,11 +112,6 @@ class UserResource(Resource):
         except:
             return ErrorHandler.not_found()
 
-class UserTimerResource(Resource):
-
-    # /api/user/:userid/timer
-    def post(self, user_id):
-        return dict(todo="Replace the code in UserTimerResource.post")
 
 # Todo authorization, and check id is valid ObjectId
 class UserCurrentTimerResource(Resource):

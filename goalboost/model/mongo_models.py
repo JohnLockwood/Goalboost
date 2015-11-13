@@ -224,7 +224,7 @@ class Timer(DateFormat, db.Document):
         vals["startTime"] = self.startTime
         vals["lastRestart"] = self.lastRestart
         vals["notes"] = self.notes
-        vals["seconds"] = self.seconds
+        vals["seconds"] = self.get_seconds()
         vals["userId"] = self.userId
         vals["running"] = self.running
         vals["total_elapsed"] = self.total_elapsed()
