@@ -2,40 +2,46 @@
 {% set active_page = "index" %}
 {% block title %}All Your Time Are Us{% endblock %}
 {% block header %}
-    <script src="/static/js/timer/timer.js"></script>
+<script src="/static/js/timer/timer.js"></script>
 {% endblock  %}
 {% block content %}
 
 {% raw %}
-<div >
+<div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row">
         <h1>What Are You Working On?</h1>
     </div>
-    <div class="row" ng-app="myApp" ng-controller="TimerController" ng-cloak>
-        <div class="large-1 columns panel text-center" style="padding-left:0;padding-right:0" >{{timeFormatted}}</div>
-        <div class="fullwidth large-10 columns"><textarea rows=3 placeholder="Task description..."></textarea></div>
-        <div class="large-1 columns" style="padding:0px;" >
-            <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
-                {{startButtonText}}
-            </button>
+    <div>
+        <div class="row">
+            <div class="large-1 columns panel text-center" style="padding-left:0;padding-right:0">{{ timerListModel.timers[0].entries[0].seconds | formatTime }}</div>
+            <div class="fullwidth large-10 columns"><textarea rows=3 placeholder="Task description..." style="font-size:1.0em">{{timerListModel.timers[0].notes}}</textarea></div>
+            <div class="large-1 columns"><button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">{{startButtonText}}</button></div>
         </div>
-        <div class="large-12  columns">
-            <!-- <pre ng-bind="timers_json"></pre> -->
+        <div class="row" ng-repeat="t in timerListModel.timers">
+            <div class="large-1 columns panel text-center" style="padding-left:0;padding-right:0">{{ t.entries[0].seconds | formatTime }}</div>
+            <div class="fullwidth large-10 columns">{{t.notes }}</div>
+            <div class="large-1 columns"><button class="button" ng-click="">Work</button></div>
         </div>
     </div>
     <div class="row">
         <p class="fullwidth large-12 columns">
-            <p class="lead">But wait, there's less!</p>
-            <p>Sorry, but that cool UI above is not wired up yet, let alone the rest of the coolness.</p>
 
-            <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the employee owned source company.</p>
-            <p></p>We're hard at work on <a href="/development">the API</a>, the <a href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
-            the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands between entropy and awesomeness.</p>
+        <p class="lead">But wait, there's less!</p>
 
-            </p>
+        <p>Sorry, but that cool UI above is not wired up yet, let alone the rest of the coolness.</p>
 
-        </div>
+        <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the
+            employee owned source company.</p>
+
+        <p></p>We're hard at work on <a href="/development">the API</a>, the <a
+            href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
+        the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands
+        between entropy and awesomeness.</p>
+
+        </p>
+
     </div>
+</div>
 <!--
     <div class="row">
         <a href="#" data-reveal-id="myModal">Click Me For A Modal</a>
@@ -50,8 +56,8 @@
         <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
--->
 </div>
+-->
 {% endraw %}
 
 {% endblock %}

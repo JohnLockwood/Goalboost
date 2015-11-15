@@ -38,6 +38,8 @@ class User(db.Document, UserMixin):
         del(as_dict["password"])
         return dumps(as_dict)
 
+class Project(db.Document):
+    name = db.StringField(max_length = 255)
 
 class Task(db.Document):
     name = db.StringField(max_length=80)
@@ -141,11 +143,17 @@ class DateFormat(object):
         d = dict(id = str(self.id or None), \
                  notes = self.notes, \
                  entries = entries, \
-                 startTime = self.startTime.isoformat(), \
-                 lastRestart = self.lastRestart.isoformat(), \
+                 startTime = self._convert_datetime(self.startTime), \
+                 lastRestart = self._convert_datetime(self.lastRestart), \
                  userId = str(self.userId or None), \
                  running = self.running)
         return d
+
+    def _convert_datetime(self, dt):
+        if type(dt) is datetime:
+            return dt.isoformat()
+        return dt
+
 
 class TimerForDate(db.EmbeddedDocument):
     dateRecorded = db.DateTimeField(default=datetime.fromordinal(date.today().toordinal()))
@@ -165,7 +173,8 @@ class Timer(DateFormat, db.Document):
     running = db.BooleanField(default=False)
     entries = db.EmbeddedDocumentListField(TimerForDate)
 
-    def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
+    #def __init__(self, userId=None, startTime=datetime.utcnow(), **kwargs):
+    def __init__(self, userId=None, startTime=None, **kwargs):
         super().__init__(userId=userId, startTime=startTime, **kwargs)
         setattr(self, "lastRestart", startTime)
         #self.set_seconds_today(seconds)
@@ -181,6 +190,7 @@ class Timer(DateFormat, db.Document):
         if self.is_running():
             raise ValueError("Timer cannot be started.  Already running")
         setattr(self, "lastRestart", datetime.utcnow())
+        setattr(self, "startTime", datetime.utcnow())
         setattr(self, "running", True)
         self.save()
 

@@ -8,7 +8,8 @@ from mongoengine.errors import ValidationError
 from flask_restful import Resource
 from json import loads, dumps
 
-bp_api = Blueprint('api', __name__, url_prefix='/api')
+api_root = "/api"
+bp_api = Blueprint('api', __name__, url_prefix=api_root)
 api = Api(bp_api)
 
 def init_api(app):
@@ -75,10 +76,12 @@ class TimerResource(Resource):
         json = request.json
         timer = Timer.load_from_dict(json)
         timer.save()
-        response = jsonify({'code': 201,'message': 'Created', 'timerId': str(timer.id)})
+        location = api_root + "/timer/" + str(timer.id)
+        response = jsonify(timer.to_api_dict())
+        response.headers["location"] = location
+
         response.status_code = 201
         return response
-
 
 class TimerResourceById(Resource):
 
