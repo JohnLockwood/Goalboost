@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from goalboost.model.mongo_models import User, Timer
-from goalboost.model.business_objects import UserTimer, TimerDao
+from goalboost.model.business_objects import UserTimer
+from goalboost.model.datastore import TimerDao
 from goalboost.model import db
 from flask import Blueprint
 from flask_restful import Api
@@ -23,7 +24,7 @@ def init_api(app):
     # Current timer for user;
     api.add_resource(UserCurrentTimerResource, '/user/<string:id>/timer_current')
 
-    # User Timers other than current:
+    # Timers generally
     api.add_resource(TimerResource, '/timer')
 
     api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
@@ -79,7 +80,6 @@ class TimerResource(Resource):
         location = api_root + "/timer/" + str(timer.id)
         response = jsonify(timer.to_api_dict())
         response.headers["location"] = location
-
         response.status_code = 201
         return response
 
@@ -100,10 +100,16 @@ class TimerResourceById(Resource):
         except ValidationError as detail:
             return ErrorHandler.bad_request("Invalid ID format")
 
-    # Todo
     def put(self, timer_id):
-        return dict(todo="Replace the timer identified by timer_id in TimerResourceById.put")
+        # To do review exceptions, also, does json ID match timer_id?
+        # If not return bad request
+        timer = Timer.load_from_dict(request.json)
+        TimerDao().save_timer(timer)
+        return(None, 204)
 
+    def delete(self, timer_id):
+        TimerDao().delete_timer(timer_id)
+        return(None, 204)
 
 # Todo authorization, and check id is valid ObjectId
 class UserResource(Resource):

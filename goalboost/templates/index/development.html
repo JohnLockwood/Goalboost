@@ -23,6 +23,22 @@
                                                             // post because user is included here
         };
 
+        $scope.dataPut =
+        {
+            "entries": [
+                {
+                    "dateRecorded": "2015-11-11 00:00:00",
+                    "seconds": 300
+                }
+            ],
+            "id": "56441abb8c57cf75d732510c",
+            "lastRestart": "2015-11-12T04:51:07.586000",
+            "notes": "John's AWESOME timer, which-all was PUT by the API",
+            "running": true,
+            "startTime": "2015-11-12T04:51:07.586000",
+            "userId": "56259a278c57cf02f9692b31"
+        };
+
         $scope.samples = [
             {
                 method: "GET",
@@ -45,9 +61,9 @@
             {
                 method: "PUT",
                 endpoint: "/api/timer/:timerid",
-                devurl: "http://localhost:5000/api/timer/someId",
-                produrl: "http://goalboost.com/api/timer/someId",
-                data: '{"wewant": "ashrubbery"}',
+                devurl: "http://localhost:5000/api/timer/56441abb8c57cf75d732510c",
+                produrl: "http://goalboost.com/api/timer/56441abb8c57cf75d732510c",
+                data: $scope.dataPut,
                 notes: "Replaces an existing timer for a user (Update).  Does not affect current user timer.",
                 status: 'To do'
             },
@@ -58,6 +74,15 @@
                 produrl: "http://goalboost.com/api/timer/someId",
                 data: '{"wewant": "ashrubbery"}',
                 notes: "Gets a specific timer by Id.  Returns 404 if not found",
+                status: 'Works'
+            },
+            {
+                method: "DELETE",
+                endpoint: "/api/timer/:timerid",
+                devurl: "http://localhost:5000/api/timer/5646c29a8c57cf4c1b2e74c1",
+                produrl: "http://goalboost.com/api/timer/5646c29a8c57cf4c1b2e74c1",
+                data: "",
+                notes: "Deletes a timer. Returns 204 on success",
                 status: 'Works'
             },
             {

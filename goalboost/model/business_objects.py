@@ -30,12 +30,3 @@ class UserTimer:
         self.user.timer = None
         self.user.save()
 
-class TimerDao:
-    def timer_by_id(self, id):
-        return Timer.objects(id = id).first()
-
-    def timers_for_user(self, user_id):
-        return [t for t in Timer.objects(userId = user_id).order_by("-lastRestart").all()]
-
-    def save_timer(self, timer):
-        timer.save()
