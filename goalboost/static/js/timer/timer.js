@@ -31,10 +31,12 @@ angular.module('timerApp').filter("formatTime", function() {
     }
 });
 
-angular.module('timerApp').factory("timerListModel", ["$interval", function($interval) {
+angular.module('timerApp').factory("timerListModel", ["$interval",  function($interval) {
     var model = {};
     model.testlist = ["foo", "bar"];
     model.theInterval = undefined;
+    model.activeTaskIndex = 0;
+
     model.timers = [
         {
             "entries": [
@@ -80,6 +82,8 @@ angular.module('timerApp').factory("timerListModel", ["$interval", function($int
         }
     ];
 
+    model.activeTask = model.timers[model.activeTaskIndex];
+
     model.startTimer = function() {
         //console.log("timerListModel::startTimer");
         if ( angular.isDefined(model.theInterval) )
@@ -87,16 +91,28 @@ angular.module('timerApp').factory("timerListModel", ["$interval", function($int
         model.theInterval = $interval(model.onIntervalTick, 1000);
     }
 
+    model.totalTaskTime = function(index) {
+        return model.timers[index].entries.reduce(function(a, b) { return a.seconds + b.seconds });
+    }
     model.stopTimer = function() {
         // console.log("timerListModel::stopTimer");
-        $interval.cancel(model.theInterval);
+        if ( angular.isDefined(model.theInterval) ) {
+            $interval.cancel(model.theInterval);
+        }
         model.theInterval = undefined;
     }
 
     model.onIntervalTick = function() {
         // console.log("Tick...");
-        model.timers[0].entries[0].seconds++;
+        model.timers[model.activeTaskIndex].entries[0].seconds++;
     }
+
+    model.activateTask = function (index) {
+        model.activeTaskIndex = index;
+        model.activeTask = model.timers[model.activeTaskIndex];
+        console.log("model.activateTask, index = " + index);
+    }
+
     return model;
 }]);
 
@@ -125,5 +141,12 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
     $scope.$watch('startDisplayed', function(){
         $scope.startDisplayed ?  $scope.stopTimer() : $scope.startTimer() ;
     });
+
+
+    $scope.activateTask = function(index) {
+        $scope.stopTimer();
+        $scope.timerListModel.activateTask(index);
+    }
+
 
 }]);

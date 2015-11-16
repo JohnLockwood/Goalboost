@@ -86,6 +86,12 @@
     <script src="/static/js/foundation.min.js"></script>
     <script language="JavaScript">
         $(document).foundation('reveal', 'reflow');
+        $(document).foundation({
+            dropdown: {
+                // specify the class used for active dropdowns
+                active_class: 'open'
+            }
+        });
     </script>
 
    <!-- <script src="/static/jsfoundation/mm-foundation-tpls-0.8.0.min.js"></script> -->
