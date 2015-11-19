@@ -1,5 +1,14 @@
 var timerApp = angular.module('timerApp', []);
 
+angular.module('timerApp', ["ngSanitize"]).filter('checkEmpty',function($sce){
+        return function(input){
+            if(angular.isString(input) && !(angular.equals(input,null) || angular.equals(input,'')))
+                return input;
+            else
+                return $sce.trustAsHtml('&nbsp;');
+        };
+    });
+
 angular.module('timerApp').filter("formatTime", function() {
     return function (timeInSeconds) {
         // Left-zero padding for minutes, seconds, etc.
@@ -31,7 +40,8 @@ angular.module('timerApp').filter("formatTime", function() {
     }
 });
 
-angular.module('timerApp').factory("timerListModel", ["$interval",  function($interval) {
+
+angular.module('timerApp').factory("timerListModel", ["$interval", "$http", function($interval, $http) {
     var model = {};
     model.testlist = ["foo", "bar"];
     model.theInterval = undefined;
@@ -47,7 +57,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval",  function($in
             ],
             "id": "56475cec8c57cf58c9d4cf52",
             "lastRestart": "2015-11-14T16:10:20.892000",
-            "notes": "Enter a task",
+            "notes": "",
             "running": true,
             "startTime": "2015-11-14T16:10:20.892000",
             "userId": "56259a278c57cf02f9692b31"
@@ -142,11 +152,15 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
         $scope.startDisplayed ?  $scope.stopTimer() : $scope.startTimer() ;
     });
 
-
     $scope.activateTask = function(index) {
         $scope.stopTimer();
         $scope.timerListModel.activateTask(index);
     }
+    $scope.newTimer = function() {
+        console.log("newTimer");
+    }
 
-
+    $scope.isEmpty = function(input) {
+        return (angular.equals(input,null) || angular.equals(input,''));
+    }
 }]);
