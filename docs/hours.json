@@ -72,5 +72,6 @@
 {"contributor": "JohnLockwood", "date": "11/15/2015", "hours": 1.5, "description": "Project promotion - CodeSolid articles, updates to site"},
 {"contributor": "JohnLockwood", "date": "11/16/2015", "hours": 0.7, "description": "Timer API - basic implementation with test in development.html of PUT, DELETE"},
 {"contributor": "JohnLockwood", "date": "11/18/2015", "hours": 0.5, "description": "Begin wiring up timer UI to API"},
-{"contributor": "JohnLockwood", "date": "11/19/2015", "hours": 1.2, "description": "Timer UI/Timer API"}
+{"contributor": "JohnLockwood", "date": "11/19/2015", "hours": 1.2, "description": "Timer UI/Timer API"},
+{"contributor": "JohnLockwood", "date": "11/21/2015", "hours": 3.4, "description": "Continue wiring up timer UI to API"}
 ]}

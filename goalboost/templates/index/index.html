@@ -31,9 +31,9 @@
 
         <div class="row">
             <div class="large-1 columns panel text-center hour_display">{{
-                timerListModel.activeTask.entries[0].seconds | formatTime }}
+                timerListModel.timers[0].entries[0].seconds | formatTime }}
             </div>
-            <div class="large-10 columns no_right_padding" ><textarea rows=2 placeholder="Task description..." style="font-size:1.0em"                             ng-model="timerListModel.activeTask.notes"></textarea>
+            <div class="large-10 columns no_right_padding" ><textarea rows=2 placeholder="Task description..." style="font-size:1.0em"  ng-model="timerListModel.timers[0].notes"></textarea>
             </div>
             <div class="large-1 columns " >
                 <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
@@ -54,7 +54,7 @@
 
         </div>
         <div class="large-2 columns push-1">
-            <a href="#" ng-click="newTimer()">New Timer</a>
+            <a href="#" ng-click="createNewTimer()">New Timer</a>
         </div>
 
     </div>
@@ -74,7 +74,7 @@
         <div class="large-1 columns ">{{ t.entries[0].seconds | formatTime }}
         </div>
         <div class="fullwidth large-10 columns">
-            <span ng-if="isEmpty(t.notes)">&nbsp;</span><span ng-if="!isEmpty(t.notes)">{{t.notes}}</span>
+            {{t.notes}}&nbsp;
         </div>
         <div class="large-1 columns"><a data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
                                         aria-expanded="false">Select...</a></div>

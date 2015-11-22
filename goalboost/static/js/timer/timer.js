@@ -40,87 +40,113 @@ angular.module('timerApp').filter("formatTime", function() {
     }
 });
 
-
 angular.module('timerApp').factory("timerListModel", ["$interval", "$http", function($interval, $http) {
     var model = {};
-    model.testlist = ["foo", "bar"];
     model.theInterval = undefined;
-    model.activeTaskIndex = 0;
+    model.userId = "561dcd3c8c57cf2c17b7f4f9";
+    model.timers = [];
+    model.$scope = null;
 
-    model.timers = [
-        {
-            "entries": [
-                {
-                    "dateRecorded": "2015-11-14 00:00:00",
-                    "seconds": 0
-                }
-            ],
-            "id": "56475cec8c57cf58c9d4cf52",
-            "lastRestart": "2015-11-14T16:10:20.892000",
-            "notes": "",
-            "running": true,
-            "startTime": "2015-11-14T16:10:20.892000",
-            "userId": "56259a278c57cf02f9692b31"
-        },
-        {
-            "entries": [
-                {
-                    "dateRecorded": "2015-11-13 00:00:00",
-                    "seconds": 300
-                }
-            ],
-            "id": "5646c29a8c57cf4c1b2e74c1",
-            "lastRestart": "2015-11-14T05:11:54.138000",
-            "notes": "Saving the world",
-            "running": true,
-            "startTime": "2015-11-14T05:11:54.138000",
-            "userId": "56259a278c57cf02f9692b31"
-        },
-        {
-            "entries": [
-                {
-                    "dateRecorded": "2015-11-13 00:00:00",
-                    "seconds": 900
-                }
-            ],
-            "id": "5645fe398c57cf5b8991f377",
-            "lastRestart": null,
-            "notes": "Curing the Internet",
-            "running": true,
-            "startTime": null,
-            "userId": "56259a278c57cf02f9692b31"
-        }
-    ];
-
-    model.activeTask = model.timers[model.activeTaskIndex];
+    model.setScope = function(scope) {
+        model.$scope = scope;
+    }
 
     model.startTimer = function() {
-        //console.log("timerListModel::startTimer");
         if ( angular.isDefined(model.theInterval) )
             return;
         model.theInterval = $interval(model.onIntervalTick, 1000);
+        model.timers[0].running = true;
+        model.saveTimerToServer(0);
+    }
+
+    model.stopTimer = function() {
+
+        if ( angular.isDefined(model.theInterval) ) {
+            $interval.cancel(model.theInterval);
+        }
+        model.theInterval = undefined;
+        if(model.timers.length > 0 && model.timers[0].running == true) {
+            model.timers[0].running = false;
+            model.saveTimerToServer(0);
+        }
     }
 
     model.totalTaskTime = function(index) {
         return model.timers[index].entries.reduce(function(a, b) { return a.seconds + b.seconds });
     }
-    model.stopTimer = function() {
-        // console.log("timerListModel::stopTimer");
-        if ( angular.isDefined(model.theInterval) ) {
-            $interval.cancel(model.theInterval);
-        }
-        model.theInterval = undefined;
-    }
 
     model.onIntervalTick = function() {
-        // console.log("Tick...");
         model.timers[model.activeTaskIndex].entries[0].seconds++;
     }
 
     model.activateTask = function (index) {
-        model.activeTaskIndex = index;
-        model.activeTask = model.timers[model.activeTaskIndex];
-        console.log("model.activateTask, index = " + index);
+        t = model.timers[index];
+        model.timers.splice(index, 1);
+        t.lastRestart = new Date().toISOString();
+        t.start = t.lastRestart;
+        model.timers.push(t);
+    }
+
+    model.saveTimerToServer = function(index) {
+        console.log("saveTimerToServer with index = " + index);
+        console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
+        $http({
+            method: 'POST',
+            url: '/api/timer',
+            data: model.timers[index]
+        }).then(function successCallback(response) {
+            model.timers[index] = response.data;
+            console.log("After save: " + JSON.stringify(model.timers[index], null, 4));
+        }, function errorCallback(response) {
+            console.log(response);
+            alert("Unable to save timer");
+        });
+    }
+
+    model.getMidnightTodayAsString = function () {
+        d = new Date();
+        d2 = new Date(d.getFullYear(), d.getMonth()+1, d.getDate(), 0,0,0,0);
+        return d2.toISOString();
+    }
+
+    model.getDefaultTimer = function() {
+        timer = {"entries": [{
+                "dateRecorded": "",
+                "seconds": 0}],
+            "lastRestart": "",
+            "notes": "",
+            "running": false,
+            "startTime": "",
+            "userId": ""
+        };
+        today = model.getMidnightTodayAsString();
+        timer.entries[0].dateRecorded = today;
+        timer.lastRestart = today;
+        timer.startTime = today;
+        timer.userId = model.userId;
+        return timer
+    }
+
+    model.init = function() {
+        console.log("Inside init...");
+        $http({
+            method: 'GET',
+            url: '/api/user/' + model.userId + "/timers"
+        }).then(function successCallback(response) {
+            model.timers = response.data;
+            if (model.timers.length == 0) {
+                model.createNewTimer();
+            }
+
+        }, function errorCallback(response) {
+            alert("Unable to get timers from server ");
+            console.log(response);
+        });
+    }
+
+    model.createNewTimer = function() {
+        model.timers.unshift(model.getDefaultTimer());
+
     }
 
     return model;
@@ -136,6 +162,7 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
     $scope.timers_json = $scope.timers;
     $scope.startDisplayed = true;
     $scope.timerListModel = timerListModel;
+    $scope.timerListModel.setScope($scope);
 
     $scope.startTimer = function()  {
         $scope.startButtonClass = "alert";
@@ -154,13 +181,28 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
 
     $scope.activateTask = function(index) {
         $scope.stopTimer();
-        $scope.timerListModel.activateTask(index);
+        //$scope.timerListModel.activateTask(index);
+        setTimeout(function() {
+            $scope.timerListModel.activateTask(index);
+            $scope.$apply(); //this triggers a $digest
+        }, 200);
     }
-    $scope.newTimer = function() {
-        console.log("newTimer");
-    }
+
 
     $scope.isEmpty = function(input) {
         return (angular.equals(input,null) || angular.equals(input,''));
     }
+
+    $scope.timerListModel.init();
+
+    $scope.createNewTimer = function() {
+        $scope.stopTimer();
+        setTimeout(function() {
+            $scope.timerListModel.timers.unshift($scope.timerListModel.getDefaultTimer());
+            $scope.$apply(); //this triggers a $digest
+        }, 500);
+    }
+
+
+
 }]);
