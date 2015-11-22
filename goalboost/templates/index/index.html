@@ -8,69 +8,58 @@
 {% raw %}
 <style type="text/css">
     .no_right_padding {
-        padding-right:0;
+        padding-right: 0;
     }
+
     .hour_display {
-        padding-top:.9em;
+        padding-top: .9em;
         padding-bottom: .9em;
     }
+
+
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row">
-        <h1>What Are You Working On?</h1>
+        <div class="larget-12 columns"><h1>What Are You Working On?</h1></div>
     </div>
 
-<!--
-    <div class="row" style="margin-top:1em;">
-        <div class="large-10 columns" style="padding-left:0px;"><h1>What Are You Working On?</h1></div>
-        <div class="large-2 columns push-1">
-            <div class="button small">New Timer</div>
+    <div class="row">
+        <div class="large-1 columns panel text-center hour_display">{{
+            timerListModel.timers[0].entries[0].seconds | formatTime }}
+        </div>
+        <div class="large-10 columns no_right_padding"><textarea rows=2 placeholder="Task description..."
+                                                                 style="font-size:1.0em padding:0"
+                                                                 ng-model="timerListModel.timers[0].notes"></textarea>
+        </div>
+        <div class="large-1 columns ">
+            <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
+                {{startButtonText}}
+            </button>
+
         </div>
     </div>
--->
 
-        <div class="row">
-            <div class="large-1 columns panel text-center hour_display">{{
-                timerListModel.timers[0].entries[0].seconds | formatTime }}
-            </div>
-            <div class="large-10 columns no_right_padding" ><textarea rows=2 placeholder="Task description..." style="font-size:1.0em"  ng-model="timerListModel.timers[0].notes"></textarea>
-            </div>
-            <div class="large-1 columns " >
-                <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
-                    {{startButtonText}}
-                </button>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="large-12 columns" >
-                <h3>Recent Tasks</h3>
-
-            </div>
-        </div>
     <div class="row">
         <div class="large-10 columns">
-
+            <h3>Recent Tasks</h3>
         </div>
         <div class="large-2 columns push-1">
-            <a href="#" ng-click="createNewTimer()">New Timer</a>
+            <div class="button tiny" ng-click="createNewTimer()">New Timer</div>
         </div>
-
     </div>
 
-        <!--
-        <div class="row">
-            <div class="large-12 columns" style="padding-left:0px;"><h3>Recent Tasks</h3></div>
-        </div>
-        -->
+    <!--
+    <div class="row">
+        <div class="large-12 columns" style="padding-left:0px;"><h3>Recent Tasks</h3></div>
+    </div>
+    -->
 
     <div class="row">
-        <div class="large-1 columns " ><strong>h:mm:ss</strong></div>
+        <div class="large-1 columns "><strong>h:mm:ss</strong></div>
         <div class="fullwidth large-10 columns"><strong>Description</strong></div>
         <div class="large-1 columns"><strong>Actions</strong></div>
     </div>
-    <div class="row" ng-repeat="t in timerListModel.timers" >
+    <div class="row" ng-repeat="t in timerListModel.timers">
         <div class="large-1 columns ">{{ t.entries[0].seconds | formatTime }}
         </div>
         <div class="fullwidth large-10 columns">
@@ -87,26 +76,26 @@
     </div>
 
 
-<div class="row">
-    <p class="fullwidth large-12 columns">
+    <div class="row">
+        <p class="fullwidth large-12 columns">
 
-    <h3>Yes, We're Working On That</h3>
+        <h3>Yes, We're Working On That</h3>
 
-    <p>Please pardon the lack of functionality.
+        <p>Please pardon the lack of functionality.
 
-    <p>
+        <p>
 
-    <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the
-        employee owned source company.</p>
+        <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the
+            employee owned source company.</p>
 
-    <p></p>We're hard at work on <a href="/development">the API</a>, the <a
-        href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
-    the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands
-    between entropy and awesomeness.</p>
+        <p></p>We're hard at work on <a href="/development">the API</a>, the <a
+            href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
+        the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands
+        between entropy and awesomeness.</p>
 
-    </p>
+        </p>
 
-</div>
+    </div>
 </div>
 {% endraw %}
 

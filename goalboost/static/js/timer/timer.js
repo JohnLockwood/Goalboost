@@ -76,15 +76,16 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     }
 
     model.onIntervalTick = function() {
-        model.timers[model.activeTaskIndex].entries[0].seconds++;
+        model.timers[0].entries[0].seconds++;
     }
 
     model.activateTask = function (index) {
         t = model.timers[index];
         model.timers.splice(index, 1);
         t.lastRestart = new Date().toISOString();
-        t.start = t.lastRestart;
-        model.timers.push(t);
+        t.startTime = t.lastRestart;
+        model.timers.unshift(t);
+        model.saveTimerToServer(0);
     }
 
     model.saveTimerToServer = function(index) {
@@ -185,7 +186,7 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
         setTimeout(function() {
             $scope.timerListModel.activateTask(index);
             $scope.$apply(); //this triggers a $digest
-        }, 200);
+        }, 500);
     }
 
 
