@@ -2,13 +2,20 @@
 {% set active_page = "index" %}
 {% block title %}All Your Time Are Us{% endblock %}
 {% block header %}
-<script src="/static/js/timer/timer.js"></script>
+<script src="/static/js/timer/timer.js" data-userId="{{userId}}">
+
+</script>
 {% endblock  %}
 {% block content %}
 {% raw %}
+<!-- Todo move to global stylesheet -->
 <style type="text/css">
     .no_right_padding {
         padding-right: 0;
+    }
+
+    .no_left_padding {
+        padding-left:0;
     }
 
     .hour_display {
@@ -16,11 +23,10 @@
         padding-bottom: .9em;
     }
 
-
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row">
-        <div class="larget-12 columns"><h1>What Are You Working On?</h1></div>
+        <h1>What Are You Working On?</h1>
     </div>
 
     <div class="row">
@@ -40,7 +46,7 @@
     </div>
 
     <div class="row">
-        <div class="large-10 columns">
+        <div class="large-10 columns no_left_padding">
             <h3>Recent Tasks</h3>
         </div>
         <div class="large-2 columns push-1">
@@ -55,12 +61,12 @@
     -->
 
     <div class="row">
-        <div class="large-1 columns "><strong>h:mm:ss</strong></div>
+        <div class="large-1 columns no_left_padding"><strong>h:mm:ss</strong></div>
         <div class="fullwidth large-10 columns"><strong>Description</strong></div>
         <div class="large-1 columns"><strong>Actions</strong></div>
     </div>
     <div class="row" ng-repeat="t in timerListModel.timers">
-        <div class="large-1 columns ">{{ t.entries[0].seconds | formatTime }}
+        <div class="large-1 columns no_left_padding">{{ t.entries[0].seconds | formatTime }}
         </div>
         <div class="fullwidth large-10 columns">
             {{t.notes}}&nbsp;
@@ -80,14 +86,11 @@
         <p class="fullwidth large-12 columns">
 
         <h3>Yes, We're Working On That</h3>
-
-        <p>Please pardon the lack of functionality.
-
-        <p>
-
+        <p>What we have here is a demo, that's in progress.  You're welcome to take it for a spin,
+        but we're still working on it.</p>
         <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the
-            employee owned source company.</p>
-
+            employee owned source company.  We are full stack Python / MongoDb / Angular etc. developers who believe
+            that software is too fun to let Capitalists ruin it.</p>
         <p></p>We're hard at work on <a href="/development">the API</a>, the <a
             href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
         the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands

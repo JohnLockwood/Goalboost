@@ -15,7 +15,8 @@ bp_timer = Blueprint('timer', __name__, url_prefix='/timer')
 def index():
     user = current_user
     user_timer = UserTimer(user, db)
-    return render_template("timer/user_timer.html", user=user, user_timer=user_timer)
+    #return render_template("timer/user_timer.html", user=user, user_timer=user_timer)
+    return render_template("index/index.html", userId=user.id)
 
 
 

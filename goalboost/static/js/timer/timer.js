@@ -1,4 +1,18 @@
+
+function getScriptParams() {
+    var scripts = document.getElementsByTagName('script');
+    var lastScript = scripts[scripts.length - 1];
+    var scriptName = lastScript;
+    return {
+        userId: scriptName.getAttribute('data-userId'),
+    }
+}
+
 var timerApp = angular.module('timerApp', []);
+
+// Save it here while in scope so can  be used by controller.  It was a long road passing one stupid variable
+// from the page but we have finally arrived (almost)
+var g_userId = getScriptParams().userId;
 
 angular.module('timerApp', ["ngSanitize"]).filter('checkEmpty',function($sce){
         return function(input){
@@ -44,6 +58,10 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     var model = {};
     model.theInterval = undefined;
     model.userId = "561dcd3c8c57cf2c17b7f4f9";
+    if(g_userId != '') {
+        model.userId = g_userId;
+    }
+    alert(model.userId);
     model.timers = [];
     model.$scope = null;
 
@@ -153,11 +171,10 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     return model;
 }]);
 
-angular.module('timerApp').controller('TimerController', ['$scope',  'timerListModel', function($scope, timerListModel) {
+angular.module('timerApp').controller('TimerController', ['$scope', 'timerListModel', function($scope, timerListModel) {
     //$scope.someTimerValue = 99;
     //$scope.timeFormatter = new TimeFormatter();
     $scope.timeFormatted = "0:00:00" ; // $scope.timeFormatter.formatSeconds(1);
-
     $scope.startButtonClass = "success";
     $scope.startButtonText = "Start";
     $scope.timers_json = $scope.timers;
@@ -203,7 +220,5 @@ angular.module('timerApp').controller('TimerController', ['$scope',  'timerListM
             $scope.$apply(); //this triggers a $digest
         }, 500);
     }
-
-
 
 }]);
