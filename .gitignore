@@ -2,6 +2,8 @@
 /secret
 deploy_sourceme
 do_filter.sh
+tools/fabfile.py
+tools/deploy.py
 /scratch
 venv
 /eve
