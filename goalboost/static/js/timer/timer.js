@@ -61,7 +61,6 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     if(g_userId != '') {
         model.userId = g_userId;
     }
-    alert(model.userId);
     model.timers = [];
     model.$scope = null;
 
