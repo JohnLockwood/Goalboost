@@ -1,7 +1,7 @@
 # from test.common.test_helper import TestHelper
 import requests
 import json
-
+'''
 class TimerTest():
     def add_timer_and_create_john_lockwood(self):
         one_hour = 60 * 60
@@ -29,5 +29,6 @@ class TimerTest():
 if __name__ == "__main__":
     test = TimerTest()
     test.patch_my_timer()
-    # test.add_timer_and_create_john_lockwood()
+    #test.add_timer_and_create_john_lockwood()
 
+'''
