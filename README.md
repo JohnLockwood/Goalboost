@@ -14,6 +14,11 @@ We keep track of our hours in [docs/hours.json](docs/hours.json)
 * [RocketMatter](https://www.rocketmatter.com/law-office-management-software/)
 * [GetHarvest](https://www.getharvest.com)
 * [Toggle](https://toggl.com)
+* [Bill4Time](http://www.bill4time.com)
+* [Foundation Time and Materials](http://www.foundationsoft.com/construction-software/time-material/) - construction
+* [Chrometa](http://www.chrometa.com/)
+
+See also the time and billing section of [this article](http://www.americanbar.org/publications/law_practice_magazine/2011/september_october/popular_cloud_computing_services_for_lawyers.html) re [Bill4Time](http://www.bill4time.com) and [Chrometa](http://www.chrometa.com/).
 
 ## Concepts:
 
