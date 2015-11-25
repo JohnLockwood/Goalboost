@@ -1,36 +1,32 @@
 from unittest import TestCase
 from test.common.test_helper import TestHelper
-from goalboost.model.mongo_models import Task
+# from goalboost.model.mongo_models import Task
 from goalboost.model import db
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
-from goalboost.model.mongo_models import Timer
+from goalboost.model.mongo_models import Timer, Project
 import dateutil.parser
 from json import dumps
 from bson.objectid import ObjectId
-# -------------- Tasks ---------------------------
-class TestTask(TestCase):
-    def setUp(self):
-        self.testHelper= TestHelper()
 
-    # This works ok as is and only relies on TestHelper() having been called, c.f. setUp, above,
-    # since TestHelper's __init__ calls create_app, which configures mongodb correctly
-    def test_can_save_without_app(self):
-        task = Task(name="Write another mongo entity", description="Save without an app!")
-        task.save()
+test_object_ids = dict(DEMO= ObjectId(b"DEMOdemoDEMO"))
 
-    def test_can_create_and_save_task(self):
-        with self.testHelper.app().app_context():
-            task = Task(name="Write a 1st mongo entity", description="Save with app context -- no difference")
-            task.save()
+# Allows us to consider reserved object Ids for testing.
+# Not so much a test as a proof of concept
+class TestObjectId(TestCase):
+    def test_can_get_non_random_object_id(self):
+        oid = ObjectId(b"CodeSolid123")
+        oid2 = ObjectId(b"CodeSolid123")
+        assert (oid == oid2)
 
-    def test_can_create_and_save_task_another_way(self):
-        with self.testHelper.app().test_request_context():
-            try:
-                task = Task(name="Write a 1st mongo entity", description="Save task with test_request_context -- no difference")
-                task.save()
-            finally:
-                pass
+    def test_can_get_random_object_id(self):
+        oid = ObjectId()
+        oid2 = ObjectId()
+        assert (oid != oid2)
+
+    def test_can_use_test_object_ids(self):
+        demo = test_object_ids["DEMO"]
+        assert (demo is not None)
 
 # -------------- Timers ---------------------------
 class TestTimer(TestCase):
@@ -49,9 +45,9 @@ class TestTimer(TestCase):
 
     def test_can_create_without_datastore(self):
         my_notes = "We don't need no steenkin datastore."
-        timer = Timer(userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
+        timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
         timer.save()
-        timer2 = Timer.objects(userId="561dcd3c8c57cf2c17b7f4f9").first()
+        timer2 = Timer.objects(id="56259a278c57cf02f9692ccc").first()
         assert(timer2.notes == timer.notes)
         assert(my_notes == timer.notes)
         assert(timer.startTime == timer.lastRestart)
@@ -103,9 +99,22 @@ class TestTimer(TestCase):
         t2 = Timer.load_from_dict(d)
         assert(t2.notes == "Testing")
 
+# -------------- Accounts -------------------------
+class TestAccount():
+    pass
 
+# -------------- Projects -------------------------
+class TestProject(TestCase):
+    def setUp(self):
+        self.testHelper= TestHelper()
 
-# -------------- Users -----------------------------
+    def test_can_save_load_delete_projects(self):
+        p1 = Project(name="CodeSolid Awesome Stuff")
+        p1.save()
+        p2 = Project.objects(id=p1.id).first()
+        assert(p2.name == p1.name)
+        Project.objects(id=p1.id).delete()
+#  -------------- Users -----------------------------
 
 class TestAuth(TestCase):
 
@@ -128,3 +137,30 @@ class TestAuth(TestCase):
             finally:
                 if(user is not None):
                     user_data_store.delete_user(user)
+
+# Unused
+# -------------- Tasks ---------------------------
+'''
+class TestTask(TestCase):
+    def setUp(self):
+        self.testHelper= TestHelper()
+
+    # This works ok as is and only relies on TestHelper() having been called, c.f. setUp, above,
+    # since TestHelper's __init__ calls create_app, which configures mongodb correctly
+    def test_can_save_without_app(self):
+        task = Task(name="Write another mongo entity", description="Save without an app!")
+        task.save()
+
+    def test_can_create_and_save_task(self):
+        with self.testHelper.app().app_context():
+            task = Task(name="Write a 1st mongo entity", description="Save with app context -- no difference")
+            task.save()
+
+    def test_can_create_and_save_task_another_way(self):
+        with self.testHelper.app().test_request_context():
+            try:
+                task = Task(name="Write a 1st mongo entity", description="Save task with test_request_context -- no difference")
+                task.save()
+            finally:
+                pass
+'''

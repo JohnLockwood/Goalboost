@@ -78,5 +78,6 @@
 {"contributor": "JohnLockwood", "date": "11/22/2015", "hours": 3.7, "description": "Timer UI Improvements, use Timer page externally and internally. Write deployment script for remote."},
 {"contributor": "JohnLockwood", "date": "11/23/2015", "hours": 0.4, "description": "Enter issues; publish."},
 {"contributor": "JohnLockwood", "date": "11/23/2015", "hours": 0.6, "description": "Integration tests begin with timer post/get/delete sequence"},
-{"contributor": "JohnLockwood", "date": "11/23/2015", "hours": 1.0, "description": "Competitive analysis and requirements work."}
+{"contributor": "JohnLockwood", "date": "11/23/2015", "hours": 1.0, "description": "Competitive analysis and requirements work."},
+{"contributor": "JohnLockwood", "date": "11/25/2015", "hours": 0.7, "description": "Project and other model work"}
 ]}

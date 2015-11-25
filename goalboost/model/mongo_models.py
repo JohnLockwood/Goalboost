@@ -31,19 +31,17 @@ class User(db.Document, UserMixin):
     #    s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
     #    return s.dumps({ 'id': str(self.id) })
 
-
     def public_json(self):
         json = self.to_json()
         as_dict = loads(json)
         del(as_dict["password"])
         return dumps(as_dict)
 
+class Account(db.Document):
+    name = db.StringField(max_length=255)
+
 class Project(db.Document):
     name = db.StringField(max_length = 255)
-
-class Task(db.Document):
-    name = db.StringField(max_length=80)
-    description = db.StringField(max_length=255)
 
 # This is a "mixin" which has knowledge of Timer internals.
 # From a design point of view maybe that's not ideal.
@@ -228,7 +226,6 @@ class Timer(DateFormat, db.Document):
         todays_record = self.entries.get(dateRecorded=datetime.fromordinal(date.today().toordinal()))
         return todays_record.seconds
 
-
     def snapshot_dict(self):
         vals = dict()
         vals["startTime"] = self.startTime
@@ -242,3 +239,9 @@ class Timer(DateFormat, db.Document):
         return vals
 
 
+'''
+Unused
+class Task(db.Document):
+    name = db.StringField(max_length=80)
+    description = db.StringField(max_length=255)
+'''
