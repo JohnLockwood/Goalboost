@@ -177,10 +177,17 @@ class Timer(DateFormat, db.Document):
         setattr(self, "lastRestart", startTime)
         #self.set_seconds_today(seconds)
 
-    def set_seconds_today(self, seconds):
+    def get_todays_time_record(self):
+        # Ensure we have a recrod for today
         if 0 == len([x.dateRecorded for x in self.entries if x.dateRecorded.toordinal() == date.today().toordinal()]):
             self.entries.append(TimerForDate())
         todays_record = self.entries.get(dateRecorded=datetime.fromordinal(date.today().toordinal()))
+        return todays_record
+
+
+    def set_seconds_today(self, seconds):
+        todays_record = self.get_todays_time_record()
+
         # Need to rework if rework total elapsed I think?
         todays_record.seconds = seconds
 
@@ -221,10 +228,7 @@ class Timer(DateFormat, db.Document):
         self.set_seconds_today(self.get_seconds_today() + self.current_elapsed())
 
     def get_seconds_today(self):
-        if 0 == len([x.dateRecorded for x in self.entries if x.dateRecorded.toordinal() == date.today().toordinal()]):
-            return 0
-        todays_record = self.entries.get(dateRecorded=datetime.fromordinal(date.today().toordinal()))
-        return todays_record.seconds
+        return self.get_todays_time_record().seconds
 
     def snapshot_dict(self):
         vals = dict()

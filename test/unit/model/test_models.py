@@ -1,7 +1,5 @@
 from unittest import TestCase
 from test.common.test_helper import TestHelper
-# from goalboost.model.mongo_models import Task
-from goalboost.model import db
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
 from goalboost.model.mongo_models import Timer, Project
@@ -36,6 +34,12 @@ class TestTimer(TestCase):
         timer = create_timer(notes=my_notes)
         assert(my_notes == timer.notes)
         timer.save()
+
+    def test_can_start_and_stop(self):
+        notes = "Testing start and stop"
+        t = Timer(notes=notes)
+        t.start()
+        t.stop()
 
     def test_can_create_with_explicit_start(self):
         my_notes = "I am another timer"
@@ -137,30 +141,3 @@ class TestAuth(TestCase):
             finally:
                 if(user is not None):
                     user_data_store.delete_user(user)
-
-# Unused
-# -------------- Tasks ---------------------------
-'''
-class TestTask(TestCase):
-    def setUp(self):
-        self.testHelper= TestHelper()
-
-    # This works ok as is and only relies on TestHelper() having been called, c.f. setUp, above,
-    # since TestHelper's __init__ calls create_app, which configures mongodb correctly
-    def test_can_save_without_app(self):
-        task = Task(name="Write another mongo entity", description="Save without an app!")
-        task.save()
-
-    def test_can_create_and_save_task(self):
-        with self.testHelper.app().app_context():
-            task = Task(name="Write a 1st mongo entity", description="Save with app context -- no difference")
-            task.save()
-
-    def test_can_create_and_save_task_another_way(self):
-        with self.testHelper.app().test_request_context():
-            try:
-                task = Task(name="Write a 1st mongo entity", description="Save task with test_request_context -- no difference")
-                task.save()
-            finally:
-                pass
-'''
