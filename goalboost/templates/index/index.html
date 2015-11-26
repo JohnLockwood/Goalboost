@@ -50,7 +50,7 @@
             <h3>Recent Tasks</h3>
         </div>
         <div class="large-2 columns push-1">
-            <div class="button tiny" ng-click="createNewTimer()">New Timer</div>
+            <div class="button tiny fi-plus" ng-click="createNewTimer()" >&nbsp;New Timer</div>
         </div>
     </div>
 
@@ -62,23 +62,41 @@
 
     <div class="row">
         <div class="large-1 columns no_left_padding"><strong>h:mm:ss</strong></div>
-        <div class="fullwidth large-10 columns"><strong>Description</strong></div>
-        <div class="large-1 columns"><strong>Actions</strong></div>
+        <div class="fullwidth large-11 columns"><strong>Description</strong></div>
+
     </div>
     <div class="row" ng-repeat="t in timerListModel.timers">
         <div class="large-1 columns no_left_padding">{{ t.entries[0].seconds | formatTime }}
         </div>
-        <div class="fullwidth large-10 columns">
-            {{t.notes}}&nbsp;
-        </div>
-        <div class="large-1 columns"><a data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
-                                        aria-expanded="false">Select...</a></div>
-        <div>
+        <div class="fullwidth large-11 columns">
+            <a data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}" aria-expanded="false" class="fi-pencil">&nbsp;</a>{{t.notes}}&nbsp;
             <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-                <li><a href="#" ng-click=activateTask($index)>Make Active</a></li>
-                <li><a href="#">Delete (Not wired up yet, sorry)</a></li>
+                <li><a  href="#" ng-click=activateTask($index)>Continue work</a></li>
+                <li><a  href="#">Edit</a></li>
+                <li><a class=fi-trash" href="#">Delete</a></li>
             </ul>
+
         </div>
+        <!--
+        <div class="large-1 columns fi-list no_right_padding" >
+            <a class="small" data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
+                                        aria-expanded="false">Menu</a></div>
+
+            <!--
+            <a class="data-tooltip fi-check" title="Select" href="#" ></a>
+            <a class="data-tooltip fi-pencil" title="Edit" href="#"></a>
+            <a class="data-tooltip fi-trash" title="Delete" href="#"></a>
+            -->
+        <!--
+            <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+                <li><a  href="#" ng-click=activateTask($index)>Make Active</a></li>
+                <li><a class=fi-trash" href="#">Delete</a></li>
+            </ul>
+            </div>
+         -->
+
+
+
     </div>
 
 
