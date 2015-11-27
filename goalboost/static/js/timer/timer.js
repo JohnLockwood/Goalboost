@@ -122,7 +122,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
 
     model.saveTimerToServer = function(index) {
         console.log("saveTimerToServer with index = " + index);
-        console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
+        //console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
         $http({
             method: 'POST',
             method: 'POST',
@@ -130,7 +130,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
             data: model.timers[index]
         }).then(function successCallback(response) {
             model.timers[index] = response.data;
-            console.log("After save: " + JSON.stringify(model.timers[index], null, 4));
+          //  console.log("After save: " + JSON.stringify(model.timers[index], null, 4));
         }, function errorCallback(response) {
             console.log(response);
             alert("Unable to save timer");
@@ -198,13 +198,19 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     $scope.timerListModel.setScope($scope);
 
     $scope.startTimer = function()  {
+        console.log("$scope.startTimer");
         $scope.startButtonClass = "alert";
         $scope.startButtonText = "Stop";
         $scope.timerListModel.startTimer();
+        $scope.startEnabled = false;
+        $scope.stopEnabled = true;
     }
     $scope.stopTimer = function()  {
-        $scope.startButtonText = " Start ";
+        console.log("$scope.stopTimer");
+        $scope.startButtonText = "Start";
         $scope.startButtonClass = "success";
+        $scope.startEnabled = true;
+        $scope.stopEnabled = false;
         $scope.timerListModel.stopTimer();
     }
 

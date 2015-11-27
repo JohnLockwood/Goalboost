@@ -81,5 +81,6 @@
 {"contributor": "JohnLockwood", "date": "11/23/2015", "hours": 1.0, "description": "Competitive analysis and requirements work."},
 {"contributor": "JohnLockwood", "date": "11/25/2015", "hours": 0.7, "description": "Project and other model work"},
 {"contributor": "JohnLockwood", "date": "11/25/2015", "hours": 1.0, "description": "Front end work, foundation UI."},
-{"contributor": "JohnLockwood", "date": "11/26/2015", "hours": 1.4, "description": "Timer UI work.  Fix timer stop bug.  Wire up delete  Closes 3"}
+{"contributor": "JohnLockwood", "date": "11/26/2015", "hours": 1.4, "description": "Timer UI work.  Fix timer stop bug.  Wire up delete  Closes 3"},
+{"contributor": "JohnLockwood", "date": "11/27/2015", "hours": 3.1, "description": "Timer UI work, struggling and then a bit of a brekthrough using Foundation."}
 ]}
