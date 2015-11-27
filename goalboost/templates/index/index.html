@@ -15,7 +15,7 @@
     }
 
     .no_left_padding {
-        padding-left:0;
+        padding-left: 0;
     }
 
     .hour_display {
@@ -25,9 +25,15 @@
 
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
-    <div class="row">
-        <h1>What Are You Working On?</h1>
+    <div class="row" data-equalizer>
+        <div class="large-10 columns no_left_padding "><h1>What Are You Working On?</h1></div>
+        <div class="large-2 columns push-1 ">
+            <button style="margin-top:2em;margin-bottom:0" class="button tiny fi-plus" ng-click="createNewTimer()">
+                &nbsp;New Timer
+            </button>
+        </div>
     </div>
+    <section ng-if="timerListModel.timers.length > 0">
 
     <div class="row">
         <div class="large-1 columns panel text-center hour_display">{{
@@ -38,19 +44,16 @@
                                                                  ng-model="timerListModel.timers[0].notes"></textarea>
         </div>
         <div class="large-1 columns ">
-            <button class=" button {{startButtonClass}} " ng-click="startDisplayed = !startDisplayed">
+            <button class=" button {{startButtonClass}} " ng-click="$parent.startDisplayed = !$parent.startDisplayed">
                 {{startButtonText}}
             </button>
 
         </div>
     </div>
-
+    <section ng-if="timerListModel.timers.length > 1">
     <div class="row">
         <div class="large-10 columns no_left_padding">
             <h3>Recent Tasks</h3>
-        </div>
-        <div class="large-2 columns push-1">
-            <div class="button tiny fi-plus" ng-click="createNewTimer()" >&nbsp;New Timer</div>
         </div>
     </div>
 
@@ -63,42 +66,54 @@
     <div class="row">
         <div class="large-1 columns no_left_padding"><strong>h:mm:ss</strong></div>
         <div class="fullwidth large-11 columns"><strong>Description</strong></div>
-
     </div>
-    <div class="row" ng-repeat="t in timerListModel.timers">
+    </section>
+    <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
         <div class="large-1 columns no_left_padding">{{ t.entries[0].seconds | formatTime }}
         </div>
         <div class="fullwidth large-11 columns">
-            <a data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}" aria-expanded="false" class="fi-pencil">&nbsp;</a>{{t.notes}}&nbsp;
-            <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-                <li><a  href="#" ng-click=activateTask($index)>Continue work</a></li>
-                <li><a  href="#">Edit</a></li>
-                <li><a class=fi-trash" href="#">Delete</a></li>
+            <a data-dropdown="drop{{$index}}" data-options="align: right" class="fi-pencil">&nbsp;</a>{{t.notes}}&nbsp;
+            <ul id="drop{{$index}}" class="f-dropdown" tabindex="-1" data-dropdown-content>
+                <li><a href="#" ng-click=activateTimer($index)>Continue work</a></li>
+                <li><a href="#">Edit</a></li>
+                <li><a href="#" ng-click=deleteTimer($index)>Delete</a></li>
+                <li><a href="#" ng-click=noOp()>Cancel</a></li>
             </ul>
 
         </div>
-        <!--
-        <div class="large-1 columns fi-list no_right_padding" >
-            <a class="small" data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
-                                        aria-expanded="false">Menu</a></div>
-
-            <!--
-            <a class="data-tooltip fi-check" title="Select" href="#" ></a>
-            <a class="data-tooltip fi-pencil" title="Edit" href="#"></a>
-            <a class="data-tooltip fi-trash" title="Delete" href="#"></a>
-            -->
-        <!--
-            <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-                <li><a  href="#" ng-click=activateTask($index)>Make Active</a></li>
-                <li><a class=fi-trash" href="#">Delete</a></li>
-            </ul>
-            </div>
-         -->
-
-
 
     </div>
 
+    </section>
+    <section ng-if="timerListModel.timers.length == 0">
+        <div class="row">
+            <div class="large-12 columns">
+                <p class="lead">
+                    You have no timers.  Start by creating a timer.
+                </p>
+            </div>
+        </div>
+    </section>
+    <!--
+    <div class="large-1 columns fi-list no_right_padding" >
+        <a class="small" data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
+                                    aria-expanded="false">Menu</a></div>
+
+        <!--
+        <a class="data-tooltip fi-check" title="Select" href="#" ></a>
+        <a class="data-tooltip fi-pencil" title="Edit" href="#"></a>
+        <a class="data-tooltip fi-trash" title="Delete" href="#"></a>
+        -->
+    <!--
+        <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+            <li><a  href="#" ng-click=activateTimer($index)>Make Active</a></li>
+            <li><a class=fi-trash" href="#">Delete</a></li>
+        </ul>
+        </div>
+     -->
+
+
+    <!--
 
     <div class="row">
         <p class="fullwidth large-12 columns">
@@ -117,6 +132,7 @@
         </p>
 
     </div>
+    -->
 </div>
 {% endraw %}
 

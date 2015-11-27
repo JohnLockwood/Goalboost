@@ -88,7 +88,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         }
     }
 
-    model.totalTaskTime = function(index) {
+    model.totalTimerTime = function(index) {
         return model.timers[index].entries.reduce(function(a, b) { return a.seconds + b.seconds });
     }
 
@@ -96,7 +96,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         model.timers[0].entries[0].seconds++;
     }
 
-    model.activateTask = function (index) {
+    model.activateTimer = function (index) {
         t = model.timers[index];
         model.timers.splice(index, 1);
         t.lastRestart = new Date().toISOString();
@@ -105,10 +105,26 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         model.saveTimerToServer(0);
     }
 
+    model.deleteTimer = function(index) {
+        $http({
+            method: 'DELETE',
+            url: '/api/timer/' + model.timers[index].id
+            //data: model.timers[index]
+        }).then(function successCallback(response) {
+            //model.timers[index] = response.data;
+            console.log("Delete successful.");
+            model.timers.splice(index, 1);
+        }, function errorCallback(response) {
+            console.log(response);
+            //alert("Unable to delete timer");
+        });
+    }
+
     model.saveTimerToServer = function(index) {
         console.log("saveTimerToServer with index = " + index);
         console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
         $http({
+            method: 'POST',
             method: 'POST',
             url: '/api/timer',
             data: model.timers[index]
@@ -152,9 +168,9 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
             url: '/api/user/' + model.userId + "/timers"
         }).then(function successCallback(response) {
             model.timers = response.data;
-            if (model.timers.length == 0) {
+            /*if (model.timers.length == 0) {
                 model.createNewTimer();
-            }
+            }*/
 
         }, function errorCallback(response) {
             alert("Unable to get timers from server ");
@@ -196,11 +212,22 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
         $scope.startDisplayed ?  $scope.stopTimer() : $scope.startTimer() ;
     });
 
-    $scope.activateTask = function(index) {
+    $scope.activateTimer = function(index) {
         $scope.stopTimer();
-        //$scope.timerListModel.activateTask(index);
+        //$scope.timerListModel.activateTimer(index);
         setTimeout(function() {
-            $scope.timerListModel.activateTask(index);
+            $scope.timerListModel.activateTimer(index);
+            $scope.$apply(); //this triggers a $digest
+        }, 500);
+    }
+
+    // TODO if active Timer, should stop it first?
+    $scope.deleteTimer = function(index) {
+        setTimeout(function() {
+            if (index == 0) {
+                $scope.stopTimer();
+            }
+            $scope.timerListModel.deleteTimer(index);
             $scope.$apply(); //this triggers a $digest
         }, 500);
     }
@@ -218,6 +245,10 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
             $scope.timerListModel.timers.unshift($scope.timerListModel.getDefaultTimer());
             $scope.$apply(); //this triggers a $digest
         }, 500);
+    }
+
+    $scope.noOp = function() {
+        console.log("noOp");
     }
 
 }]);
