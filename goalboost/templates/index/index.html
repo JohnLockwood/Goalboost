@@ -10,43 +10,12 @@
 {% raw %}
 <!-- Todo move to global stylesheet -->
 <style type="text/css">
-    .no_right_padding {
-        padding-right: 0;
-    }
-
-    .no_left_padding {
-        padding-left: 0;
-    }
-
-    .hour_display {
-        padding-top: .9em;
-        padding-bottom: .9em;
-    }
-
-
-    .left_align, .center_align, .right_align
-    {
-
-        text-align: center; important!;
-    }
-    @media only screen and (min-width: 641px)
-    {
-        .left_align
-        {
-            text-align: left; important!;
-
-        }
-        .right_align
-        {
-            text-align: right; important!;
-        }
-    }
 
 
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row" data-equalizer>
-        <div class="large-12 columns left_align"><h1>What Are You Working On?</h1></div>
+        <div class="large-12 columns left-align"><h1>What Are You Working On?</h1></div>
     </div>
     <section ng-if="timerListModel.timers.length > 0">
         <!--
@@ -69,12 +38,12 @@
                 </div>
                 -->
         <div class="row">
-            <div class="left_align large-12 medium-12 small-12 columns ">
+            <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
                 <textarea rows=2 placeholder="Task description..." style="width:100%; font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
             </div>
         </div>
         <div class="row">
-            <div class="large-4 medium-6 small-12 columns left_align">
+            <div class="large-4 medium-6 small-12 columns left-align">
                 <ul class="button-group round even-3">
                     <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
                     <li><span class="button">{{timerListModel.timers[0].entries[0].seconds | formatTime }}</span></li>
@@ -82,9 +51,9 @@
                 </ul>
             </div>
             <div class="large-8 medium-6 small-12 columns">
-                <div class="row right_align">
+                <div class="row right-align">
                     <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Timer</button>
-                    <button class="button tiny fi-pencil" >&nbsp;Edit Details</button>
+                    <button class="button tiny fi-pencil" data-reveal-id="editModal">&nbsp;Edit Details</button>
                     <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
 
                 </div>
@@ -94,29 +63,21 @@
 
 <section ng-if="timerListModel.timers.length > 1">
     <div class="row">
-        <div class="large-10 columns ">
+        <div class="small-12 columns ">
             <h3>Recent Tasks</h3>
         </div>
     </div>
-
-
     <div class="row">
-        <div class="large-1 columns "><strong>h:mm:ss</strong></div>
-        <div class="fullwidth large-11 columns"><strong>Description</strong></div>
+        <div class="medium-1 small-6 columns "><strong>Date</strong></div>
+        <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;" ><strong>&nbsp;h:mm:ss</strong></div>
+        <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
     </div>
 </section>
 <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
-    <div class="large-1 columns ">{{ t.entries[0].seconds | formatTime }}
-    </div>
-    <div class="fullwidth large-11 columns">
-        <a data-dropdown="drop{{$index}}" data-options="align: right" class="fi-pencil">&nbsp;</a>{{t.notes}}&nbsp;
-        <ul id="drop{{$index}}" class="f-dropdown" tabindex="-1" data-dropdown-content>
-            <li><a href="#" ng-click=activateTimer($index)>Continue work</a></li>
-            <li><a href="#">Edit</a></li>
-            <li><a href="#" ng-click=deleteTimer($index)>Delete</a></li>
-            <li><a href="#" ng-click=noOp()>Cancel</a></li>
-        </ul>
-
+    <div class="medium-1 small-6 columns ">11/11/2014</div>
+    <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;">{{t.entries[0].seconds | formatTime}}</div>
+    <div class="fullwidth medium-10 small-12 columns">
+        <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
     </div>
 
 </div>
@@ -131,64 +92,19 @@
         </div>
     </div>
 </section>
-<!--
-<div class="large-1 columns fi-list no_right_padding" >
-    <a class="small" data-dropdown="drop{{$index}}" aria-controls="drop{{$index}}"
-                                aria-expanded="false">Menu</a></div>
 
-    <!--
-    <a class="data-tooltip fi-check" title="Select" href="#" ></a>
-    <a class="data-tooltip fi-pencil" title="Edit" href="#"></a>
-    <a class="data-tooltip fi-trash" title="Delete" href="#"></a>
-    -->
-<!--
-    <ul id="drop{{$index}}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-        <li><a  href="#" ng-click=activateTimer($index)>Make Active</a></li>
-        <li><a class=fi-trash" href="#">Delete</a></li>
-    </ul>
-    </div>
- -->
-
-
-<!--
-
-<div class="row">
-    <p class="fullwidth large-12 columns">
-
-    <h3>Yes, We're Working On That</h3>
-    <p>What we have here is a demo, that's in progress.  You're welcome to take it for a spin,
-    but we're still working on it.</p>
-    <p>Goalboost is an alpha software site, under-development by <a href="http://codesolid.com">CodeSolid</a>, the
-        employee owned source company.  We are full stack Python / MongoDb / Angular etc. developers who believe
-        that software is too fun to let Capitalists ruin it.</p>
-    <p></p>We're hard at work on <a href="/development">the API</a>, the <a
-        href="http://codesolid.com/goalboost_roadmap.html">product roadmap</a>,
-    the <a href="http://codesolid.com/license.html">licensing vision</a>, or -- TL;DR -- everything that stands
-    between entropy and awesomeness.</p>
-
-    </p>
-
-</div>
--->
 </div>
 {% endraw %}
 
-{#
-<div class="row">
-    <a href="#" data-reveal-id="myModal">Click Me For A Modal</a>
-</div>
-
-<div id="myModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+<div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
      role="dialog">
-    <h2 id="modalTitle">Awesome. I have it.</h2>
-
-    <p class="lead">Your couch. It is mine.</p>
-
-    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+    <h2 id="modalTitle">Not Implemented</h2>
+    <p class="lead">We're working on it.</p>
+    <p>Insert retro "under construction" animated gif here, or just bite the bullet and write the code.</p>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 </div>
-#}
+
 
 
 {% endblock %}

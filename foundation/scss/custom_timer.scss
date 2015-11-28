@@ -1,0 +1,30 @@
+$small-px: 640;
+
+.no_left_padding {
+  padding-left: 0;
+}
+
+.hour_display {
+  padding-top: .9em;
+  padding-bottom: .9em;
+}
+
+.left-align, .center-align, .right-align
+{
+
+  text-align: center;
+}
+@media only screen and (min-width: $small-px+1px)
+{
+  .no-right-padding {
+    padding-right:0;
+  }
+  .left-align
+  {
+    text-align: left;
+  }
+  .right-align
+  {
+    text-align: right;
+  }
+}
