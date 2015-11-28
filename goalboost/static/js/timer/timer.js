@@ -139,7 +139,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
 
     model.getMidnightTodayAsString = function () {
         d = new Date();
-        d2 = new Date(d.getFullYear(), d.getMonth()+1, d.getDate(), 0,0,0,0);
+        d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0,0,0,0);
         return d2.toISOString();
     }
 
@@ -255,6 +255,19 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
 
     $scope.noOp = function() {
         console.log("noOp");
+    }
+
+    $scope.getLatestTimerDate = function(timer) {
+        var longDate = timer.entries[timer.entries.length - 1 ].dateRecorded;
+
+        //return longDate;
+
+        var mm = longDate.substr(5,2);
+        var yyyy = longDate.substr(0, 4);
+        var dd = longDate.substr(8,2);
+
+        return mm + "/" + dd + "/" + yyyy;
+
     }
 
 }]);

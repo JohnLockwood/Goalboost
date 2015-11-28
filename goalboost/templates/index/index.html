@@ -74,8 +74,8 @@
     </div>
 </section>
 <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
-    <div class="medium-1 small-6 columns ">11/11/2014</div>
-    <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;">{{t.entries[0].seconds | formatTime}}</div>
+    <div class="medium-1 small-6 columns ">{{ getLatestTimerDate(t) }}</div>
+    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.entries[0].seconds | formatTime}}</div>
     <div class="fullwidth medium-10 small-12 columns">
         <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
     </div>
