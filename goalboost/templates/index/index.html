@@ -1,6 +1,6 @@
 {% extends "layout/default.html" %}
 {% set active_page = "index" %}
-{% block title %}All Your Time Are Us{% endblock %}
+{% block title %}Goalboost Time and Billing{% endblock %}
 {% block header %}
 <script src="/static/js/timer/timer.js" data-userId="{{userId}}">
 
@@ -75,7 +75,7 @@
         </div>
         <div class="row">
             <div class="large-4 medium-6 small-12 columns left_align">
-                <ul class="button-group round ">
+                <ul class="button-group round even-3">
                     <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
                     <li><span class="button">{{timerListModel.timers[0].entries[0].seconds | formatTime }}</span></li>
                     <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li>
