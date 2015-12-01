@@ -5,10 +5,6 @@ from pytz import timezone
 from goalboost.model import db
 from datetime import date
 from dateutil import parser
-from bson.objectid import ObjectId
-from itsdangerous import (TimedJSONWebSignatureSerializer
-                          as Serializer, BadSignature, SignatureExpired)
-from flask import current_app
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -18,7 +14,7 @@ class Role(db.Document, RoleMixin):
 class User(db.Document, UserMixin):
     email = db.EmailField(max_length=255, unique=True)
     password = db.StringField(max_length=255)
-    account = db.StringField(max_length=255)
+    accountId = db.ObjectIdField(null=True)                 # Todo make this required
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
@@ -38,14 +34,20 @@ class User(db.Document, UserMixin):
         return dumps(as_dict)
 
 class Account(db.Document):
-    name = db.StringField(max_length=255)
+    name = db.StringField(max_length=255, unique=True)
 
 class Project(db.Document):
     name = db.StringField(max_length = 255)
 
+class Tag(db.Document):
+    accountId = db.ObjectIdField(unique_with="name", required=True)
+    name = db.StringField(max_length = 80, required = True)
+    collectionName = db.StringField(max_length=80)
+    collectionId = db.ObjectIdField(required=False)
+
 # This is a "mixin" which has knowledge of Timer internals.
 # From a design point of view maybe that's not ideal.
-class DateFormat(object):
+class TimerFormat(object):
     def __str__(self):
         fmtstr="{:<20}:  {}"
         start = self.fmt_date(self.utc_to_pacific_datetime(getattr(self, "startTime")))
@@ -152,16 +154,14 @@ class DateFormat(object):
             return dt.isoformat()
         return dt
 
-
 class TimerForDate(db.EmbeddedDocument):
     dateRecorded = db.DateTimeField(default=datetime.fromordinal(date.today().toordinal()))
     seconds = db.IntField(min_value=0, default=0)
 
-
     def __repr__(self):
         return "dateRecorded={{{0}, seconds={1}}}".format(self.dateRecorded, self.seconds)
 
-class Timer(DateFormat, db.Document):
+class Timer(TimerFormat, db.Document):
 
     startTime = db.DateTimeField()
     lastRestart = db.DateTimeField()
@@ -241,11 +241,3 @@ class Timer(DateFormat, db.Document):
         vals["total_elapsed"] = self.total_elapsed()
         vals["current_elapsed"] = self.current_elapsed()
         return vals
-
-
-'''
-Unused
-class Task(db.Document):
-    name = db.StringField(max_length=80)
-    description = db.StringField(max_length=255)
-'''

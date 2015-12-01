@@ -1,10 +1,10 @@
 from unittest import TestCase
 
 from goalboost.model.business_objects import UserTimer
-from test.common.test_helper import TestHelper
 from goalboost.model import db
 from goalboost.model.mongo_models import User
 
+from test.common.test_helper import TestHelper, test_object_ids
 
 class UserTimerTest(TestCase):
 
@@ -20,7 +20,7 @@ class UserTimerTest(TestCase):
             else:
                 # We don't need to encrypt password here -- slows tests down a LOT!!!
                 #encrypted = encrypt_password("WhatsUpDocument")
-                self.user = user_data_store.create_user(email="hasTimers@scheduled.com", account="foghorn", password="foo")
+                self.user = user_data_store.create_user(email="hasTimers@scheduled.com", accountId=test_object_ids["DEMO"], password="foo")
 
     def tearDown(self):
         with self.testHelper.app().app_context():

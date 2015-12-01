@@ -1,13 +1,13 @@
 from unittest import TestCase
-from test.common.test_helper import TestHelper
+from test.common.test_helper import TestHelper, test_object_ids
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
-from goalboost.model.mongo_models import Timer, Project
+from goalboost.model.mongo_models import Timer, Project, Tag, Account
 import dateutil.parser
 from json import dumps
 from bson.objectid import ObjectId
 
-test_object_ids = dict(DEMO= ObjectId(b"DEMOdemoDEMO"))
+
 
 # Allows us to consider reserved object Ids for testing.
 # Not so much a test as a proof of concept
@@ -98,14 +98,28 @@ class TestTimer(TestCase):
         assert(timer.entries[0].dateRecorded == t2.entries[0].dateRecorded)
         assert(len(timer.entries) == len(t2.entries))
         assert(timer.entries[0].seconds == t2.entries[0].seconds)
-        #assert(t2.get_seconds() == 20)
         d["notes"] = "Testing"
         t2 = Timer.load_from_dict(d)
         assert(t2.notes == "Testing")
 
 # -------------- Accounts -------------------------
 class TestAccount():
-    pass
+    def test_can_create_and_delete_account(self):
+        id = ObjectId("TempTempTemp")
+        account = Account(id=id, name="Los Pollos Hermanos")
+        account.save()
+        account2 = Account.objects(id=account.id).first()
+        assert(account2.name == account.name)
+        Account.objects(id=account.id).delete()
+
+class TestTag(TestCase):
+    def test_can_create_tag(self):
+        t = Tag(accountId = test_object_ids["DEMO"], name="Goalboost")
+        assert(t is not None)
+        t.save()
+        t2 = Tag.objects(name="Goalboost").first()
+        assert(t2.id == t.id)
+        t2 = Tag.objects(name="Goalboost").delete()
 
 # -------------- Projects -------------------------
 class TestProject(TestCase):
@@ -133,10 +147,10 @@ class TestAuth(TestCase):
                 user_data_store = self.security.datastore
                 # -- Should and do really use encrypted password in prod, but slows tests down
                 # encrypted = encrypt_password("WhatsUpDocument")
-                user = user_data_store.create_user(email="melblank@bugs.com", account="foghorn", password="chickens")
+                user = user_data_store.create_user(email="melblank@bugs.com", accountId=test_object_ids["DEMO"], password="chickens")
                 user2 = user_data_store.find_user(email="melblank@bugs.com")
                 assert(user.email == user2.email)
-                assert(user.account == user2.account)
+                assert(user.accountId == user2.accountId)
                 # Clean up
             finally:
                 if(user is not None):

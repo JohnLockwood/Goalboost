@@ -1,7 +1,10 @@
 import random
 import string
+
+from bson import ObjectId
 from goalboost import app
-from pymongo import MongoClient
+
+test_object_ids = dict(DEMO=ObjectId(b"DEMOdemoDEMO"))
 
 class TestHelper():
     """Helper or delegate class with functions for unit and integration tests
