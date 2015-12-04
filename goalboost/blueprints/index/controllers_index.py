@@ -2,6 +2,8 @@
 from flask import Blueprint, redirect, render_template
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
+from flask.ext.login import current_user
+
 bp_index = Blueprint('index', __name__, url_prefix='/')
 
 # Set the route and accepted methods
@@ -11,5 +13,6 @@ def index():
 
 @bp_index.route('development', methods=['GET'])
 def development():
+    u = current_user
     return render_template("index/development.html")
 

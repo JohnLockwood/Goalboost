@@ -86,5 +86,8 @@
 {"contributor": "JohnLockwood", "date": "11/28/2015", "hours": 1.9, "description": "Front end work on css generally, timers. Fix many UI issues.  Closes 1."},
 {"contributor": "JohnLockwood", "date": "11/28/2015", "hours": 0.5, "description": "Customize foundation scss build."},
 {"contributor": "JohnLockwood", "date": "11/29/2015", "hours": 2.3, "description": "#CodeSolid organizing - publish org meetings etc."},
-{"contributor": "JohnLockwood", "date": "11/30/2015", "hours": 0.9, "description": "Models and business object work"}
+{"contributor": "JohnLockwood", "date": "11/30/2015", "hours": 0.9, "description": "Models and business object work"},
+{"contributor": "JohnLockwood", "date": "12/02/2015", "hours": 2.0, "description": "#CodeSolid organizing - articles"},
+{"contributor": "JohnLockwood", "date": "12/03/2015", "hours": 1.3, "description": "Prototype ideas for sprint 2"},
+{"contributor": "JohnLockwood", "date": "12/04/2015", "hours": 0.6, "description": "Authentication work"}
 ]}

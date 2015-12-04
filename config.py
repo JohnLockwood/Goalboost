@@ -12,7 +12,7 @@ class Config:
     SECURITY_PASSWORD_SALT = os.environ.get("GOALBOOST_SECURITY_PASSWORD_SALT") or "SECRET" 
     SECURITY_REGISTERABLE = True
     SECURITY_EMAIL_SENDER =  os.environ.get("GOALBOOST_SECURITY_EMAIL_SENDER") or "someuser@example.com"
-    SECURITY_POST_LOGOUT_VIEW = '/auth/logged_out'
+    SECURITY_POST_LOGOUT_VIEW = '/auth/logged_out' # defined in controllers_auth.py
 
     WTF_CSRF_ENABLED = False
     # Mail configuration

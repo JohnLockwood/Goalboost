@@ -92,9 +92,16 @@
         </div>
     </div>
 </section>
-
 </div>
 {% endraw %}
+<section>
+
+    {% if current_user.is_authenticated %}
+    <span>Logged in as {{ current_user.email}}</span>
+    {% endif %}
+
+</section>
+
 
 <div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
      role="dialog">

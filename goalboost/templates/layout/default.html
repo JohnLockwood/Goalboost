@@ -1,10 +1,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="/static/stylesheets/app.css">
     <link rel="stylesheet" type="text/css" href="/static/stylesheets/foundation-icons/foundation-icons.css">
-    <title>{% block title %}{% endblock %}</title>    
+    <title>{% block title %}{% endblock %}</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular-sanitize.min.js"></script>
@@ -17,9 +17,8 @@
         <!-- mobile top bar to activate nav -->
         <nav class="tab-bar show-for-small">
             <section class="left-small">
-                <a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+                <a class="left-off-canvas-toggle menu-icon"><span></span></a>
             </section>
-
             <section class="middle tab-bar-section">
                 <h2 class="title" style="text-align:center;">Goalboost Time Tracking</h2>
             </section>
@@ -33,37 +32,36 @@
             </ul>
 
             <section class="top-bar-section">
-                <ul class="left">                    
-                </ul>
-
-                {% set navigation_bar_left = [
-                ('/development', 'development_links', 'Development Links - The API'),
-                ] -%}
-
-                {% set navigation_bar_right = [
-            		('/register', 'register_register', 'Sign Up'),
-            		('/login', 'register_login', 'Log In'),
-        	    	('/logout', 'register_logout', 'Log Out')
-		        ] -%}
-
                 <ul class="left">
-                    {% for href, id, caption in navigation_bar_left %}
-                    <li {% if id == active_page %} class="active"{% endif
-                        %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-                    {% endfor %}
+                    <ul class="right">
+                        <li class="has-dropdown">
+                            <a href="#">Development Links</a>
+                            <ul class="dropdown">
+                                <li id="test_api"><a href="/development">API Test Page</a></li>
+                                <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </ul>
+
 
                 <ul class="right">
-                    {% for href, id, caption in navigation_bar_right %}
-                    <li {% if id == active_page %} class="active"{% endif
-                    %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-                    {% endfor %}
-                    <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>                                
+                    {% if current_user.is_authenticated() %}
+                    <li id="register_logout"><a href="/logout">Log out</a></li>
+                    {% endif %}
+                    {% if not current_user.is_authenticated() %}
+                    <li id="register_register"><a href="/register">Sign Up</a></li>
+                    <li id="register_login"><a href="/login">Log in</a></li>
+                    {% endif %}
                 </ul>
-                
             </section>
-        </nav>
 
+        </nav>
+        {% if current_user.is_authenticated() %}
+        <section>
+            <span style="float:right;margin-right:1em;"><a href="#">Logged in as {{ current_user.email}}</a></span>
+        </section>
+        {% endif %}
         <!-- Main Page Content and Sidebar -->
         <section class="main-section">
             <div class="row">
@@ -71,7 +69,7 @@
                 <div class="medium-12 small-12 columns" role="content">
                     <div class="row">
                         <div class="small-12 columns">
-                        {% block content %}
+                            {% block content %}
                             {% endblock %}
                         </div>
                     </div>
@@ -79,24 +77,29 @@
             </div>
         </section>
         <a class="exit-off-canvas"></a>
-    </div><!--off-canvas inner-->
+        </section><!--off-canvas inner-->
 
 
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/foundation.min.js"></script>
-    <script src="/static/js/foundation/foundation/foundation.equalizer.js"></script>
-    <script src="/static/js/foundation/foundation/foundation.dropdown.js"></script>
-    <script language="JavaScript">
-        $(document).foundation('reveal', 'reflow');
-        $(document).foundation({
-            dropdown: {
-                // specify the class used for active dropdowns
-                active_class: 'open'
-            }
-        });
-    </script>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/foundation.min.js"></script>
+        <script src="/static/js/foundation/foundation/foundation.equalizer.js"></script>
+        <script src="/static/js/foundation/foundation/foundation.dropdown.js"></script>
+        <script language="JavaScript">
+            $(document).foundation('reveal', 'reflow');
+            $(document).foundation({
+                dropdown: {
+                    // specify the class used for active dropdowns
+                    active_class: 'open'
+                }
+            });
+            $(document).ready(function () {
+                var active = "{{ active_page }}";
+                console.log("Active page: " + active);
+                $("#" + active).addClass("active");
+            });
+        </script>
 
-   <!-- <script src="/static/jsfoundation/mm-foundation-tpls-0.8.0.min.js"></script> -->
-</div><!--off-canvas wrap-->
+        <!-- <script src="/static/jsfoundation/mm-foundation-tpls-0.8.0.min.js"></script> -->
+    </div><!--off-canvas wrap-->
 </body>
 </html>

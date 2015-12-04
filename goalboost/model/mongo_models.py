@@ -5,6 +5,7 @@ from pytz import timezone
 from goalboost.model import db
 from datetime import date
 from dateutil import parser
+from mongoengine import signals
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -19,6 +20,13 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     timer = db.ObjectIdField(null=True)
+
+    # http://docs.mongoengine.org/guide/signals.html
+    def handle_pre_save(sender, document):
+        print("Inside pre_save handler")
+
+    signals.pre_save.connect(handle_pre_save)
+
 
     # Work in progress, cf.
     # http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
