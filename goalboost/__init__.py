@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_mail import Mail
+import os
 
 from config import config
 from goalboost.blueprints import api
@@ -35,5 +36,5 @@ def create_app(config_name):
 
     return app
 
-create_app("production")
+create_app(os.environ.get("GOALBOOST_CONFIGURATION") or "development")
 
