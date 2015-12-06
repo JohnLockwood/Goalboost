@@ -37,8 +37,10 @@
                         <li class="has-dropdown">
                             <a href="#">Development Links</a>
                             <ul class="dropdown">
-                                <li id="test_api"><a href="/development">API Test Page</a></li>
                                 <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>
+                                <li><a href="https://github.com/codesolid/Goalboost/issues">Issues Page</a></li>
+                                <li id="test_api"><a href="/development">API Test Page</a></li>
+
                             </ul>
                         </li>
                     </ul>
@@ -47,6 +49,7 @@
 
                 <ul class="right">
                     {% if current_user.is_authenticated() %}
+                    <li class="light_font"><a>Logged in as {{ current_user.email}}</a></li>
                     <li id="register_logout"><a href="/logout">Log out</a></li>
                     {% endif %}
                     {% if not current_user.is_authenticated() %}
@@ -57,11 +60,6 @@
             </section>
 
         </nav>
-        {% if current_user.is_authenticated() %}
-        <section>
-            <span style="float:right;margin-right:1em;"><a href="#">Logged in as {{ current_user.email}}</a></span>
-        </section>
-        {% endif %}
         <!-- Main Page Content and Sidebar -->
         <section class="main-section">
             <div class="row">

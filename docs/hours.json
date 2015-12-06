@@ -93,5 +93,6 @@
 {"contributor": "JohnLockwood", "date": "12/04/2015", "hours": 2.0, "description": "#CodeSolid Organizing. Attend Co-Op Startup Seminar and meeting"},
 {"contributor": "GeorgeMarks", "date": "12/04/2015", "hours": 2.0, "description": "#CodeSolid Organizing - Attend Co-Op Startup Seminar and meeting"},
 {"contributor": "JennifferLockwood", "date": "12/04/2015", "hours": 1.5, "description": "#CodeSolid Organizing - Attend Co-Op Startup Seminar"},
-{"contributor": "JohnLockwood", "date": "12/04/2015", "hours": 1.0, "description": "Factor out environment variables, test deleting database etc. to make onboarding new developers easier. Publish improved README."}
+{"contributor": "JohnLockwood", "date": "12/04/2015", "hours": 1.0, "description": "Factor out environment variables, test deleting database etc. to make onboarding new developers easier. Publish improved README."},
+{"contributor": "JohnLockwood", "date": "12/05/2015", "hours": 2.5, "description": "#CodeSolid Organizing - mailing list, by-laws research and notes, meeting with Julie Gallaher"}
 ]}

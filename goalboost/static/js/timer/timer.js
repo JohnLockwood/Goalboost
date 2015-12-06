@@ -229,13 +229,15 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
 
     // TODO if active Timer, should stop it first?
     $scope.deleteTimer = function(index) {
-        setTimeout(function() {
-            if (index == 0) {
-                $scope.stopTimer();
-            }
-            $scope.timerListModel.deleteTimer(index);
-            $scope.$apply(); //this triggers a $digest
-        }, 500);
+        if(confirm("Delete timer, are you sure?")) {
+            setTimeout(function () {
+                if (index == 0) {
+                    $scope.stopTimer();
+                }
+                $scope.timerListModel.deleteTimer(index);
+                $scope.$apply(); //this triggers a $digest
+            }, 500);
+        }
     }
 
 

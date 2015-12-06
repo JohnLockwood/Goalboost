@@ -23,7 +23,8 @@ class User(db.Document, UserMixin):
 
     # http://docs.mongoengine.org/guide/signals.html
     def handle_pre_save(sender, document):
-        print("Inside pre_save handler")
+        pass
+        # print("Inside pre_save handler")
 
     signals.pre_save.connect(handle_pre_save)
 
