@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
-from goalboost.model.mongo_models import User, Timer
+from flask.ext.login import login_required
+from goalboost.model.models_auth import User
+from goalboost.model.models_timer import Timer
 from goalboost.model.business_objects import UserTimer
 from goalboost.model.datastore import TimerDao
 from goalboost.model import db
@@ -14,7 +16,6 @@ bp_api = Blueprint('api', __name__, url_prefix=api_root)
 api = Api(bp_api)
 
 def init_api(app):
-
     # Just the User
     api.add_resource(UserResource, '/user/<string:id>')
 
@@ -31,6 +32,16 @@ def init_api(app):
 
     api.add_resource(EnvironmentLogger, "/env", )
     app.register_blueprint(bp_api)
+
+
+@bp_api.route("/protected_hello")
+@login_required
+def protected_hello():
+    response = jsonify({'greeting': 'hello', 'recipient': 'world'})
+    response.status_code = 200
+    return response
+
+
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth

@@ -1,5 +1,4 @@
-from goalboost.model.mongo_models import Timer
-from .mongo_models import Timer
+from goalboost.model.models_timer import Timer
 from datetime import datetime
 
 def add_timer_to_user():

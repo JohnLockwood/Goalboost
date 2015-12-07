@@ -3,11 +3,9 @@ from flask.ext.script import Manager, Shell
 
 from goalboost.model import db
 from goalboost import app
-from goalboost.model.mongo_models import User, Timer
+from goalboost.model.models_timer import Timer
 
-#app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
-
 
 @manager.command
 def runserver_debug():

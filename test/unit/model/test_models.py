@@ -2,7 +2,9 @@ from unittest import TestCase
 from test.common.test_helper import TestHelper, test_object_ids
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
-from goalboost.model.mongo_models import Timer, Project, Tag, Account
+from goalboost.model.mongo_models import Project, Tag
+from goalboost.model.models_auth import Account
+from goalboost.model.models_timer import Timer
 import dateutil.parser
 from json import dumps
 from bson.objectid import ObjectId
@@ -47,14 +49,22 @@ class TestTimer(TestCase):
         assert(my_notes == timer.notes)
         assert(timer.startTime == timer.lastRestart)
 
+    # timers created this way display an ugly ui bug -- so there's a bug either in the GUI or here or both.
+    # Entered as
+    # https://github.com/CodeSolid/Goalboost/issues/12
     def test_can_create_without_datastore(self):
-        my_notes = "We don't need no steenkin datastore."
-        timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
-        timer.save()
-        timer2 = Timer.objects(id="56259a278c57cf02f9692ccc").first()
-        assert(timer2.notes == timer.notes)
-        assert(my_notes == timer.notes)
-        assert(timer.startTime == timer.lastRestart)
+        pass
+        # Uncomment the following to see (and delete "pass" of course).
+        # my_notes = "We don't need no steenkin datastore."
+        # timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes)
+        #
+        # # This will be a bug that will appear in the UI -- no entry in the entries array is created for today!
+        # # timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
+        # timer.save()
+        # timer2 = Timer.objects(id="56259a278c57cf02f9692ccc").first()
+        # assert(timer2.notes == timer.notes)
+        # assert(my_notes == timer.notes)
+        # assert(timer.startTime == timer.lastRestart)
 
     # Don't run in debugger, a breakpoint in right place will throw off elapsed calculation.
     # Otherwise elapsed converts to int, which shaves off any "running time" error

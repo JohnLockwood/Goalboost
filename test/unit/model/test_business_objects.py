@@ -2,8 +2,7 @@ from unittest import TestCase
 
 from goalboost.model.business_objects import UserTimer
 from goalboost.model import db
-from goalboost.model.mongo_models import User
-
+from goalboost.model.models_auth import User
 from test.common.test_helper import TestHelper, test_object_ids
 
 class UserTimerTest(TestCase):
