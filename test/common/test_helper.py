@@ -4,7 +4,8 @@ import string
 from bson import ObjectId
 from goalboost import app
 
-test_object_ids = dict(DEMO=ObjectId(b"DEMOdemoDEMO"))
+test_data = dict(DEMO=ObjectId(b"DEMOdemoDEMO"), TEST_USER_ID=ObjectId(b"TestUserDEMO"),
+                 TEST_USER_EMAIL = "TestUser@examples.coop", TEST_USER_PASSWORD = "Geronimo")
 
 class TestHelper():
     """Helper or delegate class with functions for unit and integration tests

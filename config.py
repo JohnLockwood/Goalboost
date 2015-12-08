@@ -2,6 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
+    # Obviously this is reset in production, as are other sensitive passwords, etc.
     SECRET_KEY = os.environ.get("SECRET_KEY") or "TOP_SECRET_KEY"
     USER_PASSWORD_HASH_ROUNDS = 2000
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True

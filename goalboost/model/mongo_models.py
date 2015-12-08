@@ -1,7 +1,6 @@
+# To do break these out as well or rename to miscellaneous
+
 from goalboost.model import db
-
-
-
 
 class Project(db.Document):
     name = db.StringField(max_length = 255)

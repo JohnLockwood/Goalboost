@@ -43,7 +43,7 @@ class User(db.Document, UserMixin):
             return None # valid token, but expired
         except BadSignature:
             return None # invalid token
-        user = User.query.get(data['id'])
+        user = User.objects(id=data['id']).first() #.query.get(data['id'])
         return user
 
     def public_json(self):

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from test.common.test_helper import TestHelper, test_object_ids
+from test.common.test_helper import TestHelper, test_data
 from datetime import datetime, timedelta
 from goalboost.model.datastore import create_timer
 from goalboost.model.mongo_models import Project, Tag
@@ -25,7 +25,7 @@ class TestObjectId(TestCase):
         assert (oid != oid2)
 
     def test_can_use_test_object_ids(self):
-        demo = test_object_ids["DEMO"]
+        demo = test_data["DEMO"]
         assert (demo is not None)
 
 # -------------- Timers ---------------------------
@@ -124,7 +124,7 @@ class TestAccount():
 
 class TestTag(TestCase):
     def test_can_create_tag(self):
-        t = Tag(accountId = test_object_ids["DEMO"], name="Goalboost")
+        t = Tag(accountId = test_data["DEMO"], name="Goalboost")
         assert(t is not None)
         t.save()
         t2 = Tag.objects(name="Goalboost").first()
@@ -158,7 +158,7 @@ class TestAuth(TestCase):
                 user_data_store = self.security.datastore
                 # -- Should and do really use encrypted password in prod, but slows tests down
                 # encrypted = encrypt_password("WhatsUpDocument")
-                user = user_data_store.create_user(email="melblank@bugs.com", accountId=test_object_ids["DEMO"], password="chickens")
+                user = user_data_store.create_user(email="melblank@bugs.com", accountId=test_data["DEMO"], password="chickens")
                 user2 = user_data_store.find_user(email="melblank@bugs.com")
                 assert(user.email == user2.email)
                 assert(user.accountId == user2.accountId)

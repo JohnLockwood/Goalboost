@@ -25,6 +25,7 @@ def load_user_by_id(id):
 # http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
 # http://thecircuitnerd.com/flask-login-tokens/
 # See also mongo_models.User.get_auth_token
+# TODO Duplicate code of user.verify_auth_token.  Consolidate!
 @login_manager.token_loader
 def verify_auth_token(token):
      s = Serializer(app.config['SECRET_KEY'])
@@ -34,5 +35,5 @@ def verify_auth_token(token):
          return None # valid token, but expired
      except BadSignature:
          return None # invalid token
-     user = User.objects(id=query.get(data['id'])).first() #.query.get(data['id'])
+     user = User.objects(id=data['id']).first() #.query.get(data['id'])
      return user
