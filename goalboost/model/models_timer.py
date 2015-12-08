@@ -115,14 +115,12 @@ class TimerFormat(object):
             return dt.isoformat()
         return dt
 
-
 class TimerForDate(db.EmbeddedDocument):
     dateRecorded = db.DateTimeField(default=datetime.fromordinal(date.today().toordinal()))
     seconds = db.IntField(min_value=0, default=0)
 
     def __repr__(self):
         return "dateRecorded={{{0}, seconds={1}}}".format(self.dateRecorded, self.seconds)
-
 
 class Timer(TimerFormat, db.Document):
 
