@@ -97,5 +97,6 @@
 {"contributor": "JohnLockwood", "date": "12/05/2015", "hours": 2.5, "description": "#CodeSolid Organizing - mailing list, by-laws research and notes, meeting with Julie Gallaher"},
 {"contributor": "JohnLockwood", "date": "12/06/2015", "hours": 1.3, "description": "Issues grooming, GUI work improved logged in user, delete timer bug, dev links etc, release"},
 {"contributor": "JohnLockwood", "date": "12/06/2015", "hours": 2.6, "description": "Token based authentication work, refactor models, testing and code cleanup."},
-{"contributor": "JohnLockwood", "date": "12/07/2015", "hours": 1.3, "description": "Integration test for api and authentication"}
+{"contributor": "JohnLockwood", "date": "12/07/2015", "hours": 1.3, "description": "Integration test for api and authentication"},
+{"contributor": "JohnLockwood", "date": "12/08/2015", "hours": 1.9, "description": "Continue API Testing and timer UI work. Working with George on preliminaries."}
 ]}

@@ -8,7 +8,7 @@ from goalboost.model.models_timer import Timer
 import dateutil.parser
 from json import dumps
 from bson.objectid import ObjectId
-
+import time
 
 
 # Allows us to consider reserved object Ids for testing.
@@ -162,6 +162,26 @@ class TestAuth(TestCase):
                 user2 = user_data_store.find_user(email="melblank@bugs.com")
                 assert(user.email == user2.email)
                 assert(user.accountId == user2.accountId)
+                # Clean up
+            finally:
+                if(user is not None):
+                    user_data_store.delete_user(user)
+
+    def test_can_verify_token(self):
+        with self.testHelper.app().app_context():
+            user = None
+            try:
+                user_data_store = self.security.datastore
+                # -- Should and do really use encrypted password in prod, but slows tests down
+                # encrypted = encrypt_password("WhatsUpDocument")
+                user = user_data_store.create_user(email="melblank@bugs.com", accountId=test_data["DEMO"], password="chickens")
+                # print(str(type(user)))
+                token = user.get_auth_token()
+                time.sleep(3)
+                token2 = token
+                assert(token == token2)
+                result = user.verify_auth_token(token)
+                assert(result)
                 # Clean up
             finally:
                 if(user is not None):

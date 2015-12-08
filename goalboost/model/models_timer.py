@@ -38,7 +38,7 @@ class TimerFormat(object):
         notes = getattr(self, "notes")
         seconds = self.total_elapsed()
         hours = round((seconds / 3600), 1)
-        fmt_str = '{{"contributor": "JohnLockwood", "date": "{}", "hours": {}, "description": "{}"}}'
+        fmt_str = '{{"contributor": "", "date": "{}", "hours": {}, "description": "{}"}}'
         return fmt_str.format(start, hours, notes)
 
     def fmt_date(self, dt):

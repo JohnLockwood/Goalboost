@@ -196,6 +196,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     $scope.startDisplayed = true;
     $scope.timerListModel = timerListModel;
     $scope.timerListModel.setScope($scope);
+    $scope.timerClass = " ";
 
     $scope.startTimer = function()  {
         console.log("$scope.startTimer");
@@ -204,8 +205,10 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
         $scope.timerListModel.startTimer();
         $scope.startEnabled = false;
         $scope.stopEnabled = true;
+        $scope.timerClass = "runningTimer"
     }
     $scope.stopTimer = function()  {
+        $scope.timerClass = " ";
         console.log("$scope.stopTimer");
         $scope.startButtonText = "Start";
         $scope.startButtonClass = "success";

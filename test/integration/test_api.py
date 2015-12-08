@@ -2,7 +2,6 @@ from unittest import TestCase
 import requests
 from json import dumps, loads
 
-from bson import ObjectId
 from requests.auth import HTTPBasicAuth
 
 from test.common.test_helper import test_data
@@ -35,40 +34,50 @@ class TestTimer(TestCase):
         response = requests.get(url=test_server + "/api/timer/" + id)
         assert(response.status_code == 404)
 
+    # Todo cleanup dupication this and next test
     def test_login(self):
-        # Assumes test user was created same SECRET KEY we're using in test
-
+        # Create the user
         email = test_data["TEST_USER_EMAIL"]
         password = test_data.get("TEST_USER_PASSWORD")
-        credentials = dict(email = test_data["TEST_USER_EMAIL"], password = test_data["TEST_USER_PASSWORD"])
-        login_payload = dumps(credentials)
-        response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
-        assert(response.status_code == 200)
-        response_object = response.json()
+        userOriginal = User(email=email, accountId=test_data["DEMO"], password=password)
+        userOriginal.save()
+        try:
+            credentials = dict(email = test_data["TEST_USER_EMAIL"], password = test_data["TEST_USER_PASSWORD"])
+            login_payload = dumps(credentials)
+            response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
+            assert(response.status_code == 200)
+            response_object = response.json()
 
-        user = response_object["response"]["user"]
-        assert(user["id"] is not None)
-        assert(user["authentication_token"] is not None)
+            user = response_object["response"]["user"]
+            assert(user["id"] is not None)
+            assert(user["authentication_token"] is not None)
+        finally:
+            #Cleanup
+            userOriginal.delete()
 
     def test_login_and_use_resource(self):
-        # Assumes test user was created same SECRET KEY we're using in test
-
+        # Create User
         email = test_data["TEST_USER_EMAIL"]
         password = test_data.get("TEST_USER_PASSWORD")
-        credentials = dict(email = test_data["TEST_USER_EMAIL"], password = test_data["TEST_USER_PASSWORD"])
-        login_payload = dumps(credentials)
-        response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
-        assert(response.status_code == 200)
-        response_object = response.json()
+        userOriginal = User(email=email, accountId=test_data["DEMO"], password=password)
+        userOriginal.save()
+        try:
+            credentials = dict(email = test_data["TEST_USER_EMAIL"], password = password)
+            login_payload = dumps(credentials)
+            response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
+            assert(response.status_code == 200)
+            response_object = response.json()
 
-        user = response_object["response"]["user"]
+            user = response_object["response"]["user"]
 
-        basic_auth_credentials = HTTPBasicAuth(email, user["authentication_token"])
-        response = requests.get(url=test_server + "/auth/api/resource", headers={'content-type' : 'application/json'}, auth=basic_auth_credentials)
-        assert(response.status_code == 200)
-        response_object = response.json()
+            basic_auth_credentials = HTTPBasicAuth(email, user["authentication_token"])
+            response = requests.get(url=test_server + "/auth/api/resource", headers={'content-type' : 'application/json'}, auth=basic_auth_credentials)
+            assert(response.status_code == 200)
+            assert(email in str(response.json()["data"]))
+        finally:
+            #Cleanup
+            userOriginal.delete()
 
-        print (response_object)
 
 
 
