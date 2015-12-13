@@ -1,0 +1,42 @@
+{% extends "layout/default.html" %}
+{% set active_page = "test_api" %}
+{% block content %}
+
+<script language="JavaScript">
+
+    var samplesApp = angular.module('samplesApp', ['ngSanitize']);
+
+    samplesApp.sampleTimer = ""
+    samplesApp.controller('APISamplesController', ['$scope',  '$http', function($scope, $http) {
+
+        $scope.timer = {"_id": {"$oid": "54696d65723154696d657232"}, "dateEntered": {"$date": 1449964800000}, "lastRestart": {"$date": 1449985636000}, "seconds": 0, "notes": "I want a shrubbery",
+                "userId": {"$oid": "4a6f686e4b696e67436f6465"}, "running": false};
+
+        $scope.dateEntered = function(timer) {
+            var d = new Date(timer.dateEntered.$date);
+            var s= "" + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+            return s;
+        }
+
+        $scope.lastRestart = function(timer) {
+            return new Date(timer.lastRestart.$date).toLocaleTimeString();
+        }
+
+        $scope.now = function() {
+            return new Date().toLocaleTimeString();
+        }
+
+    }]);
+</script>
+<div ng-app="samplesApp" ng-controller="APISamplesController">
+    {% raw %}
+    <h1>Testing timer display</h1>
+    <p>Timer:  {{timer}}</p>
+    <p>timer.dateEntered = {{dateEntered(timer)}}</p>
+    <p>timer.lastRestart = {{lastRestart(timer)}}</p>
+    <p>Time now= {{now()}}</p>
+    {% endraw %}
+</div>
+
+{% endblock %}
+

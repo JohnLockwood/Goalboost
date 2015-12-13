@@ -16,3 +16,8 @@ def development():
     u = current_user
     return render_template("index/development.html")
 
+@bp_index.route('test', methods=['GET'])
+def test():
+    u = current_user
+    return render_template("index/test.html")
+

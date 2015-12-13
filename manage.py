@@ -3,7 +3,7 @@ from flask.ext.script import Manager, Shell
 
 from goalboost.model import db
 from goalboost import app
-from goalboost.model.models_timer import Timer
+from goalboost.model.models_timer import Timer, TimerEntity
 
 manager = Manager(app)
 
@@ -13,7 +13,7 @@ def runserver_debug():
 
 @manager.shell
 def make_shell_context():
-    return dict(app=app, db=db, Timer=Timer)
+    return dict(app=app, db=db, Timer=Timer, TimerEntity=TimerEntity)
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 

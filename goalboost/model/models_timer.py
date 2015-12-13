@@ -1,10 +1,106 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from json import dumps
 
+from bson import ObjectId
 from dateutil import parser
 from pytz import timezone
 
 from goalboost.model import db
+
+'''
+TimerEntity
+This class should include only what needs to go to / from MongoDB, maybe some
+simple validation on fields, and that's it.
+Clients:  API, TimerDAO TimerFormatter.  Note ALL saves must go through TimerDAO,
+          not directly through here.
+'''
+class TimerEntity(db.Document):
+    dateEntered = db.DateTimeField()        # Actual date, no time
+    lastRestart = db.DateTimeField()
+    seconds = db.IntField(min_value=0, default=0)
+    notes = db.StringField(required=False)
+    userId = db.ObjectIdField(required=True)
+    running = db.BooleanField(required= True, default=False)
+    tags = db.ListField(db.StringField(), default=list)
+
+    def __init__(self, dateEntered=None, lastRestart=None, **kwargs):
+        if dateEntered is None:
+            today_as_int = datetime.utcnow().toordinal()
+            dateEntered = datetime.fromordinal(today_as_int)
+        if lastRestart is None:
+            lastRestart = datetime.utcnow()
+            lastRestart = lastRestart - timedelta(microseconds=lastRestart.microsecond)
+
+
+        dateEntered = self.cast_date_time(dateEntered)
+        lastRestart = self.cast_date_time(lastRestart)
+        super().__init__(dateEntered, lastRestart, **kwargs)
+
+    # Type checker for __init__.  Ensure we can handle date, datetime, and str as input to date fields
+    def cast_date_time(self, val):
+        if type(val) is type(""):
+            return parser.parse(val)
+        elif type(val) is type(datetime.utcnow()):
+            return val
+        elif type(val) is type(date.today()):
+            return datetime.fromordinal(val.toordinal())
+        raise TypeError("Invalid value for datetime:  " + str(type(val)) + ". Valid values are datetime, date, and string.")
+
+    def __repr__(self):
+        notes = None
+        if self.notes is not None:
+            notes = '"{}"'.format(self.notes)
+        return ('TimerEntity(id={}, dateEntered="{}", lastRestart="{}", notes={}, seconds={}, running={}, userId={}, tags={})'.format(\
+            self.id.__repr__(), self.dateEntered.__str__(), self.lastRestart.__str__(), notes, self.seconds, self.running, self.userId.__repr__(), self.tags.__repr__()))
+
+
+'''
+TimerDAO - DAO is "Data Access Object"
+This class will be responsible for making sure a TimerEntity is saved correctly
+with respect to the the rest of the database, for example (and maybe this is all it does),
+ensuring that there's only one active timer for users.  Other responsiblities might include
+auto-shutoff.
+'''
+class TimerDAO():
+    pass
+
+'''
+TimerFormatter
+Should include formatting methods which consume or produce a timer entity, so this is
+not part of timer any more.
+'''
+class TimerFormatter():
+    pass
+
+
+'''
+This represents what in the 1.0 timer world John used at the shell.
+Implementing this is probably not a good idea.  The things that HAVE to work are the entity,
+the DAO layer, and the API.  The rest is window dressing.
+'''
+class LocalTicker():
+    pass
+
+'''
+RemoteTicker
+This is a utility shell class that uses the API to allow us to save our time from the shell.
+It will read a config file locally for email (NOT mongo userID) and password, etc.  Writing / testing this
+will also be a good second set of integration tests around the API / authentication workflow.
+TimeDog is a better name.
+'''
+class RemoteTicker(object):
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def counter(self):
+        pass
+
+# LEGACY Code before refactoring -----------------------------------------------------------
+
+
 
 # This is a "mixin" which has knowledge of Timer internals.
 # From a design point of view maybe that's not ideal.
@@ -123,7 +219,6 @@ class TimerForDate(db.EmbeddedDocument):
         return "dateRecorded={{{0}, seconds={1}}}".format(self.dateRecorded, self.seconds)
 
 class Timer(TimerFormat, db.Document):
-
     startTime = db.DateTimeField()
     lastRestart = db.DateTimeField()
     notes = db.StringField()
@@ -201,3 +296,4 @@ class Timer(TimerFormat, db.Document):
         vals["total_elapsed"] = self.total_elapsed()
         vals["current_elapsed"] = self.current_elapsed()
         return vals
+

@@ -5,10 +5,10 @@ import os
 from config import config
 from goalboost.blueprints import api
 from goalboost.blueprints.auth import init_flask_security
-from goalboost.blueprints.auth.controllers_auth import bp_auth
-from goalboost.blueprints.index.controllers_index import bp_index
+from goalboost.blueprints.auth.auth_controllers import bp_auth
+from goalboost.blueprints.index.index_controllers import bp_index
 from goalboost.blueprints.timer.controllers_timer import bp_timer
-from goalboost.blueprints.api.controllers_api import init_api
+from goalboost.blueprints.api.api_controllers import init_api
 
 from goalboost.model import init_db, db
 
