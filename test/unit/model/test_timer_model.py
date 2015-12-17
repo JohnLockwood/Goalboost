@@ -5,19 +5,27 @@ from unittest import TestCase
 import dateutil
 from bson import ObjectId
 from goalboost.model.datastore import create_timer
+from goalboost.model.models_auth import User
 from goalboost.model.models_timer import Timer, TimerEntity
 from test.common.test_helper import TestHelper, test_data
 
 class TestTimerEntity(TestCase):
+    # Todo Make a test objects class encapsulating test data, and move this there
+    def _get_test_user(self):
+        u = User(id=test_data["TEST_USER_ID"], email=test_data["TEST_USER_EMAIL"], password=test_data["TEST_USER_PASSWORD"])
+        u.save()
+        return u
+
+
     def test_can_save_and_load_timer(self):
-        t = TimerEntity(id= test_data["DEMO"], notes="Saved from unit test", userId= test_data["TEST_USER_ID"])
+        t = TimerEntity(id= test_data["DEMO"], notes="Saved from unit test", user=self._get_test_user() )
         t.save()
         t2 = TimerEntity.objects(id = t.id).first()
         assert(t.__repr__() == t2.__repr__())
         t.delete()
 
     def test_eval_ok(self):
-        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", userId=ObjectId(b"JohnKingCode"))
+        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=self._get_test_user() )
         print(t1.__repr__())
         t2 = eval(t1.__repr__())
         # Note this part works partly because compare is brain-dead, compares id only and only works for non-null id
@@ -26,6 +34,21 @@ class TestTimerEntity(TestCase):
         # A better check
         assert(t1.__repr__() == t2.__repr__())
         print(t1.to_json())
+
+    def test_user_not_updated_on_save(self):
+        user=self._get_test_user()
+        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=self._get_test_user() )
+        t1.save()
+        t1.user.password = "foo"
+        t1.save()
+        # TODO ETC...
+
+
+
+
+
+
+
 
 
 

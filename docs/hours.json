@@ -102,6 +102,8 @@
 {"contributor": "GeorgeMarks", "date": "12/08/2015", "hours": 1.0, "description": "Install dependencies with PIP using requirements.txt. Debug server crash. Installing flask-httpauth soled it."},
 {"contributor": "JohnLockwood", "date": "12/08/2015", "hours": 1.9, "description": "Continue API Testing and timer UI work. Working with George on preliminaries."},
 {"contributor": "JohnLockwood", "date": "12/12/2015", "hours": 3.6, "description": "Refactor timer implementation, simplifying and improving code, with unit tests and proof of concept for display"},
-{"contributor": "JohnLockwood", "date": "12/13/2015", "hours": 0.8 "description": "Continue refactoring timer, add and test tags."}
-
+{"contributor": "JohnLockwood", "date": "12/13/2015", "hours": 0.8 "description": "Continue refactoring timer, add and test tags."},
+{"contributor": "John Lockwood", "date": "12/14/2015", "hours": 1.0, "description": "Continue model work, timer refactor, improve user class, testing of ReferenceField behavior"},
+{"contributor": "John Lockwood", "date": "12/15/2015", "hours": 0.5, "description": "New issues, Sprint 2 grooming"},
+{"contributor": "John Lockwood", "date": "12/15/2015", "hours": 1.0, "description": "Meeting with George - Sprint 2 tasks"}
 ]}

@@ -123,6 +123,8 @@ class TimerResourceById(Resource):
         return(None, 204)
 
 # Todo authorization, and check id is valid ObjectId
+# Todo design JCL Here we are loading JSON and then returning a dict.  Better
+# if the formatting object or interface were always to_dict, from_dict.
 class UserResource(Resource):
     def get(self, id):
         query_set = User.objects(id=id)

@@ -11,13 +11,16 @@ class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
 
+# TODO Note if we are consistent here use ReferenceField for account
+# TODO Also we need to add a UserName, which should be unique for itself + Account
 class User(db.Document, UserMixin):
-    email = db.EmailField(max_length=255, unique=True)
+    email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
     accountId = db.ObjectIdField(null=True)                 # Todo make this required
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+    # TODO DEPRECATED  -- YANK!
     timer = db.ObjectIdField(null=True)
 
     # http://docs.mongoengine.org/guide/signals.html
@@ -33,6 +36,17 @@ class User(db.Document, UserMixin):
     def get_auth_token(self, expiration = 3600):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
         return s.dumps({ 'id': str(self.id) })
+
+    def __repr__(self):
+        accountId = None
+        confirmed_at = None
+        if self.accountId is not None:
+            accountId= self.accountId.__repr__()
+        if self.confirmed_at is not None:
+            confirmed_at = self.confirmed_at.__repr__()
+        return ('User(id={}, emaitype(self.user)l="{}", password="{}", accountId={}, active={}, confirmed_at={}, roles={})'.format(
+            self.id.__repr__(), self.email, self.password, accountId, confirmed_at, self.roles.__repr__(),
+            None))
 
     @staticmethod
     def verify_auth_token(token):

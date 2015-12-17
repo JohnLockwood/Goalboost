@@ -1,11 +1,13 @@
 from datetime import datetime, date, timedelta
-from json import dumps
+from json import dumps, loads
 
 from bson import ObjectId
 from dateutil import parser
 from pytz import timezone
 
 from goalboost.model import db
+from goalboost.model.models_auth import User
+
 
 '''
 TimerEntity
@@ -19,7 +21,7 @@ class TimerEntity(db.Document):
     lastRestart = db.DateTimeField()
     seconds = db.IntField(min_value=0, default=0)
     notes = db.StringField(required=False)
-    userId = db.ObjectIdField(required=True)
+    user = db.ReferenceField(User, required=True)
     running = db.BooleanField(required= True, default=False)
     tags = db.ListField(db.StringField(), default=list)
 
@@ -50,8 +52,10 @@ class TimerEntity(db.Document):
         notes = None
         if self.notes is not None:
             notes = '"{}"'.format(self.notes)
-        return ('TimerEntity(id={}, dateEntered="{}", lastRestart="{}", notes={}, seconds={}, running={}, userId={}, tags={})'.format(\
-            self.id.__repr__(), self.dateEntered.__str__(), self.lastRestart.__str__(), notes, self.seconds, self.running, self.userId.__repr__(), self.tags.__repr__()))
+        s = 'TimerEntity(id={}, dateEntered="{}", lastRestart="{}", notes={}, seconds={}, running={}, tags={})'.format(\
+            self.id.__repr__(), self.dateEntered.__str__(), self.lastRestart.__str__(), notes, self.seconds, self.running,
+            self.tags.__repr__())
+        return s
 
 
 '''
@@ -163,20 +167,6 @@ class TimerFormat(object):
         vals["lastRestart"] = self.fmt_date(vals["lastRestart"])
         #return dumps(vals, indent=4, separators=(',', ': '))
         return dumps(vals)
-
-    def to_api_json(self):
-        id = self.fmt_string_or_null(self.id)
-        notes = self.fmt_string_or_null(self.notes)
-        fmt_string = \
-            """{{"id" : {0}, "startTime" : "{1}", "lastRestart" : "{2}", "seconds" : {3}, "running" : {4}, "notes" : {5}}}"""
-        return fmt_string.format(
-            id, \
-            self.startTime.isoformat(), \
-            self.lastRestart.isoformat(), \
-            self.get_seconds(),
-            self.running,
-            notes
-        )
 
     def fmt_string_or_null(self, val):
         sval = ""
