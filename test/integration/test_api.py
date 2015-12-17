@@ -4,8 +4,8 @@ from json import dumps, loads
 
 from requests.auth import HTTPBasicAuth
 
-from test.common.test_helper import test_data
-from goalboost.model.models_auth import User
+from test.common.test_helper import TestObjects
+# from goalboost.model.models_auth import User
 
 test_server = "http://localhost:5000"
 
@@ -36,13 +36,12 @@ class TestTimer(TestCase):
 
     # Todo cleanup dupication this and next test
     def test_login(self):
-        # Create the user
-        email = test_data["TEST_USER_EMAIL"]
-        password = test_data.get("TEST_USER_PASSWORD")
-        userOriginal = User(email=email, accountId=test_data["DEMO"], password=password)
-        userOriginal.save()
+        # Ensure test user created
+        test_objects = TestObjects()
+        userOriginal = test_objects.get_test_user()
         try:
-            credentials = dict(email = test_data["TEST_USER_EMAIL"], password = test_data["TEST_USER_PASSWORD"])
+            email, password = test_objects.get_test_user_credentials()
+            credentials = dict(email = email , password = password)
             login_payload = dumps(credentials)
             response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
             assert(response.status_code == 200)
@@ -52,17 +51,16 @@ class TestTimer(TestCase):
             assert(user["id"] is not None)
             assert(user["authentication_token"] is not None)
         finally:
-            #Cleanup
+            # Cleanup
             userOriginal.delete()
 
     def test_login_and_use_resource(self):
-        # Create User
-        email = test_data["TEST_USER_EMAIL"]
-        password = test_data.get("TEST_USER_PASSWORD")
-        userOriginal = User(email=email, accountId=test_data["DEMO"], password=password)
-        userOriginal.save()
+        # Ensure test user created
+        test_objects = TestObjects()
+        userOriginal = test_objects.get_test_user()
         try:
-            credentials = dict(email = test_data["TEST_USER_EMAIL"], password = password)
+            email, password = test_objects.get_test_user_credentials()
+            credentials = dict(email = email, password = password)
             login_payload = dumps(credentials)
             response = requests.post(url=test_server + "/login", data=login_payload, headers={'content-type' : 'application/json'})
             assert(response.status_code == 200)

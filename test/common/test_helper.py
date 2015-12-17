@@ -1,11 +1,47 @@
 import random
 import string
+from goalboost.model.models_auth import User, Account
 
 from bson import ObjectId
 from goalboost import app
 
-test_data = dict(DEMO=ObjectId(b"DEMOdemoDEMO"), TEST_USER_ID=ObjectId(b"TestUserDEMO"),
-                 TEST_USER_EMAIL = "TestUser@examples.coop", TEST_USER_PASSWORD = "Geronimo")
+
+class TestObjects():
+    test_data = dict(TEST_ACCOUNT_NAME="TestBoost",
+                     TEST_ACCOUNT_ID=b"TestBoost123",
+                     DEMO=ObjectId(b"DEMOdemoDEMO"),
+                     TEST_USER_ID=ObjectId(b"TestUserDEMO"),
+                     TEST_USER_EMAIL = "TestUser@examples.coop",
+                     TEST_USER_PASSWORD = "Geronimo")
+
+    def get_test_user(self):
+        account = self.get_test_account()
+        email, password = self.get_test_user_credentials()
+        try:
+            user = User(email=email, accountId=self.get_demo_account_id(), password=password)
+            user.save()
+        except: # Don't care if already created
+            user = User.objects(email=email).first()
+        return user
+
+    def get_test_user_credentials(self):
+        email = self.test_data["TEST_USER_EMAIL"]
+        password = self.test_data.get("TEST_USER_PASSWORD")
+        return (email, password)
+
+    def get_demo_account_id(self):
+        return self.test_data["DEMO"]
+
+    def get_test_account(self):
+        account = None
+        try:
+            account = Account.objects(name=self.test_data["TEST_ACCOUNT_NAME"]).first()
+            if account is None:
+                account = Account(name=self.test_data["TEST_ACCOUNT_NAME"], id=self.test_data["TEST_ACCOUNT_ID"] )
+                account.save()
+        except:
+            pass
+        return account
 
 class TestHelper():
     """Helper or delegate class with functions for unit and integration tests

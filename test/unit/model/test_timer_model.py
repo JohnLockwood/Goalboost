@@ -7,7 +7,7 @@ from bson import ObjectId
 from goalboost.model.datastore import create_timer
 from goalboost.model.models_auth import User
 from goalboost.model.models_timer import Timer, TimerEntity
-from test.common.test_helper import TestHelper, test_data
+from test.common.test_helper import TestHelper, TestObjects
 
 class TestTimerEntity(TestCase):
     # Todo Make a test objects class encapsulating test data, and move this there
