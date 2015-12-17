@@ -1,0 +1,5 @@
+{"hours": [
+{"contributor": "GeorgeMarks", "date": "12/04/2015", "hours": 2.0, "description": "#CodeSolid Organizing - Attend Co-Op Startup Seminar and meeting"},
+{"contributor": "GeorgeMarks", "date": "12/07/2015", "hours": 2.0, "description": "Set up my local development environment: GitHup Desk v3.0.9, Python 3.4, PyCharm Community Edition v5.0.1, Mongodb 3.0.7"},
+{"contributor": "GeorgeMarks", "date": "12/08/2015", "hours": 1.0, "description": "Install dependencies with PIP using requirements.txt. Debug server crash. Installing flask-httpauth soled it."}
+]}
