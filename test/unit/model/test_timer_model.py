@@ -10,22 +10,18 @@ from goalboost.model.models_timer import Timer, TimerEntity
 from test.common.test_helper import TestHelper, TestObjects
 
 class TestTimerEntity(TestCase):
-    # Todo Make a test objects class encapsulating test data, and move this there
-    def _get_test_user(self):
-        u = User(id=test_data["TEST_USER_ID"], email=test_data["TEST_USER_EMAIL"], password=test_data["TEST_USER_PASSWORD"])
-        u.save()
-        return u
-
 
     def test_can_save_and_load_timer(self):
-        t = TimerEntity(id= test_data["DEMO"], notes="Saved from unit test", user=self._get_test_user() )
+        user = TestObjects().get_test_user()
+        t = TimerEntity(id=TestObjects().get_any_id(), notes="Saved from unit test", user=user )
         t.save()
         t2 = TimerEntity.objects(id = t.id).first()
         assert(t.__repr__() == t2.__repr__())
         t.delete()
 
     def test_eval_ok(self):
-        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=self._get_test_user() )
+        user = TestObjects().get_test_user()
+        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=user)
         print(t1.__repr__())
         t2 = eval(t1.__repr__())
         # Note this part works partly because compare is brain-dead, compares id only and only works for non-null id
@@ -36,21 +32,12 @@ class TestTimerEntity(TestCase):
         print(t1.to_json())
 
     def test_user_not_updated_on_save(self):
-        user=self._get_test_user()
-        t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=self._get_test_user() )
+        user = TestObjects().get_test_user()
+        t1 = TimerEntity(id=ObjectId(b"Timer1Timer3"), notes="I want a shrubbery", user=user)
         t1.save()
         t1.user.password = "foo"
         t1.save()
         # TODO ETC...
-
-
-
-
-
-
-
-
-
 
 # Derive from object temporarily to disable
 class TestTimerLegacy(object):

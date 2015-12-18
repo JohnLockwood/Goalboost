@@ -43,6 +43,9 @@ class TestObjects():
             pass
         return account
 
+    def get_any_id(self):
+        return self.test_data["DEMO"]
+
 class TestHelper():
     """Helper or delegate class with functions for unit and integration tests
     For now we assume that one database connection per TestDelegate is sufficient

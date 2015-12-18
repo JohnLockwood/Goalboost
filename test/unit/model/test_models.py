@@ -179,7 +179,6 @@ class TestAuth(TestCase):
                 user = user_data_store.create_user(email="melblank@bugs.com", accountId=TestObjects().get_demo_account_id(), password="chickens")
                 # print(str(type(user)))
                 token = user.get_auth_token()
-
                 token2 = token
                 assert(token == token2)
                 result = user.verify_auth_token(token)

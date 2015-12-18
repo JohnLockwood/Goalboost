@@ -6,6 +6,10 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, Signatur
 from mongoengine import signals
 from goalboost.model import db
 
+
+class Account(db.Document):
+    name = db.StringField(max_length=255, unique=True)
+
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
@@ -17,6 +21,7 @@ class User(db.Document, UserMixin):
     email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
     accountId = db.ObjectIdField(null=True)                 # Todo make this required
+    #account= db.ReferenceField(Account, required=True)                 # Todo make this required
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
@@ -66,6 +71,3 @@ class User(db.Document, UserMixin):
         del(as_dict["password"])
         return dumps(as_dict)
 
-
-class Account(db.Document):
-    name = db.StringField(max_length=255, unique=True)
