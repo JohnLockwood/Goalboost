@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from goalboost.model.business_objects import UserTimer
 from goalboost.model import db
-from goalboost.model.models_auth import User
+from goalboost.model.auth_models import User
 from test.common.test_helper import TestHelper, TestObjects
 
 class UserTimerTest(TestCase):
@@ -19,7 +19,7 @@ class UserTimerTest(TestCase):
             else:
                 # We don't need to encrypt password here -- slows tests down a LOT!!!
                 #encrypted = encrypt_password("WhatsUpDocument")
-                self.user = user_data_store.create_user(email="hasTimers@scheduled.com", accountId=TestObjects().get_demo_account_id(), password="foo")
+                self.user = user_data_store.create_user(email="hasTimers@scheduled.com", account=TestObjects().get_test_account(), password="foo")
 
     def tearDown(self):
         with self.testHelper.app().app_context():
@@ -52,8 +52,7 @@ class UserTimerTest(TestCase):
         assert(user_timer.user.timer is None)
 
     def test_can_create_john_timer(self):
-        query_result = User.objects(email="elitepropertiesbroker@gmail.com")
-        u = query_result.first()
+        u = TestObjects().get_test_user()
         user_timer = UserTimer(u, db)
         timer = user_timer.timer_create()
         timer.set_seconds_today(300)

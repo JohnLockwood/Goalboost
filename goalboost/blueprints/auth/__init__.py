@@ -2,7 +2,7 @@ from flask.ext.login import LoginManager
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 
 login_manager = LoginManager()
-from goalboost.model.models_auth import Role, User
+from goalboost.model.auth_models import Role, User
 from flask.ext.security import Security, SQLAlchemyUserDatastore, MongoEngineUserDatastore
 from goalboost.model import db
 

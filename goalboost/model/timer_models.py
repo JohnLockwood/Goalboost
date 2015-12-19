@@ -6,8 +6,7 @@ from dateutil import parser
 from pytz import timezone
 
 from goalboost.model import db
-from goalboost.model.models_auth import User
-
+from goalboost.model.auth_models import User
 
 '''
 TimerEntity
@@ -286,4 +285,3 @@ class Timer(TimerFormat, db.Document):
         vals["total_elapsed"] = self.total_elapsed()
         vals["current_elapsed"] = self.current_elapsed()
         return vals
-

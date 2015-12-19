@@ -1,11 +1,10 @@
 from json import loads, dumps
-
 from flask import current_app
 from flask.ext.security import RoleMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from mongoengine import signals
 from goalboost.model import db
-
+from goalboost.model.goalboost_model_schema import GoalboostModelSchema
 
 class Account(db.Document):
     name = db.StringField(max_length=255, unique=True)
@@ -20,8 +19,7 @@ class Role(db.Document, RoleMixin):
 class User(db.Document, UserMixin):
     email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
-    accountId = db.ObjectIdField(null=True)                 # Todo make this required
-    #account= db.ReferenceField(Account, required=True)                 # Todo make this required
+    account= db.ReferenceField(Account, required=False)       # Todo make this required
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
@@ -71,3 +69,15 @@ class User(db.Document, UserMixin):
         del(as_dict["password"])
         return dumps(as_dict)
 
+# See notes in goalboost/model/__init__.py
+class UserSchema(GoalboostModelSchema):
+    class Meta:
+        model = User
+
+class AccountSchema(GoalboostModelSchema):
+    class Meta:
+        model = Account
+
+class RoleSchema(GoalboostModelSchema):
+    class Meta:
+        model = Role

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask.ext.login import login_required
-from goalboost.model.models_auth import User
-from goalboost.model.models_timer import Timer
+from goalboost.model.auth_models import User
+from goalboost.model.timer_models import Timer
 from goalboost.model.business_objects import UserTimer
 from goalboost.model.datastore import TimerDao
 from goalboost.model import db

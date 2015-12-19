@@ -3,7 +3,7 @@ from flask.ext.script import Manager, Shell
 
 from goalboost.model import db
 from goalboost import app
-from goalboost.model.models_timer import Timer, TimerEntity
+from goalboost.model.timer_models import Timer, TimerEntity
 
 manager = Manager(app)
 

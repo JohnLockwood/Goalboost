@@ -1,5 +1,6 @@
-from goalboost.model.models_timer import Timer
+# Deprecated -- this will likely go away, at least in its current form.
 
+from goalboost.model.timer_models import Timer
 
 class UserTimer:
     def __init__(self, user, db):

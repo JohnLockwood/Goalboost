@@ -5,8 +5,8 @@ from unittest import TestCase
 import dateutil
 from bson import ObjectId
 from goalboost.model.datastore import create_timer
-from goalboost.model.models_auth import User
-from goalboost.model.models_timer import Timer, TimerEntity
+from goalboost.model.auth_models import User
+from goalboost.model.timer_models import Timer, TimerEntity
 from test.common.test_helper import TestHelper, TestObjects
 
 class TestTimerEntity(TestCase):
@@ -39,6 +39,7 @@ class TestTimerEntity(TestCase):
         t1.save()
         # TODO ETC...
 
+
 # Derive from object temporarily to disable
 class TestTimerLegacy(object):
     def test_can_create_with_utc_now(self):
@@ -53,6 +54,7 @@ class TestTimerLegacy(object):
         t = Timer(notes=notes)
         t.start()
         t.stop()
+
 
     def test_can_create_with_explicit_start(self):
         my_notes = "I am another timer"

@@ -1,6 +1,6 @@
 import random
 import string
-from goalboost.model.models_auth import User, Account
+from goalboost.model.auth_models import User, Account
 
 from bson import ObjectId
 from goalboost import app
@@ -18,7 +18,7 @@ class TestObjects():
         account = self.get_test_account()
         email, password = self.get_test_user_credentials()
         try:
-            user = User(email=email, accountId=self.get_demo_account_id(), password=password)
+            user = User(email=email, account=account, password=password)
             user.save()
         except: # Don't care if already created
             user = User.objects(email=email).first()
@@ -29,8 +29,8 @@ class TestObjects():
         password = self.test_data.get("TEST_USER_PASSWORD")
         return (email, password)
 
-    def get_demo_account_id(self):
-        return self.test_data["DEMO"]
+ #   def get_demo_account_id(self):
+ #       return self.test_data["DEMO"]
 
     def get_test_account(self):
         account = None

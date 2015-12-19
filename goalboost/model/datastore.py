@@ -1,4 +1,4 @@
-from goalboost.model.models_timer import Timer
+from goalboost.model.timer_models import Timer
 from datetime import datetime
 
 def add_timer_to_user():

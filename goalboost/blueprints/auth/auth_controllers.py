@@ -5,7 +5,7 @@ from flask.ext.login import login_required, logout_user, current_user
 from flask.ext.httpauth import HTTPBasicAuth
 from flask_security.forms import RegisterForm, Required
 from mongoengine import StringField
-from goalboost.model.models_auth import User
+from goalboost.model.auth_models import User
 
 
 class ExtendedRegisterForm(RegisterForm):

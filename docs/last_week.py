@@ -4,7 +4,8 @@ now = datetime.now()
 now = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
 from json import loads
-with open('hours.json', 'r') as f:
+file_name = input("Enter a file name:  ")
+with open(file_name, 'r') as f:
     read_data = f.read()
 data = loads(read_data)
 total_hours_this_week = 0
