@@ -104,5 +104,5 @@
 {"contributor": "JohnLockwood", "date": "12/15/2015", "hours": 1.0, "description": "Meeting with George - Sprint 2 tasks"},
 {"contributor": "JohnLockwood", "date": "12/17/2015", "hours": 2.0, "description": "Continue timer refactoring, check in new hours files, etc"},
 {"contributor": "JohnLockwood", "date": "12/18/2015", "hours": 1.2, "description": "Continue testing timer entity, reworking TestObjects, merge timer_refactor to master.  Add User.account reference field and fix unit tests that this breaks.  Sign-on, login will be fixed as part of #17."},
-{"contributor": "JohnLockwood", "date": "12/19/2015", "hours": 1.8, "description": "Install Marshmallow, work on data serialization schemas"}
+{"contributor": "JohnLockwood", "date": "12/19/2015", "hours": 1.9, "description": "Install Marshmallow, work on data serialization schemas"}
 ]}
