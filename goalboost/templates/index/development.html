@@ -94,34 +94,6 @@
                 notes: "Gets all timers for a user.  Most recent first.  Need to work out pagination",
                 status: 'Works.  Needs review and pagination.'
             },
-            {
-                method: "GET",
-                endpoint: "/api/user/:id/timer_current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
-                data: '',
-                notes: "Get the users's current timer.  If not set return 404",
-                status: 'Works'
-            },
-            {
-                method: "POST",
-                endpoint: "/api/user/:id/timer_current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
-                data: '{"wewant": "ashrubbery"}',
-                notes: "Creates a new timer and sets it as user's timer current timer",
-                status: 'To do -- note can do with a more general post followed by a PUT'
-            },
-
-            {
-                method: "PUT",
-                endpoint: "/api/user/:id/timer/current",
-                devurl: "http://localhost:5000/api/user/56259a278c57cf02f9692b31/timer_current",
-                produrl: "http://goalboost.com/api/user/56322c59e1539b0ef4855724/timer_current",
-                data: '{"wewant": "ashrubbery"}',
-                notes: "Set's the user's current timer to an existing timer.",
-                status: 'In progress / broken'
-            }
 
         ];
 

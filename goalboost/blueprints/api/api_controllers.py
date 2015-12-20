@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 from flask.ext.login import login_required
 from goalboost.model.auth_models import User
 from goalboost.model.timer_models import Timer
-from goalboost.model.business_objects import UserTimer
 from goalboost.model.datastore import TimerDao
 from goalboost.model import db
 from flask import Blueprint
@@ -22,9 +21,6 @@ def init_api(app):
     # All timers for a user
     api.add_resource(UserAllTimersResource, '/user/<string:userid>/timers')
 
-    # Current timer for user;
-    api.add_resource(UserCurrentTimerResource, '/user/<string:id>/timer_current')
-
     # Timers generally
     api.add_resource(TimerResource, '/timer')
 
@@ -40,8 +36,6 @@ def protected_hello():
     response = jsonify({'greeting': 'hello', 'recipient': 'world'})
     response.status_code = 200
     return response
-
-
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -134,85 +128,4 @@ class UserResource(Resource):
         except:
             return ErrorHandler.not_found()
 
-
-# Todo authorization, and check id is valid ObjectId
-class UserCurrentTimerResource(Resource):
-    #@api.representation("application/json")
-    def get(self, id):
-        timer = self._get_timer(id)
-        if timer is not None:
-            timer.thisNeedsWork = "HEY-- THIS IS NOT WORKING YET.  JCL TODO FIX THIS"
-            return timer.to_api_dict()  #loads(timer.to_json())
-        else:
-            return ErrorHandler.not_found()
-
-    # JCL TODO !!!
-    # Makes another timer the current timer.
-    def put(self, id):
-        return self.get(id)
-        # query_set = User.objects(id=id)
-        # try:
-        #     u = query_set.first()
-        #     user_timer = UserTimer(u, db)
-        #     print(loads(user_timer.timer_get()))
-        #     return loads(user_timer.timer_get())
-        # except:
-        #     return None
-
-    # Based loosely on http://williamdurand.fr/2014/02/14/please-do-not-patch-like-an-idiot/,
-    # but is probably still idiotic according to the purists.
-    # Requi
-    def patch(self, id):
-        # Confirm json in body
-        if request.json is None:
-            return ErrorHandler.bad_request("Bad request - expected Content-Type is application/json")
-
-        '''
-        Valid ops:
-            See http://williamdurand.fr/2014/02/14/please-do-not-patch-like-an-idiot and RFC:
-            http://tools.ietf.org/html/rfc6902
-        {"op":"replace", "path": "/running", "value": true} - Start or resume the timer
-        {"op":"replace", "path": "/running", "value": false} - Stop (or "pause") the timer
-        {"op":"replace", "path": "/notes", "value": "Some text value describing the notes."} - Set the notes
-        '''
-        # Try to get the timer
-        timer = self._get_timer(id)
-        if timer is not None:
-            json = request.json
-            # At this point everything needs a value, but that may change in future.
-            if "op" not in json.keys() or "path" not in json.keys() or "value" not in json.keys():
-                return ErrorHandler.bad_request("Bad request - see API documentation at ... ?")
-            op = json["op"]
-            path = json["path"]
-            value = json["value"]
-
-            if (op == "replace" and path == "/running"):
-                if not isinstance(value, bool):
-                    return ErrorHandler.bad_request("Bad request value for running must be boolean")
-                # Start timer
-                if(value == True):
-                    if timer.running:
-                        return ErrorHandler.bad_state_transition("Invalid state transition - timer alread running")
-                    else:
-                        timer.start()
-                else:
-                    timer.stop()
-
-            return timer.public_json()
-        else:
-            return ErrorHandler.not_found()
-
-    # Creates a new timer and sets it as user's timer
-    # /api/user/:id/timer/current
-    def post(self, id):
-        return dict(todo="Replace the user timer with the new timer in UserTimerResource.post")
-
-    def _get_timer(self, id):
-        query_set = User.objects(id=id)
-        try:
-            u = query_set.first()
-            user_timer = UserTimer(u, db)
-            return user_timer.timer_get()
-        except:
-            return None
 
