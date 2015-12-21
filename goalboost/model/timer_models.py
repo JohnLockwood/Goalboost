@@ -1,7 +1,6 @@
 from datetime import datetime, date, timedelta
 from json import dumps, loads
 
-from bson import ObjectId
 from dateutil import parser
 from pytz import timezone
 
@@ -32,7 +31,6 @@ class TimerEntity(db.Document):
             lastRestart = datetime.utcnow()
             lastRestart = lastRestart - timedelta(microseconds=lastRestart.microsecond)
 
-
         dateEntered = self.cast_date_time(dateEntered)
         lastRestart = self.cast_date_time(lastRestart)
         super().__init__(dateEntered, lastRestart, **kwargs)
@@ -62,7 +60,7 @@ TimerDAO - DAO is "Data Access Object"
 This class will be responsible for making sure a TimerEntity is saved correctly
 with respect to the the rest of the database, for example (and maybe this is all it does),
 ensuring that there's only one active timer for users.  Other responsiblities might include
-auto-shutoff.
+auto-shutoff.  Note there is already such a beast
 '''
 class TimerDAO():
     pass
@@ -73,8 +71,13 @@ Should include formatting methods which consume or produce a timer entity, so th
 not part of timer any more.
 '''
 class TimerFormatter():
-    pass
+    #
+    def model_to_dict(self, object_as_model):
+        pass
 
+    #
+    def dict_to_model(self, object_as_dict):
+        pass
 
 '''
 This represents what in the 1.0 timer world John used at the shell.
@@ -102,8 +105,6 @@ class RemoteTicker(object):
         pass
 
 # LEGACY Code before refactoring -----------------------------------------------------------
-
-
 
 # This is a "mixin" which has knowledge of Timer internals.
 # From a design point of view maybe that's not ideal.

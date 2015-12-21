@@ -5,7 +5,7 @@ from flask.ext.login import login_required, logout_user, current_user
 from flask.ext.httpauth import HTTPBasicAuth
 from flask_security.forms import RegisterForm, Required
 from mongoengine import StringField
-from goalboost.model.auth_models import User
+from goalboost.model.auth_models import User, UserSchema
 
 
 class ExtendedRegisterForm(RegisterForm):
@@ -20,10 +20,16 @@ bp_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 auth = HTTPBasicAuth()
 
+# This is just a hello world sort of resource for our API tests.
 @bp_auth.route('/api/resource')
 @auth.login_required
 def get_resource():
-    return jsonify({ 'data': 'Hello, %s!' % current_user.email })
+    # Flex our Marshmallow muscles a bit (that sounds bad):
+    user_schema = UserSchema()
+    data = user_schema.dump_exclude(current_user, exclude=["password", "account"]).data
+    data2 = user_schema.dump_exclude(current_user, exclude=["password"]).data
+    data["hello"] = "Hello %s" % current_user.email
+    return jsonify(data)
 
 @auth.verify_password
 def verify_password(username, password):
@@ -34,7 +40,6 @@ def verify_password(username, password):
         return False
     current_user = user
     return True
-
 
 
 @bp_auth.route('/get_token')
@@ -48,9 +53,4 @@ def get_auth_token():
 def logged_out():
     return flask.render_template("mod_auth/logged_out.html")
 
-# Just a demo of using login required - TODO delete when not needed
-@bp_auth.route("/protected/",methods=["GET"])
-@login_required
-def protected():
-    return flask.render_template("mod_auth/protected.html")
 

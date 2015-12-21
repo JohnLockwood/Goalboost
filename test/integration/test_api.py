@@ -54,6 +54,7 @@ class TestTimer(TestCase):
             # Cleanup
             userOriginal.delete()
 
+    # This shows how to login user for API, to get
     def test_login_and_use_resource(self):
         # Ensure test user created
         test_objects = TestObjects()
@@ -71,7 +72,8 @@ class TestTimer(TestCase):
             basic_auth_credentials = HTTPBasicAuth(email, user["authentication_token"])
             response = requests.get(url=test_server + "/auth/api/resource", headers={'content-type' : 'application/json'}, auth=basic_auth_credentials)
             assert(response.status_code == 200)
-            assert(email in str(response.json()["data"]))
+            assert(email in str(response.json()))
+            print(response.json())
         finally:
             #Cleanup
             userOriginal.delete()

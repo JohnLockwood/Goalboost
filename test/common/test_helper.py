@@ -35,9 +35,10 @@ class TestObjects():
     def get_test_account(self):
         account = None
         try:
-            account = Account.objects(name=self.test_data["TEST_ACCOUNT_NAME"]).first()
+            account_name = self.test_data["TEST_ACCOUNT_NAME"]
+            account = Account.objects(name=account_name).first()
             if account is None:
-                account = Account(name=self.test_data["TEST_ACCOUNT_NAME"], id=self.test_data["TEST_ACCOUNT_ID"] )
+                account = Account(name=account_name, id=self.test_data["TEST_ACCOUNT_ID"] )
                 account.save()
         except:
             pass

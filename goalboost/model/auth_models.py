@@ -4,7 +4,8 @@ from flask.ext.security import RoleMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from mongoengine import signals
 from goalboost.model import db
-from goalboost.model.goalboost_model_schema import GoalboostModelSchema
+from goalboost.model.goalboost_model_schema import GoalboostModelSchema, ModelFormatter
+
 
 class Account(db.Document):
     name = db.StringField(max_length=255, unique=True)
@@ -81,3 +82,33 @@ class AccountSchema(GoalboostModelSchema):
 class RoleSchema(GoalboostModelSchema):
     class Meta:
         model = Role
+
+# ModelFormatter only defines an interface, and even there
+# the Python idiom is unclear
+class UserModelFormatter(ModelFormatter):
+    def model_to_dict(self, object_as_model):
+        user_dict = dict()
+        user_string_properties = ["id", "email", "confirmed_at"] # Password omitted - do not display
+        for prop in user_string_properties:
+            self.add_string_property(prop, object_as_model, user_dict)
+        self.add_property("active", object_as_model, user_dict)
+
+        # Make into AccountModelFormatter.model_to_dict
+        user_dict["account"] = AccountModelFormatter().model_to_dict(object_as_model.account)
+
+        return user_dict
+        # Needs more testing:  roles = db.ListField(db.ReferenceField(Role), default=[])
+
+    def dict_to_model(self, object_as_dict):
+        raise NotImplementedError("UserModelFormatter::dict_to_model not implemented")
+
+class AccountModelFormatter(ModelFormatter):
+    def model_to_dict(self, object_as_model):
+        account_dict = dict()
+        account_string_properties = ["id", "name"]
+        for prop in account_string_properties:
+            self.add_string_property(prop, object_as_model, account_dict)
+        return account_dict
+
+    def dict_to_model(self, object_as_dict):
+        raise NotImplementedError("UserModelFormatter::dict_to_model not implemented")

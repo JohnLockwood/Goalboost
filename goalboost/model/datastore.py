@@ -24,7 +24,7 @@ class TimerDao:
         timer.save()
 
     # Returns true if the timer is found and deleted.  False for not found.
-    # Currently ignored by API
+    # Return value currently ignored by API
     def delete_timer(self, timer_id):
         timer = Timer.objects(id = timer_id).first()
         if (timer):
