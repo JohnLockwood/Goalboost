@@ -110,4 +110,4 @@
 {"date": "12/22/2015", "hours": 1.3, "description": "Preliminary v1 API"},
 {"date": "12/23/2015", "hours": 0.7, "description": "Clean up duplicate code in auth; consolidate HttpAuth object"},
 {"date": "12/24/2015", "hours": 0.3, "description": "Remove Marshmallow - deprecate HARD"}
-\}
+]}
