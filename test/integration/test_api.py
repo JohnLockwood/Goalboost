@@ -72,7 +72,7 @@ class TestTimer(TestCase):
             basic_auth_credentials = HTTPBasicAuth(email, user["authentication_token"])
             response = requests.get(url=test_server + "/auth/api/resource", headers={'content-type' : 'application/json'}, auth=basic_auth_credentials)
             assert(response.status_code == 200)
-            assert(email in str(response.json()))
+            assert("hello" in str(response.json()))
             print(response.json())
         finally:
             #Cleanup

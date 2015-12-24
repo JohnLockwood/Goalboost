@@ -10,14 +10,15 @@ httpBasicAuth = HTTPBasicAuth()
 def verify_password(username, password):
     global current_user
     user = User.verify_auth_token(password)
-    # Todo review -- Is verifying user part of auth token sufficient?  Seems to me we should also be verifying the generated token?
     if not user:
         return False
 
-    # Todo - These lines allow test_login_and_use_resource to work since it looks up the current user,
-    # but one could make the case that a restful API shouldn't do this since it effectively creates session state.
-    user.authenticated = True
-    login_user(user, remember=True)
+    # Adding these lines will (correctly -- was tested at one point) mean "current_user" can be used from
+    # contexts that need it, but leaving them off for now as  it is not a good design for a restful API,
+    # which verify_password is designed to support
+    #
+    # user.authenticated = True
+    # login_user(user, remember=True)
 
     return True
 

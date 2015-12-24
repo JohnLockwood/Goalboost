@@ -4,7 +4,7 @@ import flask.ext.login
 from flask.ext.login import login_required, current_user
 from flask_security.forms import RegisterForm, Required
 from mongoengine import StringField
-from goalboost.model.auth_models import User, UserSchema
+from goalboost.model.auth_models import User
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
 
 
@@ -24,11 +24,7 @@ bp_auth = Blueprint('auth', __name__, url_prefix='/auth')
 @bp_auth.route('/api/resource')
 @httpBasicAuth.login_required
 def get_resource():
-    # Flex our Marshmallow muscles a bit (that sounds bad):
-    user_schema = UserSchema()
-    data = user_schema.dump_exclude(current_user, exclude=["password", "account"]).data
-    data2 = user_schema.dump_exclude(current_user, exclude=["password"]).data
-    data["hello"] = "Hello %s" % current_user.email
+    data = dict(hello = "world")
     return jsonify(data)
 
 

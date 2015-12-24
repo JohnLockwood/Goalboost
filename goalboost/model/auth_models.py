@@ -4,8 +4,7 @@ from flask.ext.security import RoleMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from mongoengine import signals
 from goalboost.model import db
-from goalboost.model.goalboost_model_schema import GoalboostModelSchema, ModelFormatter
-
+from goalboost.model.model_formatter import ModelFormatter
 
 class Account(db.Document):
     name = db.StringField(max_length=255, unique=True)
@@ -69,19 +68,6 @@ class User(db.Document, UserMixin):
         as_dict = loads(json)
         del(as_dict["password"])
         return dumps(as_dict)
-
-# See notes in goalboost/model/__init__.py
-class UserSchema(GoalboostModelSchema):
-    class Meta:
-        model = User
-
-class AccountSchema(GoalboostModelSchema):
-    class Meta:
-        model = Account
-
-class RoleSchema(GoalboostModelSchema):
-    class Meta:
-        model = Role
 
 # ModelFormatter only defines an interface, and even there
 # the Python idiom is unclear

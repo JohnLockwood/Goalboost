@@ -1,5 +1,6 @@
 from json import loads
-with open('hours.json', 'r') as f:
+file_name = input("Enter a file name:  ")
+with open(file_name, 'r') as f:
     read_data = f.read()
 data = loads(read_data)
 hours = [i["hours"] for i in data["hours"]] 
