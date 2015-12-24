@@ -1,11 +1,11 @@
 # Import flask dependencies
 from flask import Blueprint, jsonify
 import flask.ext.login
-from flask.ext.login import login_required, logout_user, current_user
-from flask.ext.httpauth import HTTPBasicAuth
+from flask.ext.login import login_required, current_user
 from flask_security.forms import RegisterForm, Required
 from mongoengine import StringField
 from goalboost.model.auth_models import User, UserSchema
+from goalboost.blueprints.auth.token_auth import httpBasicAuth
 
 
 class ExtendedRegisterForm(RegisterForm):
@@ -18,11 +18,11 @@ class ExtendedRegisterForm(RegisterForm):
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 bp_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-auth = HTTPBasicAuth()
+
 
 # This is just a hello world sort of resource for our API tests.
 @bp_auth.route('/api/resource')
-@auth.login_required
+@httpBasicAuth.login_required
 def get_resource():
     # Flex our Marshmallow muscles a bit (that sounds bad):
     user_schema = UserSchema()
@@ -30,16 +30,6 @@ def get_resource():
     data2 = user_schema.dump_exclude(current_user, exclude=["password"]).data
     data["hello"] = "Hello %s" % current_user.email
     return jsonify(data)
-
-@auth.verify_password
-def verify_password(username, password):
-    global current_user
-    user = User.verify_auth_token(password)
-    # Todo review -- Is verifying user part of auth token sufficient?  Seems to me we should also be verifying the generated token?
-    if not user:
-        return False
-    current_user = user
-    return True
 
 
 @bp_auth.route('/get_token')

@@ -14,6 +14,8 @@ api_root = "/api"
 bp_api = Blueprint('api', __name__, url_prefix=api_root)
 api = Api(bp_api)
 
+
+
 def init_api(app):
     # Just the User
     api.add_resource(UserResource, '/user/<string:id>')
