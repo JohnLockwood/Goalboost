@@ -5,6 +5,7 @@ from requests.auth import HTTPBasicAuth
 
 from goalboost.model.timer_models import TimerEntity, TimerFormatter
 from test.common.test_helper import TestObjects
+import http.client
 
 test_server = "http://localhost:5000"
 v1_api = test_server + "/api/v1"
@@ -34,7 +35,7 @@ test_credentials = TestCredentials()
 class SanityCheck(TestCase):
     def test_can_call_test_endpoint(self):
         response = requests.get(v1_api + "/test")
-        assert(response.status_code == 200)
+        assert(response.status_code == http.client.OK)
 
 class TestSecureEndpoint(TestCase):
     def test_can_get_token(self):
@@ -44,20 +45,53 @@ class TestSecureEndpoint(TestCase):
 
     def test_secure_endpoint_returns_401_without_token(self):
         response = requests.get(v1_api + "/secure_test")
-        assert(response.status_code == 401)
-
+        assert(response.status_code == http.client.UNAUTHORIZED)
 
     def test_secure_endpoint_returns_200_with_token(self):
         token = test_credentials.get_auth_token()
         response = requests.get(v1_api + "/secure_test", headers={'content-type' : 'application/json'}, auth=token)
-        assert(response.status_code == 200)
-
+        assert(response.status_code == http.client.OK)
 
 class TestV1Timer(TestCase):
-    def test_post_timer(self):
+    def test_timer_post_get_delete(self):
         token = test_credentials.get_auth_token()
         user = TestObjects().get_test_user()
         timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
         timer_dict = TimerFormatter().model_to_dict(timer)
+
+        # Not authorized w/o token
+        response = requests.post(v1_api + "/timer", headers={'content-type' : 'application/json'}, data=timer.to_json())
+        assert(response.status_code == http.client.UNAUTHORIZED)
+
+        # With token, should get "CREATED"
         response = requests.post(v1_api + "/timer", headers={'content-type' : 'application/json'}, auth=token, data=timer.to_json())
-        print(response.text)
+        assert(response.status_code == http.client.CREATED)
+
+        # Object location
+        url = response.headers["Location"]
+
+        # Not authorized without the token (401)
+        response = requests.get(url)
+        assert(response.status_code == http.client.UNAUTHORIZED)
+
+        # Re-send the request with the token, this time get OK (200)
+        response = requests.get(url, auth=token)
+        assert(response.status_code == http.client.OK)
+        timer_dict2 = loads(response.text)
+        assert(timer_dict2["seconds"] == 22)
+
+        # Update the seconds and PUT the request
+        timer_dict2["seconds"] = 99
+        response = requests.put(url, headers={'content-type' : 'application/json'}, auth=token, data=dumps(timer_dict2))
+        assert(response.status_code == http.client.OK)
+        response = requests.get(url, auth=token)
+        assert(response.status_code == http.client.OK)
+        timer_dict3 = loads(response.text)
+        assert(timer_dict3["seconds"] == 99)
+
+
+
+        # Delete the resource
+        response = requests.delete(url, auth=token)
+        assert(response.status_code == http.client.NO_CONTENT)
+

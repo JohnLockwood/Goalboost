@@ -5,7 +5,6 @@ from goalboost.model import db
 from goalboost.model.auth_models import User, UserModelFormatter
 from goalboost.model.model_formatter import ModelFormatter
 
-
 class Error(Exception):
     pass
 
@@ -64,6 +63,14 @@ class TimerEntity(db.Document):
             self.tags.__repr__())
         return s
 
+    # ARRRGGGGHHHH!!!
+    # For updates, we need a way to mark attributes dirty, otherwise we can't implement "put" since just loading the object
+    # from JSON doesn't mark the attribute as SET.  It may be that we want to handle this in the formatter, but having
+    # just spent SEVERAL hours getting the formatter to be generic, I don't want to break it just yet.
+    def update_attributes(self, timer_new):
+        attributes = ["dateEntered", "lastRestart", "seconds", "notes", "user", "running", "tags"]
+        for key in attributes:
+            setattr(self, key, getattr(timer_new, key))
 
 '''
 TimerDAO - DAO is "Data Access Object"
@@ -81,8 +88,13 @@ class TimerDAO():
             # db.timer.update({userId: ObjectId("567421658c57cf2ef0028f03")}, {$set: {running: false}}, {multi: true})
             # Post.objects(comments__by="joe").update(**{'inc__comments__$__votes': 1})
             TimerEntity.objects(user = timer_entity.user).update(running=False)
-        timer_entity.save()
-        return timer_entity
+            timer_entity.save()
+
+    def get(self, timer_id):
+        return TimerEntity.objects(id=timer_id).first()
+
+    def delete(self, timer_id):
+        return TimerEntity.objects(id=timer_id).delete()
 
 '''
 TimerFormatter
