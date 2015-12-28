@@ -73,6 +73,8 @@ class User(db.Document, UserMixin):
 # the Python idiom is unclear
 class UserModelFormatter(ModelFormatter):
     def model_to_dict(self, object_as_model):
+        if object_as_model is None:
+            return None
         user_dict = dict()
         user_string_properties = ["id", "email", "confirmed_at"] # Password omitted - do not display
         for prop in user_string_properties:
@@ -90,6 +92,8 @@ class UserModelFormatter(ModelFormatter):
 
 class AccountModelFormatter(ModelFormatter):
     def model_to_dict(self, object_as_model):
+        if object_as_model is None:
+            return None
         account_dict = dict()
         account_string_properties = ["id", "name"]
         for prop in account_string_properties:

@@ -4,9 +4,8 @@ from json import dumps
 from unittest import TestCase
 import dateutil
 from bson import ObjectId
-from goalboost.model.datastore import create_timer
-from goalboost.model.auth_models import User
-from goalboost.model.timer_models import Timer, TimerEntity
+from goalboost.model.timer_models import TimerEntity, TimerDAO
+from goalboost.model.legacy_timer_models import LegacyTimer
 from test.common.test_helper import TestHelper, TestObjects
 
 class TestTimerEntity(TestCase):
@@ -38,27 +37,36 @@ class TestTimerEntity(TestCase):
         t1.user.password = "foo"
         t1.save()
         # TODO ETC...
+        t1.delete()
 
+
+# This tests the new refactored TimerDAO that takes a TimerEntity
+class TestTimerDAO(TestCase):
+    def test_save_timer(self):
+        dao = TimerDAO()
+        t1 = TimerEntity(notes="My Test LegacyTimer Running!", user=TestObjects().get_test_user(), running=True)
+        dao.put(t1)
+        assert(t1.id is not None)
 
 # Derive from object temporarily to disable
-class TestTimerLegacy(object):
+class TestTimerLegacy(TestCase):
     def test_can_create_with_utc_now(self):
         #userId = "561dcd3c8c57cf2c17b7f4f9"
         my_notes = "I want to know how long this took, but my code is brain dead so far.  Woe is me."
-        timer = create_timer(notes=my_notes)
+        timer = LegacyTimer(notes=my_notes)
         assert(my_notes == timer.notes)
         timer.save()
 
     def test_can_start_and_stop(self):
         notes = "Testing start and stop"
-        t = Timer(notes=notes)
+        t = LegacyTimer(notes=notes)
         t.start()
         t.stop()
 
 
     def test_can_create_with_explicit_start(self):
         my_notes = "I am another timer"
-        timer = create_timer(notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
+        timer = LegacyTimer(notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
         assert(my_notes == timer.notes)
         assert(timer.startTime == timer.lastRestart)
 
@@ -69,12 +77,12 @@ class TestTimerLegacy(object):
         pass
         # Uncomment the following to see (and delete "pass" of course).
         # my_notes = "We don't need no steenkin datastore."
-        # timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes)
+        # timer = LegacyTimer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes)
         #
         # # This will be a bug that will appear in the UI -- no entry in the entries array is created for today!
-        # # timer = Timer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
+        # # timer = LegacyTimer(id="56259a278c57cf02f9692ccc", userId = "561dcd3c8c57cf2c17b7f4f9", notes=my_notes, startTime=datetime(2007, 12, 5, 0, 0))
         # timer.save()
-        # timer2 = Timer.objects(id="56259a278c57cf02f9692ccc").first()
+        # timer2 = LegacyTimer.objects(id="56259a278c57cf02f9692ccc").first()
         # assert(timer2.notes == timer.notes)
         # assert(my_notes == timer.notes)
         # assert(timer.startTime == timer.lastRestart)
@@ -84,8 +92,8 @@ class TestTimerLegacy(object):
     def test_elapsed_time_correct(self):
         now = datetime.utcnow()
         tenSecondsAgo = now - timedelta(seconds=10)
-        # Timer must be running or elapsed time will be zero
-        timer = Timer(startTime = tenSecondsAgo, running=True)
+        # LegacyTimer must be running or elapsed time will be zero
+        timer = LegacyTimer(startTime = tenSecondsAgo, running=True)
         timer.set_seconds_today(20)
         elapsed = timer.current_elapsed()
         total = timer.total_elapsed()
@@ -94,8 +102,8 @@ class TestTimerLegacy(object):
 
     def test_to_api_dict_correct(self):
         start_time = dateutil.parser.parse('2008-09-03T20:00:00.000000Z')
-        # Timer must be running or elapsed time will be zero
-        timer = Timer(startTime = start_time, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
+        # LegacyTimer must be running or elapsed time will be zero
+        timer = LegacyTimer(startTime = start_time, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
         d = timer.to_api_dict()
         json = dumps(d)
         assert('"notes": null' in json)
@@ -111,16 +119,16 @@ class TestTimerLegacy(object):
 
     def test_can_load_from_api_dict(self):
         start_time = dateutil.parser.parse('2008-09-03T20:00:00.000000Z')
-        # Timer must be running or elapsed time will be zero
-        timer = Timer(startTime = start_time,  running=True, id=ObjectId("56259a278c57cf02f9692b31"))
+        # LegacyTimer must be running or elapsed time will be zero
+        timer = LegacyTimer(startTime = start_time, running=True, id=ObjectId("56259a278c57cf02f9692b31"))
         timer.set_seconds_today(99)
         d = timer.to_api_dict()
-        t2 = Timer.load_from_dict(d)
+        t2 = LegacyTimer.load_from_dict(d)
         assert(timer.notes == t2.notes)
         assert(timer.id == t2.id)
         assert(timer.entries[0].dateRecorded == t2.entries[0].dateRecorded)
         assert(len(timer.entries) == len(t2.entries))
         assert(timer.entries[0].seconds == t2.entries[0].seconds)
         d["notes"] = "Testing"
-        t2 = Timer.load_from_dict(d)
+        t2 = LegacyTimer.load_from_dict(d)
         assert(t2.notes == "Testing")

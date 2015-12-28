@@ -1,9 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask.ext.login import login_required
 from goalboost.model.auth_models import User
-from goalboost.model.timer_models import Timer
-from goalboost.model.datastore import TimerDao
-from goalboost.model import db
+from goalboost.model.legacy_timer_models import LegacyTimer, TimerDaoLegacy
+
 from flask import Blueprint
 from flask_restful import Api
 from mongoengine.errors import ValidationError
@@ -73,7 +72,7 @@ class UserAllTimersResource(Resource):
     # Gets all timers for a user. Most recent first. Need to work out pagination
     def get(self, userid):
         try:
-            l = TimerDao().timers_for_user(userid)
+            l = TimerDaoLegacy().timers_for_user(userid)
             return [timer.to_api_dict() for timer in l]
         except ValidationError as detail:
             return ErrorHandler.bad_request("Invalid ID format")
@@ -82,7 +81,7 @@ class TimerResource(Resource):
     # /api/user/:userid/timer
     def post(self):
         json = request.json
-        timer = Timer.load_from_dict(json)
+        timer = LegacyTimer.load_from_dict(json)
         timer.save()
         location = api_root + "/timer/" + str(timer.id)
         response = jsonify(timer.to_api_dict())
@@ -99,7 +98,7 @@ class TimerResourceById(Resource):
     # @login_required
     def get(self, timer_id):
         try:
-            timer = TimerDao().timer_by_id(timer_id)
+            timer = TimerDaoLegacy().timer_by_id(timer_id)
             if timer:
                 return timer.to_api_dict()
             else:
@@ -110,12 +109,12 @@ class TimerResourceById(Resource):
     def put(self, timer_id):
         # To do review exceptions, also, does json ID match timer_id?
         # If not return bad request
-        timer = Timer.load_from_dict(request.json)
-        TimerDao().save_timer(timer)
+        timer = LegacyTimer.load_from_dict(request.json)
+        TimerDaoLegacy().save_timer(timer)
         return(None, 204)
 
     def delete(self, timer_id):
-        TimerDao().delete_timer(timer_id)
+        TimerDaoLegacy().delete_timer(timer_id)
         return(None, 204)
 
 # Todo authorization, and check id is valid ObjectId

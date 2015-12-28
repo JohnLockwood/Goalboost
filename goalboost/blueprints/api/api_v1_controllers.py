@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
 
 api_v1_root = '/api/v1'
@@ -14,3 +14,9 @@ def test():
 def test_secure():
     message = {"status": "Open for SECURE business only"}
     return jsonify(message)
+
+# LegacyTimer
+@v1_api.route('/timer', methods=["POST"])
+@httpBasicAuth.login_required
+def timer_post():
+    print(request.json)

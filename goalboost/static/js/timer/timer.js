@@ -230,7 +230,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
         }, 500);
     }
 
-    // TODO if active Timer, should stop it first?
+    // TODO if active LegacyTimer, should stop it first?
     $scope.deleteTimer = function(index) {
         if(confirm("Delete timer, are you sure?")) {
             setTimeout(function () {

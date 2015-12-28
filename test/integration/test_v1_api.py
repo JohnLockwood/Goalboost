@@ -2,6 +2,8 @@ from unittest import TestCase
 import requests
 from json import dumps, loads
 from requests.auth import HTTPBasicAuth
+
+from goalboost.model.timer_models import TimerEntity
 from test.common.test_helper import TestObjects
 
 test_server = "http://localhost:5000"
@@ -50,3 +52,9 @@ class TestSecureEndpoint(TestCase):
         response = requests.get(v1_api + "/secure_test", headers={'content-type' : 'application/json'}, auth=token)
         assert(response.status_code == 200)
 
+
+class TestV1Timer(TestCase):
+    def test_post_timer(self):
+        token = test_credentials.get_auth_token()
+        timer = TimerEntity(notes="Testing V1 Post, chief")
+        response = requests.post(v1_api + "/timer", headers={'content-type' : 'application/json'}, auth=token, data="")
