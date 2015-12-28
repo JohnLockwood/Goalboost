@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
+from goalboost.model.timer_models import TimerFormatter, TimerEntity, TimerDAO
 
 api_v1_root = '/api/v1'
 v1_api = Blueprint('api/v1', __name__, url_prefix=api_v1_root)
@@ -19,4 +20,10 @@ def test_secure():
 @v1_api.route('/timer', methods=["POST"])
 @httpBasicAuth.login_required
 def timer_post():
-    print(request.json)
+    timer_entity = TimerFormatter().dict_to_model(TimerEntity, request.json)
+    dao = TimerDAO()
+    dao.put(timer_entity)
+
+    resp = jsonify(dict(id=str(timer_entity.id)))
+    resp.status_code = 201
+    return resp

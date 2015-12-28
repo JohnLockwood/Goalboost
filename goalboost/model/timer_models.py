@@ -1,7 +1,4 @@
 from datetime import datetime, date, timedelta
-from json import dumps, loads
-
-from bson import ObjectId
 from dateutil import parser
 
 from goalboost.model import db
@@ -127,31 +124,4 @@ class RemoteTicker(object):
         pass
 
 class TimerFormatter(ModelFormatter):
-
-    def model_to_dict2(self, object_as_model):
-        pass
-        '''
-        Long form if dateEntered and lastRestart comparisons needed
-        if object_as_model is None:
-            return None
-        as_dict = dict()
-        self.add_string_property("id", object_as_model, as_dict)
-        self.add_string_property("dateEntered", object_as_model, as_dict)
-        self.add_string_property("lastRestart", object_as_model, as_dict)
-        self.add_property("seconds", object_as_model, as_dict)
-        self.add_string_property("notes", object_as_model, as_dict)
-        as_dict["user"] = None
-        if object_as_model.user is not None:
-            as_dict["user"] = str(object_as_model.user.id)
-        self.add_property("running", object_as_model, as_dict)
-        self.add_list_property("tags", object_as_model, as_dict)
-        return as_dict
-        '''
-        #return loads(object_as_model.to_json())
-
-    #def dict_to_model(self, object_as_dict):
-    #    return TimerEntity.from_json(dumps(object_as_dict))
-
-
-
-
+    pass

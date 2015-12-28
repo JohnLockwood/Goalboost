@@ -21,14 +21,14 @@ class TestTimerEntity(TestCase):
     def test_eval_ok(self):
         user = TestObjects().get_test_user()
         t1 = TimerEntity(id=ObjectId(b"Timer1Timer2"), notes="I want a shrubbery", user=user)
-        print(t1.__repr__())
+        # print(t1.__repr__())
         t2 = eval(t1.__repr__())
         # Note this part works partly because compare is brain-dead, compares id only and only works for non-null id
         # But that may be what we need for MongoEngine purposes, so don't override
         assert(t1 == t2)
         # A better check
         assert(t1.__repr__() == t2.__repr__())
-        print(t1.to_json())
+        # print(t1.to_json())
 
     def test_user_not_updated_on_save(self):
         user = TestObjects().get_test_user()

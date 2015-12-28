@@ -109,5 +109,6 @@
 {"date": "12/21/2015", "hours": 1.0, "description": "Serialization for user only"},
 {"date": "12/22/2015", "hours": 1.3, "description": "Preliminary v1 API"},
 {"date": "12/23/2015", "hours": 0.7, "description": "Clean up duplicate code in auth; consolidate HttpAuth object"},
-{"date": "12/24/2015", "hours": 0.3, "description": "Remove Marshmallow - deprecate HARD"}
+{"date": "12/24/2015", "hours": 0.3, "description": "Remove Marshmallow - deprecate HARD"},
+{"date": "12/27/2015", "hours": 3.2, "description": "Continue timer v1 work including lots of work on formatters, preliminary post working"}
 ]}

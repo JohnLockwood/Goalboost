@@ -3,7 +3,7 @@ import requests
 from json import dumps, loads
 from requests.auth import HTTPBasicAuth
 
-from goalboost.model.timer_models import TimerEntity
+from goalboost.model.timer_models import TimerEntity, TimerFormatter
 from test.common.test_helper import TestObjects
 
 test_server = "http://localhost:5000"
@@ -56,5 +56,8 @@ class TestSecureEndpoint(TestCase):
 class TestV1Timer(TestCase):
     def test_post_timer(self):
         token = test_credentials.get_auth_token()
-        timer = TimerEntity(notes="Testing V1 Post, chief")
-        response = requests.post(v1_api + "/timer", headers={'content-type' : 'application/json'}, auth=token, data="")
+        user = TestObjects().get_test_user()
+        timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
+        timer_dict = TimerFormatter().model_to_dict(timer)
+        response = requests.post(v1_api + "/timer", headers={'content-type' : 'application/json'}, auth=token, data=timer.to_json())
+        print(response.text)
