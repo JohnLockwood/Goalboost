@@ -111,5 +111,6 @@
 {"date": "12/23/2015", "hours": 0.7, "description": "Clean up duplicate code in auth; consolidate HttpAuth object"},
 {"date": "12/24/2015", "hours": 0.3, "description": "Remove Marshmallow - deprecate HARD"},
 {"date": "12/27/2015", "hours": 3.2, "description": "Continue timer v1 work including lots of work on formatters, preliminary post working."},
-{"date": "12/28/2015", "hours": 2.8, "description": "Timer v1 API - CRUD methods implemented, addtional testing."}
+{"date": "12/28/2015", "hours": 2.8, "description": "Timer v1 API - CRUD methods implemented, addtional testing."},
+{"date": "01/01/2016", "hours": 2.6, "description": "V1 Timer work - refactor Timer into new RestfulResource class which can serve as the basis of our work going forward"}
 ]}
