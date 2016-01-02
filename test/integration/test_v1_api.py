@@ -44,12 +44,12 @@ class TestSecureEndpoint(TestCase):
         assert(id(token1) == id(token2))
 
     def test_secure_endpoint_returns_401_without_token(self):
-        response = requests.get(v1_api + "/secure_test")
+        response = requests.get(v1_api + "/test/secure_test")
         assert(response.status_code == http.client.UNAUTHORIZED)
 
     def test_secure_endpoint_returns_200_with_token(self):
         token = test_credentials.get_auth_token()
-        response = requests.get(v1_api + "/secure_test", headers={'content-type' : 'application/json'}, auth=token)
+        response = requests.get(v1_api + "/test/secure_test", headers={'content-type' : 'application/json'}, auth=token)
         assert(response.status_code == http.client.OK)
 
 class TestV1Timer(TestCase):
