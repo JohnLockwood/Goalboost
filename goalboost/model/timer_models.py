@@ -1,4 +1,6 @@
 from datetime import datetime, date, timedelta
+
+from bson import ObjectId
 from dateutil import parser
 
 from goalboost.model import db
@@ -92,6 +94,9 @@ class TimerDAO():
 
     def get(self, timer_id):
         return TimerEntity.objects(id=timer_id).first()
+
+    def get_all_timers_for_user(self, user_id):
+        return [t for t in TimerEntity.objects(user = ObjectId(user_id)).order_by("-lastRestart").all()]
 
     def delete(self, timer_id):
         return TimerEntity.objects(id=timer_id).delete()

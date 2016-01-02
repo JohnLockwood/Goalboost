@@ -10,10 +10,8 @@ import http.client
 test_server = "http://localhost:5000"
 v1_api = test_server + "/api/v1"
 
-
 class TestCredentials():
     credential_map = {}
-
 
     def get_auth_token(self):
         user = TestObjects().get_test_user()        # Force user creation
@@ -53,7 +51,9 @@ class TestSecureEndpoint(TestCase):
         assert(response.status_code == http.client.OK)
 
 class TestV1Timer(TestCase):
-    def test_timer_post_get_delete(self):
+
+    # TODO - How can we break this out further.  Too many cases in one test.
+    def test_timer_resource_all(self):
         token = test_credentials.get_auth_token()
         user = TestObjects().get_test_user()
         timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
@@ -89,7 +89,16 @@ class TestV1Timer(TestCase):
         timer_dict3 = loads(response.text)
         assert(timer_dict3["seconds"] == 99)
 
+        # Currently our GET all means "Everything for the current user.  This will change, and we'll need a new test
+        get_many_url = v1_api + "/timer"
+        # Not authorized without the token (401)
+        response = requests.get(get_many_url)
+        assert(response.status_code == http.client.UNAUTHORIZED)
 
+        # Re-send the request with the token, this time get OK (200)
+        response = requests.get(get_many_url, auth=token)
+        assert(response.status_code == http.client.OK)
+        print(response.text)
 
         # Delete the resource
         response = requests.delete(url, auth=token)
