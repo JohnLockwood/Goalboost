@@ -1,16 +1,16 @@
 from flask import jsonify, request, Response
 import http.client
-from flask import abort
+
+from flask.ext.login import current_user
+
 from goalboost.blueprints.api.restful_resource import RestfulResource
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
 from goalboost.model.timer_models import TimerDAO, TimerFormatter, TimerEntity
-
 
 class TimerResource(RestfulResource):
 
     @httpBasicAuth.login_required
     def get_one(self, id):
-    #    def timer_get_one(timer_id):
         dao = TimerDAO()
         timer = dao.get(id)
         as_dict = TimerFormatter().model_to_dict(timer)

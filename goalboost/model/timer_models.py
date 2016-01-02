@@ -126,14 +126,49 @@ will also be a good second set of integration tests around the API / authenticat
 TimeDog is a better name.
 '''
 class RemoteTicker(object):
+    startTime = None
+    seconds = 0
+    is_running = False
+
+    def __init__(self, startTime=None):
+        if startTime is None:
+            self.startTime = datetime.utcnow()
+        else:
+            self.startTime = startTime
+
     def start(self):
-        pass
+        self.startTime = datetime.utcnow()
+        self.is_running = True
+
 
     def stop(self):
-        pass
+        self.seconds = self.seconds + self.current_elapsed()
+        self.is_running = False
+
+
+    def current_elapsed(self):
+        # current_elapsed is only diff between lastRestart and now if we're running.
+        # If we're stopped then the total should haved been added to the seconds field
+        # and current_elapsed is 0
+        if not self.is_running:
+            return 0
+        now = datetime.utcnow()
+        then = self.startTime
+        return int((now - then).total_seconds())
+
+    def total_elapsed(self):
+        return self.current_elapsed() + self.seconds
 
     def counter(self):
-        pass
+        return self.fmt_seconds(self.total_elapsed())
+
+    def fmt_seconds(self, seconds):
+        hrs = int(seconds/3600)
+        mins_secs = seconds % 3600
+        mins = int(mins_secs / 60)
+        secs = mins_secs % 60
+        return "{:0>2}:{:0>2}:{:0>2}".format(hrs, mins, secs)
+
 
 class TimerFormatter(ModelFormatter):
     pass

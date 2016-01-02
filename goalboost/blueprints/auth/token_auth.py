@@ -12,13 +12,9 @@ def verify_password(username, password):
     user = User.verify_auth_token(password)
     if not user:
         return False
-
-    # Adding these lines will (correctly -- was tested at one point) mean "current_user" can be used from
-    # contexts that need it, but leaving them off for now as  it is not a good design for a restful API,
-    # which verify_password is designed to support
-    #
-    # user.authenticated = True
-    # login_user(user, remember=True)
-
+    # The next two lines set the current user correctly for the token case, on a
+    # per-request basis,  Tthe user still needs to re-authenticate with each
+    # request, so the RESTful statelessness is implemented correctly.
+    user.authenticated = True
+    login_user(user, remember=True)
     return True
-
