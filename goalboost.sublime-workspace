@@ -1,0 +1,647 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"get_hostname"
+			],
+			[
+				"print_som",
+				"print_something_else"
+			],
+			[
+				"func",
+				"functools"
+			],
+			[
+				"prin",
+				"print_something"
+			],
+			[
+				"total",
+				"total_elapsed"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"enc",
+				"encrypt_password"
+			],
+			[
+				"sales",
+				"salesperson_by_city"
+			],
+			[
+				"Exc",
+				"ExceptionUtils"
+			],
+			[
+				"up",
+				"upvoteCount"
+			],
+			[
+				"Event",
+				"EventController"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "gb",
+			"settings":
+			{
+				"buffer_size": 686,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "manage.py",
+			"settings":
+			{
+				"buffer_size": 596,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 201.0,
+		"last_filter": "markdown",
+		"selected_items":
+		[
+			[
+				"markdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"auto",
+				"AutoDocstring: Current"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"toggle hex",
+				"Hex Viewer: Toggle Hex View"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"ind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"i",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"indent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"in",
+				"Indentation: Reindent Lines"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 57.0,
+		"history":
+		[
+			"sys.version[0:5]",
+			"sys.version[0:6]",
+			"sys.version[0:5]",
+			"sys.version[0,5]",
+			"sys.version[0]",
+			"sys.version",
+			"import sys",
+			"sys.vers",
+			"import sys",
+			"os.ve",
+			"import os",
+			"x = 2",
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/john/Dropbox/business/goalboost"
+	],
+	"file_history":
+	[
+		"/home/john/Dropbox/business/tech_coops_growing/README.md",
+		"/home/john/Dropbox/business/codesolid/content/why_employee_owned_source_code_is_not_a_thing.md",
+		"/home/john/Dropbox/business/goalboost/docs/hours.John.json",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/templates/base.html",
+		"/home/john/Dropbox/business/goalboost/docs/hours.Jenniffer.json",
+		"/home/john/Dropbox/business/goalboost/docs/total_hours.py",
+		"/home/john/Dropbox/business/goalboost/manage.py",
+		"/etc/mongod.conf",
+		"/home/john/start_mongo.sh",
+		"/etc/init.d/disable-transparent-hugepages",
+		"/home/john/Dropbox/source/python/qt/form.py",
+		"/home/john/Dropbox/source/python/qt/gui.py",
+		"/home/john/Dropbox/business/codesolid/content/pages/contribute.md",
+		"/home/john/foo.nnex",
+		"/home/john/Dropbox/business/goalboost/foundation/scss/app.scss",
+		"/home/john/Dropbox/business/goalboost/goalboost/static/stylesheets/app.css",
+		"/home/john/Dropbox/business/goalboost/docs/hours.json",
+		"/home/john/Dropbox/business/codesolid/content/open_source,_farmers_markets,_and_amateur_economics.md",
+		"/home/john/Dropbox/business/codesolid/content/why_employee_owned_source_code_isn't_a_thing.md",
+		"/home/john/Dropbox/business/codesolid/content/2009-11-01-an-employee-owned-software-collective.md",
+		"/home/john/Dropbox/business/codesolid/content/2009-11-01-employee-owned-software-company.md",
+		"/home/john/Dropbox/business/goalboost/docs/last_week.py",
+		"/home/john/Dropbox/business/goalboost/delme.html",
+		"/home/john/Dropbox/business/codesolid/deploy_sourceme",
+		"/home/john/Dropbox/business/codesolid/content/pages/LICENSE.md",
+		"/home/john/Dropbox/business/codesolid/const",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/article.html",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/templates/article.html",
+		"/home/john/Dropbox/business/codesolid/pelicanconf.py",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/templates/index.html",
+		"/home/john/Dropbox/business/goalboost/.gitignore",
+		"/home/john/Dropbox/business/goalboost/foundation/config.rb",
+		"/home/john/Dropbox/business/goalboost/foundation/bower.json",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/templates/page.html",
+		"/home/john/Dropbox/business/codesolid/content/worker_owned_startup_webinar.md",
+		"/home/john/Dropbox/business/codesolid/content/pages/home.md",
+		"/home/john/Dropbox/business/goalboost/goalboost/model/timer_models.py",
+		"/home/john/Dropbox/business/goalboost/foundation/scss/custom_global.css",
+		"/home/john/Dropbox/business/goalboost/jasmine.js",
+		"/home/john/Dropbox/business/goalboost/delme.json",
+		"/home/john/.profile",
+		"/usr/local/bin/idea",
+		"/home/john/Dropbox/business/goalboost/delme.sh",
+		"/home/john/Dropbox/business/goalboost/tools/fabfile.py",
+		"/home/john/.bash_aliases",
+		"/home/john/Dropbox/source/jasmine/SpecRunner.html",
+		"/home/john/Dropbox/source/jasmine/src/Player.js",
+		"/home/john/Dropbox/business/codesolid/timers.sh",
+		"/home/john/Dropbox/business/codesolid/query.json",
+		"/home/john/Dropbox/business/codesolid/prod_timers.txt",
+		"/home/john/Dropbox/business/goalboost/requirements.txt",
+		"/home/john/Dropbox/business/codesolid/test.txt",
+		"/home/john/Dropbox/business/codesolid/content/goalboost.md",
+		"/home/john/Dropbox/business/goalboost/delme.txt",
+		"/home/john/Dropbox/business/goalboost/docs/import_tool.py",
+		"/home/john/Dropbox/business/goalboost/docs/delme.txt",
+		"/home/john/Dropbox/business/goalboost/docs/request_eg.py",
+		"/home/john/Dropbox/business/goalboost/hourexit",
+		"/home/john/Dropbox/business/codesolid/content/goalboost",
+		"/home/john/Dropbox/business/goalboost/tools/deploy.py",
+		"/home/john/Dropbox/business/goalboost/tools/deploy.sh",
+		"/home/john/Dropbox/source/python/python/decorator_with_args.py",
+		"/home/john/Dropbox/source/python/python/decorator.py",
+		"/home/john/Dropbox/source/python/python/decorator_with_ags.py",
+		"/home/john/Dropbox/source/jenniffer_python/acronymExercise5-13",
+		"/home/john/Dropbox/business/codesolid/.gitignore",
+		"/home/john/Dropbox/business/codesolid/publishconf.py",
+		"/home/john/Dropbox/business/goalboost/docs/security_notes.txt",
+		"/home/john/Dropbox/business/goalboost/goalboost/static/js/timer/timer.js",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/home/foundation_example.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/index/development.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/timer/timer.html",
+		"/home/john/Dropbox/business/goalboost/foundation/index.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/layout/default.html",
+		"/home/john/Dropbox/business/goalboost/secret/scratch/timer.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/timer/user_timer.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/index.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/security/login_user.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/mod_auth/protected.html",
+		"/home/john/Dropbox/source/jenniffer_python/numbers2text.py",
+		"/home/john/Dropbox/source/backbone/index.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/static/register.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/static/js/angular_app.js",
+		"/home/john/Dropbox/business/goalboost/foundation/scss/_settings.scss",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/layout/foundation_common.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/security/register_user.html",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/mod_auth/logged_out.html",
+		"/home/john/Dropbox/source/jenniffer_python/numbers2text2.py",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/layout/foundation.html",
+		"/home/john/Dropbox/business/goalboost/foundation_source/bower.json",
+		"/home/john/Dropbox/business/goalboost/foundation_source/config.rb",
+		"/home/john/Dropbox/source/python/python/class2.py",
+		"/home/john/Dropbox/business/goalboost/alguito/model/mongo_models.py",
+		"/home/john/Dropbox/business/codesolid/content/goalboost_roadmap_1.0.md",
+		"/home/john/Dropbox/source/jenniffer_python/colors.py",
+		"/home/john/Dropbox/source/jenniffer_python/exercise4-2.py",
+		"/home/john/Dropbox/source/jenniffer_python/loop_archery_target_with_john.py",
+		"/home/john/Dropbox/source/jenniffer_python/colors_from_john.py",
+		"/home/john/.ipython/profile_default/startup/00-autoload.py",
+		"/home/john/Dropbox/business/goalboost/__init__.py",
+		"/home/john/Dropbox/business/goalboost/alguito/__init__.py",
+		"/home/john/Dropbox/business/goalboost/config.py",
+		"/home/john/Dropbox/business/prod/apache2/bin/env.txt",
+		"/home/john/Dropbox/business/prod/apache2/bin/start",
+		"/home/john/Dropbox/source/websites/ParticleWave/delme.txt",
+		"/home/john/Dropbox/business/goalboost/index.py",
+		"/home/john/Dropbox/business/goalboost/notes.txt",
+		"/home/john/Dropbox/business/goalboost/README.md",
+		"/home/john/Dropbox/business/goalboost/hours_test.py",
+		"/home/john/Dropbox/business/goalboost/docs/readhours.py",
+		"/home/john/Dropbox/business/codesolid/content/pages/about.md",
+		"/home/john/Dropbox/business/codesolid/content/is_employee_owned_software_a_viable_idea.md",
+		"/home/john/Dropbox/business/goalboost/test/unit/model/mytest.py",
+		"/home/john/Dropbox/business/goalboost/secret/connect_mongo_prod.sh",
+		"/home/john/Dropbox/business/alguito/docs/hours.json",
+		"/home/john/Dropbox/business/codesolid/content/goalboost.html",
+		"/home/john/Dropbox/business/codesolid/Makefile",
+		"/home/john/Dropbox/business/foo/Makefile",
+		"/home/john/Dropbox/business/codesolid/themes/codesolid/static/js/app.js",
+		"/home/john/Dropbox/business/goalboost/LICENSE.md",
+		"/home/john/Dropbox/business/codesolid/output/theme/js/jquery-2.1.4.min.js",
+		"/home/john/Dropbox/business/alguito/docs/readhours.py",
+		"/home/john/Dropbox/business/alguito/README.md",
+		"/home/john/Dropbox/business/alguito/hours_test.py",
+		"/home/john/Dropbox/business/alguito/delme.txt",
+		"/home/john/Dropbox/business/alguito/docs/more",
+		"/home/john/Dropbox/business/alguito/config.py",
+		"/home/john/Dropbox/business/alguito/secret/scratch/flask_security_mongo.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"parser_a",
+			"parsers_a",
+			"cdn",
+			"data",
+			"title",
+			"h1",
+			"theme",
+			"pagetitle",
+			"<!-- <title>{% block something %}{{ SITENAME }}{% endblock %}</title> -->",
+			"title",
+			"CodeSolid",
+			"dateRec",
+			"\\.",
+			"-",
+			"rework unit t",
+			"first one",
+			"ssh",
+			" \\n",
+			"  ",
+			"models",
+			"th",
+			"div",
+			"static",
+			"script",
+			"todo",
+			"font-size",
+			"/15\"",
+			"/15",
+			"port",
+			"\",\\t",
+			",",
+			"\"\"",
+			"\\n",
+			"\"\"",
+			"\\t\\t",
+			",",
+			"feed",
+			"SITEURL",
+			"sqlal",
+			"'",
+			"MAIL_",
+			"MAIL",
+			"envs",
+			"contribute",
+			"johnlock",
+			"ssh",
+			"pages",
+			"h1",
+			"category",
+			"ParticleWave",
+			"orange",
+			"th",
+			"pages",
+			"h1",
+			"header",
+			"default",
+			"ubuntu",
+			"header-top-mar",
+			"header",
+			"aubergine",
+			"header",
+			"header-top",
+			"header",
+			"padding",
+			"topbar",
+			"color:",
+			"auberg",
+			"header",
+			"success",
+			"bg-",
+			"button",
+			"active",
+			"mid_au",
+			"mid",
+			"section",
+			"topbar",
+			"ubuntu-orange",
+			"ubuntu-orange-",
+			"link",
+			"background",
+			"top-bar",
+			"oil",
+			"top-bar",
+			"nav",
+			"nav-color",
+			"categor",
+			"categories",
+			"nav",
+			"menu",
+			"johnlock",
+			"aside",
+			"theme",
+			"codesolid",
+			"include",
+			"sidebar",
+			"nav a",
+			"blog_index",
+			"home",
+			"timer",
+			"start_up",
+			"restart",
+			"auto",
+			"devserver",
+			"generate",
+			"timer",
+			"port",
+			"int(11)",
+			"render_field",
+			"$ date",
+			"date",
+			"security",
+			"table",
+			"`",
+			"int(11)",
+			"SOCIAL",
+			"src=\"",
+			"publish",
+			"<span>",
+			"font-size",
+			"settings",
+			"dropbox",
+			"Pelican",
+			"blog",
+			"SSH",
+			"offset",
+			"timeSlips",
+			"TZ",
+			"GMT"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"parser_start",
+			"parsers_start",
+			"",
+			"\\n",
+			" ",
+			"td",
+			"/2015\"",
+			"/2015",
+			"\",",
+			"\"",
+			"\"\\n",
+			"\\n\\\"",
+			"\\n\"",
+			"\"",
+			"\\t\\t\"",
+			"\",",
+			"\"",
+			"td",
+			"int(11) unsigned",
+			"",
+			"int(11) unsigned",
+			"src=\"/theme",
+			"src=\"/images/",
+			"<span class=\"social\">",
+			"alguito"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "gb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 686,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								165,
+								165
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "manage.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 596,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22,
+								22
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 112.0
+	},
+	"output.markdown":
+	{
+		"height": 112.0
+	},
+	"pinned_build_system": "",
+	"project": "goalboost.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 316.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
