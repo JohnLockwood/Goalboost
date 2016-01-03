@@ -1,3 +1,4 @@
 {"hours": [
-{"contributor": "JennifferLockwood", "date": "12/04/2015", "hours": 1.5, "description": "#CodeSolid Organizing - Attend Co-Op Startup Seminar"}
+{"date": "12/04/2015", "hours": 1.5, "description": "#CodeSolid Organizing - Attend Co-Op Startup Seminar"},
+{"date": "01/02/2016", "hours": 1.0, "description": "Installing pip3, mongodb, goalboost, test goalboost."}
 ]}
