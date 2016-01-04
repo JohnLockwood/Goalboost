@@ -1,36 +1,119 @@
 {% extends "layout/default.html" %}
-{% set active_page = "user_timer" %}
-{% block content %}
-<script language="JavaScript">
+{% set active_page = "index" %}
+{% block title %}Goalboost Time and Billing{% endblock %}
+{% block header %}
+<script src="/static/js/timer/timer.js" data-userId="{{userId}}" data-userEmail="{{userEmail}}" data-authToken="{{authToken}}">
 
-    var myApp = angular.module('myApp',[]);
-
-    myApp.controller('TimerController', ['$scope', '$http', function($scope, $http) {
-        var userId = "{{user.id}}"  ;
-
-        var url = "/api/users/" + userId + "/timer";
-        console.log(url);
-        $http.get(url).success(
-                function(response) {
-                    var timer = JSON.parse(response);
-                    $scope.timer = timer;
-
-                }
-        );
-        $scope.greeting = 'Hello...';
-    }]);
 </script>
-<div ng-app="myApp" ng-controller="TimerController">
+{% endblock  %}
+{% block content %}
 
-    <h1>What am I working on?</h1>
-    <p>Welcome {{user.email}}.  Seems you were last working on {{user_timer.timer_get().notes}}.</p>
-    <p>
-        {% raw %}
-        {{ greeting }} from Angular.  Angualr reports timer notes as:
-        {{ timer.notes }}
-        {% endraw %}
-    </p>
+
+<!-- Todo move to global stylesheet -->
+<style type="text/css">
+.runningTimer { font-weight:  bold; }
+</style>
+<div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
+    <div class="row" data-equalizer>
+        <div class="large-12 columns left-align"><h1>What Are You Working On?</h1></div>
+    </div>
+    {% raw %}
+    <section ng-if="timerListModel.timers.length > 0">
+        <!--
+                <div class="row">
+                    <div class="large-1 columns panel text-center hour_display">{{
+                        timerListModel.timers[0].entries[0].seconds | formatTime }}
+                    </div>
+
+                    <div class="large-10 columns no_right_padding"><textarea rows=2 placeholder="Task description..."
+                                                                             style="font-size:1.0em padding:0"
+                                                                             ng-model="timerListModel.timers[0].notes"></textarea>
+                    </div>
+                    <div class="large-1 columns ">
+                        <button class=" button {{startButtonClass}} "
+                                ng-click="$parent.startDisplayed = !$parent.startDisplayed">
+                            {{startButtonText}}
+                        </button>
+
+                    </div>
+                </div>
+                -->
+        <div class="row">
+            <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
+                <textarea rows=2 placeholder="Task description..." style="width:100%; font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-4 medium-6 small-12 columns left-align">
+                <ul class="button-group round even-3">
+                    <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
+                    <li><span class="button {{timerClass}}">{{timerListModel.timers[0].entries[0].seconds | formatTime }}</span></li>
+                    <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li>
+                </ul>
+            </div>
+            <div class="large-8 medium-6 small-12 columns">
+                <div class="row right-align">
+                    <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
+                    <button class="button tiny fi-pencil" data-reveal-id="editModal">&nbsp;Edit Details</button>
+                    <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
+
+                </div>
+            </div>
+        </div>
+
+
+<section ng-if="timerListModel.timers.length > 1">
+    <div class="row">
+        <div class="small-12 columns ">
+            <h3>Recent Tasks</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="medium-1 small-6 columns "><strong>Date</strong></div>
+        <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;" ><strong>&nbsp;h:mm:ss</strong></div>
+        <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
+    </div>
+</section>
+<div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
+    <div class="medium-1 small-6 columns ">{{ getLatestTimerDate(t) }}</div>
+    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.entries[0].seconds | formatTime}}</div>
+    <div class="fullwidth medium-10 small-12 columns">
+        <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
+    </div>
 
 </div>
+
+</section>
+<section ng-if="timerListModel.timers.length == 0">
+    <div class="row">
+        <div class="large-12 columns">
+            <p class="lead">
+                You have no timers. Start by <a href="#" ng-click="$parent.createNewTimer()">creating a timer</a>.</p>
+            </p>
+        </div>
+    </div>
+</section>
+</div>
+{% endraw %}
+<section>
+
+    {% if current_user.is_authenticated %}
+    <span>Logged in as {{ current_user.email}}</span>
+    {% endif %}
+
+</section>
+
+
+<div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+     role="dialog">
+    <h2 id="modalTitle">Not Implemented</h2>
+    <p class="lead">We're working on it.</p>
+    <p>Insert retro "under construction" animated gif here, or just bite the bullet and write the code.</p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+</div>
+
+
+
 {% endblock %}
 

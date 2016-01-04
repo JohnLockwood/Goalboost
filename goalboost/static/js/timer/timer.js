@@ -5,14 +5,16 @@ function getScriptParams() {
     var scriptName = lastScript;
     return {
         userId: scriptName.getAttribute('data-userId'),
+        authToken: scriptName.getAttribute('data-authToken'),
+        userEmail: scriptName.getAttribute('data-userEmail')
     }
 }
 
 var timerApp = angular.module('timerApp', []);
 
-// Save it here while in scope so can  be used by controller.  It was a long road passing one stupid variable
-// from the page but we have finally arrived (almost)
-var g_userId = getScriptParams().userId;
+// Save it here while in scope so can  be used by controller
+scriptParams = getScriptParams();
+
 
 angular.module('timerApp', ["ngSanitize"]).filter('checkEmpty',function($sce){
         return function(input){
@@ -57,10 +59,22 @@ angular.module('timerApp').filter("formatTime", function() {
 angular.module('timerApp').factory("timerListModel", ["$interval", "$http", function($interval, $http) {
     var model = {};
     model.theInterval = undefined;
-    model.userId = "561dcd3c8c57cf2c17b7f4f9";
+
+
+    /*model.userId = "561dcd3c8c57cf2c17b7f4f9";
     if(g_userId != '') {
         model.userId = g_userId;
     }
+    */
+    model.scriptParams = scriptParams;
+    /*model.userId = scriptParams.userId;
+    model.authToken = scriptParams.userId;
+    model.userEmail = g_userEmail;
+*/
+    var scripts = document.getElementsByTagName('script');
+    var lastScript = scripts[scripts.length - 1];
+    var scriptName = lastScript;
+
     model.timers = [];
     model.$scope = null;
 
@@ -157,7 +171,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         timer.entries[0].dateRecorded = today;
         timer.lastRestart = today;
         timer.startTime = today;
-        timer.userId = model.userId;
+        timer.userId = model.scriptParams.userId;
         return timer
     }
 
@@ -165,7 +179,8 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         console.log("Inside init...");
         $http({
             method: 'GET',
-            url: '/api/user/' + model.userId + "/timers"
+
+            url: '/api/user/' + model.scriptParams.userId + "/timers"
         }).then(function successCallback(response) {
             model.timers = response.data;
             /*if (model.timers.length == 0) {

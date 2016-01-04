@@ -115,5 +115,6 @@
 {"date": "01/01/2016", "hours": 2.6, "description": "V1 Timer work - refactor Timer into new RestfulResource class which can serve as the basis of our work going forward"},
 {"date": "01/02/2016", "hours": 1.4, "description": "Fix mongo; work on auth issues for v1 timer fixes 10"},
 {"date": "01/02/2016", "hours": 0.5, "description": "Continue V1 timer service level work, prepare to do UI. Do all timers for user endpoint."},
-{"date": "01/03/2016", "hours": 1.5, "description": "Work on gb utility; an integrated tool for Goalboost and GIT"}
+{"date": "01/03/2016", "hours": 1.5, "description": "Work on gb utility; an integrated tool for Goalboost and GIT"},
+{"date": "01/04/2016", "hours": 1.5, "description": "Begin UI portion of timer V1 api refactor"}
 ]}
