@@ -36,6 +36,9 @@ class User(db.Document, UserMixin):
     # Work in progress, cf.
     # http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
     # See also blueprints.auth.__init__py verify_auth_token comments
+    # TODO -- better / more client funcs based on this:
+    # Note this returns BYTES -- you need to bytes.decode('utf-8') first if being used by web client
+    #
     def get_auth_token(self, expiration = 3600):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
         return s.dumps({ 'id': str(self.id) })

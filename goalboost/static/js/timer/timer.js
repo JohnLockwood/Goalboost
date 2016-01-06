@@ -82,6 +82,11 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         model.$scope = scope;
     }
 
+    model.getAuthorizationHeader = function() {
+        auth = model.scriptParams.userEmail + ':' + model.scriptParams.authToken
+        return 'Basic ' + btoa(auth);
+    }
+
     model.startTimer = function() {
         if ( angular.isDefined(model.theInterval) )
             return;
@@ -103,11 +108,11 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     }
 
     model.totalTimerTime = function(index) {
-        return model.timers[index].entries.reduce(function(a, b) { return a.seconds + b.seconds });
+        return model.timers[index].seconds;
     }
 
     model.onIntervalTick = function() {
-        model.timers[0].entries[0].seconds++;
+        model.timers[0].seconds++;
     }
 
     model.activateTimer = function (index) {
@@ -122,10 +127,11 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     model.deleteTimer = function(index) {
         $http({
             method: 'DELETE',
-            url: '/api/timer/' + model.timers[index].id
-            //data: model.timers[index]
+            url: '/api/v1/timer/' + model.timers[index].id,
+            headers: {
+                'Authorization': model.getAuthorizationHeader()
+            }
         }).then(function successCallback(response) {
-            //model.timers[index] = response.data;
             console.log("Delete successful.");
             model.timers.splice(index, 1);
         }, function errorCallback(response) {
@@ -139,8 +145,10 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         //console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
         $http({
             method: 'POST',
-            method: 'POST',
-            url: '/api/timer',
+            headers: {
+                'Authorization': model.getAuthorizationHeader()
+            },
+            url: '/api/v1/timer',
             data: model.timers[index]
         }).then(function successCallback(response) {
             model.timers[index] = response.data;
@@ -158,35 +166,31 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     }
 
     model.getDefaultTimer = function() {
-        timer = {"entries": [{
-                "dateRecorded": "",
-                "seconds": 0}],
-            "lastRestart": "",
+        timer = {
+            "dateEntered": model.getMidnightTodayAsString(),
+            "seconds": 0,
+            "lastRestart": model.getMidnightTodayAsString(),
             "notes": "",
+            "tags" : [],
             "running": false,
-            "startTime": "",
-            "userId": ""
+            "user": model.scriptParams.userId
         };
-        today = model.getMidnightTodayAsString();
-        timer.entries[0].dateRecorded = today;
-        timer.lastRestart = today;
-        timer.startTime = today;
-        timer.userId = model.scriptParams.userId;
-        return timer
+        return timer;
     }
 
     model.init = function() {
         console.log("Inside init...");
         $http({
             method: 'GET',
-
-            url: '/api/user/' + model.scriptParams.userId + "/timers"
+            headers: {
+                'Authorization': model.getAuthorizationHeader()
+            },
+            url: '/api/v1/timer'
         }).then(function successCallback(response) {
-            model.timers = response.data;
-            /*if (model.timers.length == 0) {
+            model.timers = response.data.timers;
+            if (model.timers.length == 0) {
                 model.createNewTimer();
-            }*/
-
+            }
         }, function errorCallback(response) {
             alert("Unable to get timers from server ");
             console.log(response);
@@ -278,7 +282,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     }
 
     $scope.getLatestTimerDate = function(timer) {
-        var longDate = timer.entries[timer.entries.length - 1 ].dateRecorded;
+        var longDate = timer.dateEntered;
 
         //return longDate;
 

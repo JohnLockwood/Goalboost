@@ -52,7 +52,7 @@ class TimerResource(RestfulResource):
         dao = TimerDAO()
         dao.put(timer)
         id = str(timer.id)
-        resp = jsonify(dict(id=id))
+        resp = jsonify(TimerFormatter().model_to_dict(timer))
         resp.headers["Location"] = self.make_location(request.url, id)
         resp.status_code = http.client.CREATED
         return resp

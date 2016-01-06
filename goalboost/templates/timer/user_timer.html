@@ -22,7 +22,7 @@
         <!--
                 <div class="row">
                     <div class="large-1 columns panel text-center hour_display">{{
-                        timerListModel.timers[0].entries[0].seconds | formatTime }}
+                        timerListModel.timers[0].seconds | formatTime }}
                     </div>
 
                     <div class="large-10 columns no_right_padding"><textarea rows=2 placeholder="Task description..."
@@ -47,7 +47,7 @@
             <div class="large-4 medium-6 small-12 columns left-align">
                 <ul class="button-group round even-3">
                     <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
-                    <li><span class="button {{timerClass}}">{{timerListModel.timers[0].entries[0].seconds | formatTime }}</span></li>
+                    <li><span class="button {{timerClass}}">{{timerListModel.timers[0].seconds | formatTime }}</span></li>
                     <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li>
                 </ul>
             </div>
@@ -76,7 +76,7 @@
 </section>
 <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
     <div class="medium-1 small-6 columns ">{{ getLatestTimerDate(t) }}</div>
-    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.entries[0].seconds | formatTime}}</div>
+    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.seconds | formatTime}}</div>
     <div class="fullwidth medium-10 small-12 columns">
         <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
     </div>
