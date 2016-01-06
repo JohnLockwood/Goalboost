@@ -45,18 +45,25 @@ class TimerResource(RestfulResource):
         args = parser.parse_args(request)
         return args
 
+    # Does this implementation become any cleaner without MongoEngine  This seems like a long way around?
     @httpBasicAuth.login_required
     def post(self):
         api_v1_root = '/api/v1'
-        timer = TimerFormatter().dict_to_model(TimerEntity, request.json)
+        timer_new = TimerFormatter().dict_to_model(TimerEntity, request.json)
         dao = TimerDAO()
-        dao.put(timer)
-        id = str(timer.id)
-        resp = jsonify(TimerFormatter().model_to_dict(timer))
-        resp.headers["Location"] = self.make_location(request.url, id)
+        if timer_new.id is not None:
+            timer = dao.get(timer_new.id)
+            timer.update_attributes(timer_new)
+            timer_new = timer
+
+        dao.put(timer_new)
+        resp = jsonify(TimerFormatter().model_to_dict(timer_new))
+        #resp.headers["Location"] = api_v1_root + self.root + "/" + id
+        resp.headers["Location"] = self.make_location(request.url, timer_new.id)
         resp.status_code = http.client.CREATED
         return resp
 
+    # TODO WRONG RETURN
     @httpBasicAuth.login_required
     def put(self, id):
         #api_v1_root = '/api/v1'
@@ -87,4 +94,4 @@ class TimerResource(RestfulResource):
         location = request_url
         if not location.endswith("/"):
             location = location + "/"
-        return location + id
+        return location + str(id)

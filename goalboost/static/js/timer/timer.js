@@ -119,12 +119,13 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         t = model.timers[index];
         model.timers.splice(index, 1);
         t.lastRestart = new Date().toISOString();
-        t.startTime = t.lastRestart;
+        t.lastRestart = t.lastRestart;
         model.timers.unshift(t);
         model.saveTimerToServer(0);
     }
 
     model.deleteTimer = function(index) {
+        console.log(model.timers[index].id);
         $http({
             method: 'DELETE',
             url: '/api/v1/timer/' + model.timers[index].id,
