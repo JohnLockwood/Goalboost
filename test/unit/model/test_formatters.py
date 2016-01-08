@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from goalboost.model.auth_models import UserModelFormatter, User
 from goalboost.model.model_formatter import ModelFormatter
-from goalboost.model.timer_models import TimerEntity, TimerFormatter
+from goalboost.model.timer_models import Timer, TimerFormatter
 from test.common.test_helper import TestObjects
 from json import dumps
 
@@ -58,7 +58,7 @@ class TestUserModelFormatter(TestCase):
 class TestTimerModelFormatter(TestCase):
     def test_can_convert_timer_to_dict(self):
         user = TestObjects().get_test_user()
-        timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"])
+        timer = Timer(notes="Just a test timer", user=user, tags=["Unit Tests"])
         tf = TimerFormatter()
         timer_entity_as_dict = tf.model_to_dict(timer)
         assert(timer_entity_as_dict is not None)
@@ -66,12 +66,12 @@ class TestTimerModelFormatter(TestCase):
 
     def test_can_dump_and_load_timer(self):
         user = TestObjects().get_test_user()
-        timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
+        timer = Timer(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
         timer.save()
         tf = TimerFormatter()
         timer_entity_as_dict = tf.model_to_dict(timer)
         timer.delete()
-        timer2 = tf.dict_to_model(TimerEntity, timer_entity_as_dict)
+        timer2 = tf.dict_to_model(Timer, timer_entity_as_dict)
         # This won't pass, there are subtle, trivial differences in datetimes once dates have been serialized
         #assert(timer.lastRestart == timer2.lastRestart)
         #assert(timer.dateEntered == timer2.dateEntered)

@@ -17,13 +17,13 @@ class InvalidDataError(Error):
     def __repr__(self):
         return "InvalidDataError(msg={})".format(self.message)
 '''
-TimerEntity
+Timer
 This class should include only what needs to go to / from MongoDB, maybe some
 simple validation on fields, and that's it.
 Clients:  API, TimerDAO TimerFormatter.  Note ALL saves must go through TimerDAO,
           not directly through here.
 '''
-class TimerEntity(db.Document):
+class Timer(db.Document):
     dateEntered = db.DateTimeField()        # Actual date, no time
     lastRestart = db.DateTimeField()
     seconds = db.IntField(min_value=0, default=0)
@@ -60,7 +60,7 @@ class TimerEntity(db.Document):
         notes = None
         if self.notes is not None:
             notes = '"{}"'.format(self.notes)
-        s = 'TimerEntity(id={}, dateEntered="{}", lastRestart="{}", notes={}, seconds={}, running={}, tags={})'.format(\
+        s = 'Timer(id={}, dateEntered="{}", lastRestart="{}", notes={}, seconds={}, running={}, tags={})'.format(\
             self.id.__repr__(), self.dateEntered.__str__(), self.lastRestart.__str__(), notes, self.seconds, self.running,
             self.tags.__repr__())
         return s
@@ -76,7 +76,7 @@ class TimerEntity(db.Document):
 
 '''
 TimerDAO - DAO is "Data Access Object"
-This class will be responsible for making sure a TimerEntity is saved correctly
+This class will be responsible for making sure a Timer is saved correctly
 with respect to the the rest of the database, for example (and maybe this is all it does),
 ensuring that there's only one active timer for users.  Other responsiblities might include
 auto-shutoff.  Note there is already such a beast
@@ -85,21 +85,21 @@ class TimerDAO():
     def put(self, timer_entity):
         # TODO add turning off all timers for user
         if timer_entity.user is None:
-            raise InvalidDataError("TimerDAO.put - TimerEntity.user cannot be None")
+            raise InvalidDataError("TimerDAO.put - Timer.user cannot be None")
         if(True or timer_entity.running):
             # db.timer.update({userId: ObjectId("567421658c57cf2ef0028f03")}, {$set: {running: false}}, {multi: true})
             # Post.objects(comments__by="joe").update(**{'inc__comments__$__votes': 1})
-            TimerEntity.objects(user = timer_entity.user).update(running=False)
+            Timer.objects(user = timer_entity.user).update(running=False)
             timer_entity.save()
 
     def get(self, timer_id):
-        return TimerEntity.objects(id=timer_id).first()
+        return Timer.objects(id=timer_id).first()
 
     def get_all_timers_for_user(self, user_id):
-        return [t for t in TimerEntity.objects(user = ObjectId(user_id)).order_by("-lastRestart").all()]
+        return [t for t in Timer.objects(user = ObjectId(user_id)).order_by("-lastRestart").all()]
 
     def delete(self, timer_id):
-        return TimerEntity.objects(id=timer_id).delete()
+        return Timer.objects(id=timer_id).delete()
 
 '''
 TimerFormatter

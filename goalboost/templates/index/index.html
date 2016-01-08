@@ -12,107 +12,21 @@
 <style type="text/css">
 .runningTimer { font-weight:  bold; }
 </style>
-<div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
+<div >
     <div class="row" data-equalizer>
-        <div class="large-12 columns left-align"><h1>What Are You Working On?</h1></div>
+        <div class="large-12 columns left-align"><h1>There's A Timer For That</h1></div>
     </div>
-
-    <section ng-if="timerListModel.timers.length > 0">
-        <!--
-                <div class="row">
-                    <div class="large-1 columns panel text-center hour_display">{{
-                        timerListModel.timers[0].entries[0].seconds | formatTime }}
-                    </div>
-
-                    <div class="large-10 columns no_right_padding"><textarea rows=2 placeholder="Task description..."
-                                                                             style="font-size:1.0em padding:0"
-                                                                             ng-model="timerListModel.timers[0].notes"></textarea>
-                    </div>
-                    <div class="large-1 columns ">
-                        <button class=" button {{startButtonClass}} "
-                                ng-click="$parent.startDisplayed = !$parent.startDisplayed">
-                            {{startButtonText}}
-                        </button>
-
-                    </div>
-                </div>
-                -->
-        <div class="row">
-            <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
-                <textarea rows=2 placeholder="Task description..." style="width:100%; font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-4 medium-6 small-12 columns left-align">
-                <ul class="button-group round even-3">
-                    <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
-                    <li><span class="button {{timerClass}}">{{timerListModel.timers[0].entries[0].seconds | formatTime }}</span></li>
-                    <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li>
-                </ul>
-            </div>
-            <div class="large-8 medium-6 small-12 columns">
-                <div class="row right-align">
-                    <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
-                    <button class="button tiny fi-pencil" data-reveal-id="editModal">&nbsp;Edit Details</button>
-                    <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
-
-                </div>
-            </div>
-        </div>
-
-
-<section ng-if="timerListModel.timers.length > 1">
-    <div class="row">
-        <div class="small-12 columns ">
-            <h3>Recent Tasks</h3>
-        </div>
+        <p>Welcome to Goalboost.  Part time and billing application, and part personal productivity tool, Goalboost makes it easy to track your time from the applications that matter most to you.  Currently under Alpha stage development, the the team is building out Goalboost with a view to being able to integrate with Github, Twitter, Outlook, Email, and many more, so you can easily and quickly track both your private billable hours as well as the personal goals you'll want to share with others.
+        </p>
+        <h2>Early Adopter, You Say?</h2>
+        <p>Goalboost is being developed under a new <a href="http://codesolid.com/employee_owned_source_code.html">Employee Owned Source Code</a> licensing model.  Software Developers and others who are interested in what we've done so far should check out our <a href="https://github.com/CodeSolid/Goalboost">Github Repo</a>,   or feel free to kick the tires by signing up for a free account.</p>
     </div>
-    <div class="row">
-        <div class="medium-1 small-6 columns "><strong>Date</strong></div>
-        <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;" ><strong>&nbsp;h:mm:ss</strong></div>
-        <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
+    <div class="right">
+        <a href="/register" class="button large round success">Sign Up Now</a>
     </div>
-</section>
-<div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
-    <div class="medium-1 small-6 columns ">{{ getLatestTimerDate(t) }}</div>
-    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.entries[0].seconds | formatTime}}</div>
-    <div class="fullwidth medium-10 small-12 columns">
-        <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
-    </div>
-
 </div>
 
-</section>
-<section ng-if="timerListModel.timers.length == 0">
-    <div class="row">
-        <div class="large-12 columns">
-            <p class="lead">
-                You have no timers. Start by <a href="#" ng-click="$parent.createNewTimer()">creating a timer</a>.</p>
-            </p>
-        </div>
-    </div>
-</section>
-</div>
+
 {% endraw %}
-<section>
-
-    {% if current_user.is_authenticated %}
-    <span>Logged in as {{ current_user.email}}</span>
-    {% endif %}
-
-</section>
-
-
-<div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
-     role="dialog">
-    <h2 id="modalTitle">Not Implemented</h2>
-    <p class="lead">We're working on it.</p>
-    <p>Insert retro "under construction" animated gif here, or just bite the bullet and write the code.</p>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
-</div>
-
-
-
 {% endblock %}
 

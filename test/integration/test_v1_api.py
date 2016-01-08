@@ -3,7 +3,7 @@ import requests
 from json import dumps, loads
 from requests.auth import HTTPBasicAuth
 
-from goalboost.model.timer_models import TimerEntity, TimerFormatter
+from goalboost.model.timer_models import Timer, TimerFormatter
 from test.common.test_helper import TestObjects
 import http.client
 
@@ -56,7 +56,7 @@ class TestV1Timer(TestCase):
     def test_timer_resource_all(self):
         token = test_credentials.get_auth_token()
         user = TestObjects().get_test_user()
-        timer = TimerEntity(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
+        timer = Timer(notes="Just a test timer", user=user, tags=["Unit Tests"], seconds = 22, running = True)
         timer_dict = TimerFormatter().model_to_dict(timer)
 
         # Not authorized w/o token

@@ -33,7 +33,7 @@
 
             <section class="top-bar-section">
                 <ul class="left">
-                    <ul class="right">
+                    <ul class="">
                         <li class="has-dropdown">
                             <a href="#">Development Links</a>
                             <ul class="dropdown">
@@ -44,6 +44,9 @@
                             </ul>
                         </li>
                     </ul>
+                    {% if current_user.is_authenticated() %}
+                    <li><a href="/timer/user">My Timers</a></li>
+                    {% endif %}
                 </ul>
 
 

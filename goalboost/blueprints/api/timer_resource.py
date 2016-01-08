@@ -6,7 +6,7 @@ from flask.ext.restful.reqparse import RequestParser
 
 from goalboost.blueprints.api.restful_resource import RestfulResource
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
-from goalboost.model.timer_models import TimerDAO, TimerFormatter, TimerEntity
+from goalboost.model.timer_models import TimerDAO, TimerFormatter, Timer
 
 class TimerResource(RestfulResource):
 
@@ -49,7 +49,7 @@ class TimerResource(RestfulResource):
     @httpBasicAuth.login_required
     def post(self):
         api_v1_root = '/api/v1'
-        timer_new = TimerFormatter().dict_to_model(TimerEntity, request.json)
+        timer_new = TimerFormatter().dict_to_model(Timer, request.json)
         dao = TimerDAO()
         if timer_new.id is not None:
             timer = dao.get(timer_new.id)
@@ -67,7 +67,7 @@ class TimerResource(RestfulResource):
     @httpBasicAuth.login_required
     def put(self, id):
         #api_v1_root = '/api/v1'
-        timer_new = TimerFormatter().dict_to_model(TimerEntity, request.json)
+        timer_new = TimerFormatter().dict_to_model(Timer, request.json)
         dao = TimerDAO()
         timer = dao.get(id)
         if timer is not None:
