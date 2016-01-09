@@ -56,12 +56,15 @@ class User(db.Document, UserMixin):
 
     @staticmethod
     def verify_auth_token(token):
+        current_app.logger.info("Inside verify_password")
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except SignatureExpired:
+            current_app.logger.info("Inside verify_password returning false, signature expired")
             return None # valid token, but expired
         except BadSignature:
+            current_app.logger.info("Inside verify_password returning false, Bad Signature")
             return None # invalid token
         user = User.objects(id=data['id']).first() #.query.get(data['id'])
         return user

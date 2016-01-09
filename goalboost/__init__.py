@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_mail import Mail
 import os
-
+import logging
+from logging import FileHandler
 from config import config
 from goalboost.blueprints import api
 from goalboost.blueprints.auth import init_flask_security
@@ -29,6 +30,11 @@ def create_app(config_name):
     app.register_blueprint(bp_timer)
     app.register_blueprint(v1_api)
     init_api(app)
+
+
+    file_handler = FileHandler("flask.log")
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
 
     config[config_name].init_app(app)
     #

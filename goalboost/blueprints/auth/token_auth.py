@@ -1,14 +1,13 @@
 from flask.ext.httpauth import HTTPBasicAuth
-
+from flask import current_app
 from goalboost.model.auth_models import User
-from flask.ext.login import current_user, login_user
+from flask.ext.login import  login_user
 
 httpBasicAuth = HTTPBasicAuth()
 
 
 @httpBasicAuth.verify_password
 def verify_password(username, password):
-    global current_user
     user = User.verify_auth_token(password)
     if not user:
         return False

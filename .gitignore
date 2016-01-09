@@ -15,3 +15,4 @@ venv
 **/__pycache__
 **/.ipynb_checkpoints
 /.project
+flask.log
