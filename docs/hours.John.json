@@ -120,5 +120,6 @@
 {"date": "01/05/2016", "hours": 1.7, "description": "Timer UI v1 - reworking Timer page to get it working again -- logged in only."},
 {"date": "01/06/2016", "hours": 0.7, "description": "Continue V1 timer UI -- pretty much caught up to old behavior.  Long detour, since 12/12"},
 {"date": "01/07/2016", "hours": 0.8, "description": "Rework home page in light of V1 refactor - prepare for release"},
-{"date": "01/08/2016", "hours": 0.9, "description": "Deploy latest changes; work on using raw pymongo"}
+{"date": "01/08/2016", "hours": 0.9, "description": "Deploy latest changes; work on using raw pymongo"},
+{"date": "01/08/2016", "hours": 1.4, "description": "Chase down a production bug - authorization headers not being passed to flask by apache.  Add Logging"}
 ]}

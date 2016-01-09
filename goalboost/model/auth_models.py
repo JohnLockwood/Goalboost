@@ -38,10 +38,12 @@ class User(db.Document, UserMixin):
     # See also blueprints.auth.__init__py verify_auth_token comments
     # TODO -- better / more client funcs based on this:
     # Note this returns BYTES -- you need to bytes.decode('utf-8') first if being used by web client
-    #
-    def get_auth_token(self, expiration = 3600):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
-        return s.dumps({ 'id': str(self.id) })
+    # 24 hour expire
+    def get_auth_token(self, expiration = 60*60*24):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+        token = s.dumps({ 'id': str(self.id) })
+        return token
+
 
     def __repr__(self):
         accountId = None
@@ -56,15 +58,14 @@ class User(db.Document, UserMixin):
 
     @staticmethod
     def verify_auth_token(token):
-        current_app.logger.info("Inside verify_password")
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except SignatureExpired:
-            current_app.logger.info("Inside verify_password returning false, signature expired")
+            current_app.logger.warn("Inside verify_password returning false, signature expired")
             return None # valid token, but expired
         except BadSignature:
-            current_app.logger.info("Inside verify_password returning false, Bad Signature")
+            current_app.logger.warn("Inside verify_password returning false, Bad Signature")
             return None # invalid token
         user = User.objects(id=data['id']).first() #.query.get(data['id'])
         return user
