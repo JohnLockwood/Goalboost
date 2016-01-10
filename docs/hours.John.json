@@ -122,5 +122,6 @@
 {"date": "01/07/2016", "hours": 0.8, "description": "Rework home page in light of V1 refactor - prepare for release"},
 {"date": "01/08/2016", "hours": 0.9, "description": "Deploy latest changes; work on using raw pymongo"},
 {"date": "01/08/2016", "hours": 1.4, "description": "Chase down a production bug - authorization headers not being passed to flask by apache.  Add Logging"},
-{"date": "01/09/2016", "hours": 3.0, "description": "Begin moving to pymongo models; write and test MongoMintDocument class."}
+{"date": "01/09/2016", "hours": 3.0, "description": "Begin moving to pymongo models; write and test MongoMintDocument class."},
+{"date": "01/10/2016", "hours": 2.1, "description": "Gb utility work, issues grooming, minor fixes to begin multi-user account work."}
 ]}

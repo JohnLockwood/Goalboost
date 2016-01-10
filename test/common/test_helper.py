@@ -8,6 +8,7 @@ from goalboost import app
 
 class TestObjects():
     test_data = dict(TEST_ACCOUNT_NAME="TestBoost",
+                     GOALBOOST_ACCOUNT_ID=b"GoalAdelante",
                      TEST_ACCOUNT_ID=b"TestBoost123",
                      DEMO=ObjectId(b"DEMOdemoDEMO"),
                      TEST_USER_ID=ObjectId(b"TestUserDEMO"),

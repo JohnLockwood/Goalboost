@@ -19,12 +19,10 @@ class Role(db.Document, RoleMixin):
 class User(db.Document, UserMixin):
     email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
-    account= db.ReferenceField(Account, required=False)       # Todo make this required
+    account= db.ReferenceField(Account, required=True)       # Todo make this required
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
-    # TODO DEPRECATED  -- YANK!
-    timer = db.ObjectIdField(null=True)
 
     # http://docs.mongoengine.org/guide/signals.html
     def handle_pre_save(sender, document):
