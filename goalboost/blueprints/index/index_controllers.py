@@ -9,7 +9,7 @@ bp_index = Blueprint('index', __name__, url_prefix='/')
 # Set the route and accepted methods
 @bp_index.route('', methods=['GET'])
 def index():
-    return render_template("index/index.html", userId="")
+    return render_template("index/index.html")
 
 @bp_index.route('development', methods=['GET'])
 def development():

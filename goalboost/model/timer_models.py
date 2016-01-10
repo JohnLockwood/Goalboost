@@ -145,7 +145,6 @@ class RemoteTicker(object):
         self.startTime = datetime.utcnow()
         self.is_running = True
 
-
     def stop(self):
         self.seconds = self.seconds + self.current_elapsed()
         self.is_running = False

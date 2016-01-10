@@ -31,7 +31,6 @@ def create_app(config_name):
     app.register_blueprint(v1_api)
     init_api(app)
 
-
     file_handler = FileHandler("flask.log")
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)

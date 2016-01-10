@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"subpar",
+				"subparser_name"
+			],
+			[
 				"get",
 				"get_hostname"
 			],
@@ -55,15 +59,53 @@
 			"file": "gb",
 			"settings":
 			{
-				"buffer_size": 686,
+				"buffer_size": 1351,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "manage.py",
+			"contents": "Title: Goalboost Sprint 2\nAuthor: John Lockwood\nDate: 2016-01-09 06:18\nSlug: goalboost_sprint_2\nExcerpt: \nSummary: \nCategory: \nTags: \n\nThis is a kind of standup meeting about Goalboost Sprint 2 -- where we are so far and what we're planning.\n\nHere's the original description ofSprint 2:\n\n<blockquote>\n\n<p>We already have some very basic Flask-Security based authentication coded. By the end of this sprint we'll have:</p>\n<p>Non-single-user user account creation in place.<br />\nBasic user management -- add and delete new non-admin users to account.<br />\nToken based security for the rest endpoints (management for these may come later).<br />\n</blockquote>\n\nThis Sprint ends March 31st, 2016, and to date (9 January) we have done the token based security metioned above, and applied this to timer implementation.  What's currently the /timer/user page is pretty much a single page application except for the authentication.  (SPA purists would take issue with that I'm sure -- lucky for me none of them read me as far as I know).\n\nWe've also been spending significant time (since December, or a little less than a week of \"real-time\"), doing two things:\n\n* Refactoring the timer implementation to make it easier to work with.  A timer now is more like a \"time entry\" -- a total hours for a given note on the same day.\n* Coming to the realization (somewhat late) that we've been working with an ORM that's not well suited to the task at hand, and writing lots of code to get around that.\n\nI also spent a smaller amount of time on a better command line utility, \"gb\", a task timer for git.  This is just a stub so far.\n\nHere are my notes on what needs to be done given what I understand now:\n\n* Rew\n\n\n",
+			"file": "/home/john/Dropbox/business/codesolid/content/goalboost_sprint_2.md",
+			"file_size": 1697,
+			"file_write_time": 130968256745986584,
 			"settings":
 			{
-				"buffer_size": 596,
+				"buffer_size": 1702,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/john/Dropbox/source/python/mongo-kit/mongo_kit1.py",
+			"settings":
+			{
+				"buffer_size": 383,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/home/john/Dropbox/source/python/mongo-kit/mongo_kat1.py",
+			"settings":
+			{
+				"buffer_size": 615,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/john/Dropbox/source/python/mongokat/uninstall.sh",
+			"settings":
+			{
+				"buffer_size": 75,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "",
+			"file": "/home/john/Dropbox/source/python/mongokat/files.txt",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -173,13 +215,16 @@
 	],
 	"file_history":
 	[
+		"/home/john/Dropbox/business/goalboost/docs/hours.John.json",
+		"/home/john/Dropbox/business/goalboost/manage.py",
+		"/home/john/Dropbox/business/goalboost/goalboost/templates/timer/user_timer.html",
+		"/home/john/.bash_aliases",
+		"/home/john/Dropbox/business/goalboost/docs/delme.json",
 		"/home/john/Dropbox/business/tech_coops_growing/README.md",
 		"/home/john/Dropbox/business/codesolid/content/why_employee_owned_source_code_is_not_a_thing.md",
-		"/home/john/Dropbox/business/goalboost/docs/hours.John.json",
 		"/home/john/Dropbox/business/codesolid/themes/codesolid/templates/base.html",
 		"/home/john/Dropbox/business/goalboost/docs/hours.Jenniffer.json",
 		"/home/john/Dropbox/business/goalboost/docs/total_hours.py",
-		"/home/john/Dropbox/business/goalboost/manage.py",
 		"/etc/mongod.conf",
 		"/home/john/start_mongo.sh",
 		"/etc/init.d/disable-transparent-hugepages",
@@ -217,7 +262,6 @@
 		"/usr/local/bin/idea",
 		"/home/john/Dropbox/business/goalboost/delme.sh",
 		"/home/john/Dropbox/business/goalboost/tools/fabfile.py",
-		"/home/john/.bash_aliases",
 		"/home/john/Dropbox/source/jasmine/SpecRunner.html",
 		"/home/john/Dropbox/source/jasmine/src/Player.js",
 		"/home/john/Dropbox/business/codesolid/timers.sh",
@@ -248,7 +292,6 @@
 		"/home/john/Dropbox/business/goalboost/foundation/index.html",
 		"/home/john/Dropbox/business/goalboost/goalboost/templates/layout/default.html",
 		"/home/john/Dropbox/business/goalboost/secret/scratch/timer.html",
-		"/home/john/Dropbox/business/goalboost/goalboost/templates/timer/user_timer.html",
 		"/home/john/Dropbox/business/goalboost/goalboost/templates/index.html",
 		"/home/john/Dropbox/business/goalboost/goalboost/templates/security/login_user.html",
 		"/home/john/Dropbox/business/goalboost/goalboost/templates/mod_auth/protected.html",
@@ -299,8 +342,7 @@
 		"/home/john/Dropbox/business/alguito/hours_test.py",
 		"/home/john/Dropbox/business/alguito/delme.txt",
 		"/home/john/Dropbox/business/alguito/docs/more",
-		"/home/john/Dropbox/business/alguito/config.py",
-		"/home/john/Dropbox/business/alguito/secret/scratch/flask_security_mongo.py"
+		"/home/john/Dropbox/business/alguito/config.py"
 	],
 	"find":
 	{
@@ -488,7 +530,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -497,15 +539,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 686,
+						"buffer_size": 1351,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								165,
-								165
+								683,
+								683
 							]
 						],
 						"settings":
@@ -516,29 +558,141 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "manage.py",
+					"file": "/home/john/Dropbox/business/codesolid/content/goalboost_sprint_2.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 596,
+						"buffer_size": 1702,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22,
-								22
+								1699,
+								1699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/john/Dropbox/source/python/mongo-kit/mongo_kit1.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 383,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/john/Dropbox/source/python/mongo-kit/mongo_kat1.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 615,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								615,
+								615
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/john/Dropbox/source/python/mongokat/uninstall.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 75,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								44,
+								44
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/john/Dropbox/source/python/mongokat/files.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
