@@ -9,7 +9,6 @@ v1_api_resources = [TimerResource("/timer")]
 for resource in v1_api_resources:
     resource.register_routes(v1_api)
 
-
 @v1_api.route('/test')
 def test():
     message = {"status": "Open for business"}

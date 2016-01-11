@@ -2,9 +2,31 @@ from flask.ext.login import LoginManager
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from goalboost.model.auth_models import Role, User
 from flask.ext.security import Security, MongoEngineUserDatastore
+from flask.ext.principal import Principal, Permission, RoleNeed
 from goalboost.model import db
 
 login_manager = LoginManager()
+
+# Create a permission with a single Need, in this case a RoleNeed.
+# See
+#root_permission = Permission(RoleNeed('Root'))
+#account_admin_permission = Permission(RoleNeed('Account Admin'))
+#account_user_permission = Permission(RoleNeed('Account User'))
+
+"""can_access_user_owned_resource
+
+Given a principal such as the current user and a resource which must have a user field (such as a timer).
+Return true if the user can access the resource, else false.
+"""
+def can_access_user_owned_resource(principal, resource):
+    for role in principal.roles:
+        if role.name == "Account User":
+            return principal.id == resource.user.id
+        if role.name == "Root":
+            return True
+        if role.name == "Account Admin":
+            return principal.account == resource.user.account
+    return False
 
 def init_flask_security(app):
     user_datastore = MongoEngineUserDatastore(db, User, Role)

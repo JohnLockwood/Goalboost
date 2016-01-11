@@ -1,10 +1,8 @@
 import random
 import string
-from goalboost.model.auth_models import User, Account
-
+from goalboost.model.auth_models import User, Account, Role
 from bson import ObjectId
 from goalboost import app
-
 
 class TestObjects():
     test_data = dict(TEST_ACCOUNT_NAME="TestBoost",
@@ -15,14 +13,17 @@ class TestObjects():
                      TEST_USER_EMAIL = "TestUser@examples.coop",
                      TEST_USER_PASSWORD = "Geronimo")
 
+    """get_test_user - TestBoost123 user with Account User Role"""
     def get_test_user(self):
         account = self.get_test_account()
+        account_user_role = Role.objects(name="Account User").first()
         email, password = self.get_test_user_credentials()
         try:
-            user = User(email=email, account=account, password=password)
+            user = User(email=email, account=account, password=password, roles=[account_user_role])
             user.save()
         except: # Don't care if already created
             user = User.objects(email=email).first()
+
         return user
 
     def get_test_user_credentials(self):
