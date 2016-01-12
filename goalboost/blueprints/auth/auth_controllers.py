@@ -1,12 +1,11 @@
 # Import flask dependencies
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, render_template
 import flask.ext.login
 from flask.ext.login import login_required, current_user
 from flask_security.forms import RegisterForm, Required
 from mongoengine import StringField
 from goalboost.model.auth_models import User
 from goalboost.blueprints.auth.token_auth import httpBasicAuth
-
 
 class ExtendedRegisterForm(RegisterForm):
     first_name = StringField('UserName', [Required()])
@@ -26,6 +25,14 @@ bp_auth = Blueprint('auth', __name__, url_prefix='/auth')
 def get_resource():
     data = dict(hello = "world")
     return jsonify(data)
+
+@bp_auth.route('/users')
+@login_required
+def manage_users():
+    # token = current_user.get_auth_token()
+
+    return render_template("mod_auth/users.html", user=current_user)
+
 
 
 @bp_auth.route('/get_token')

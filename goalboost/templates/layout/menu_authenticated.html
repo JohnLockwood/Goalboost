@@ -1,0 +1,30 @@
+<ul class="left">
+    <ul class="">
+        <li class="has-dropdown">
+            <a href="#">Development Links</a>
+            <ul class="dropdown">
+                <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>
+                <li><a href="https://github.com/codesolid/Goalboost/issues">Issues Page</a></li>
+                <li id="test_api"><a href="/development">API Test Page (Need Fixes)</a></li>
+            </ul>
+        </li>
+    </ul>
+    <li><a href="/timer/user">My Timers</a></li>
+</ul>
+
+<ul class="right">
+    {% if current_user.account_admin or current_user.root %}
+    <ul>
+        <li class="has-dropdown">
+            <a href="#">Account</a>
+            <ul class="dropdown">
+                <li><a href="/auth/users">Manage Users</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    {% endif %}
+    <li class="light_font"><a>Logged in as {{ current_user.email}}</a></li>
+    <li id="register_logout"><a href="/logout">Log out</a></li>
+</ul>
+

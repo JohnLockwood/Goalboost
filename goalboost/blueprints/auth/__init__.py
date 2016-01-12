@@ -19,14 +19,15 @@ Given a principal such as the current user and a resource which must have a user
 Return true if the user can access the resource, else false.
 """
 def can_access_user_owned_resource(principal, resource):
-    for role in principal.roles:
-        if role.name == "Account User":
-            return principal.id == resource.user.id
-        if role.name == "Root":
-            return True
-        if role.name == "Account Admin":
-            return principal.account == resource.user.account
-    return False
+    role = principal.get_role()
+    if role == Role.ROOT:
+        return True
+    elif role == Role.ACCONT_USER:
+        return principal.id == resource.user.id
+    elif role == Role.ACCOUNT_ADMIN:
+        return principal.account == resource.user.account
+    else:
+        return False
 
 def init_flask_security(app):
     user_datastore = MongoEngineUserDatastore(db, User, Role)

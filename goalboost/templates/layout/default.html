@@ -32,34 +32,23 @@
             </ul>
 
             <section class="top-bar-section">
-                <ul class="left">
-                    <ul class="">
-                        <li class="has-dropdown">
-                            <a href="#">Development Links</a>
-                            <ul class="dropdown">
-                                <li><a href="https://github.com/codesolid/Goalboost">Goalboost on Github</a></li>
-                                <li><a href="https://github.com/codesolid/Goalboost/issues">Issues Page</a></li>
-                                <li id="test_api"><a href="/development">API Test Page (Need Fixes)</a></li>
-
-                            </ul>
-                        </li>
-                    </ul>
-                    {% if current_user.is_authenticated() %}
-                    <li><a href="/timer/user">My Timers</a></li>
-                    {% endif %}
-                </ul>
+                {#
+                    TODO tweak menus accordingly !
+                #}
 
 
-                <ul class="right">
-                    {% if current_user.is_authenticated() %}
-                    <li class="light_font"><a>Logged in as {{ current_user.email}}</a></li>
-                    <li id="register_logout"><a href="/logout">Log out</a></li>
-                    {% endif %}
-                    {% if not current_user.is_authenticated() %}
-                    <li id="register_register"><a href="/register">Sign Up</a></li>
-                    <li id="register_login"><a href="/login">Log in</a></li>
-                    {% endif %}
-                </ul>
+                {% if not current_user.is_authenticated() %}
+                    {% include "/layout/menu_guest.html" %}
+                {% endif %}
+
+                {% if current_user.is_authenticated() %}
+                    {% include "/layout/menu_authenticated.html" %}
+                {% endif %}
+
+
+
+
+
             </section>
 
         </nav>
@@ -70,6 +59,7 @@
                 <div class="medium-12 small-12 columns" role="content">
                     <div class="row">
                         <div class="small-12 columns">
+
                             {% block content %}
                             {% endblock %}
                         </div>

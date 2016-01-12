@@ -14,9 +14,16 @@ class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
 
+    NONE = -1
+    ROOT = 1;
+    ACCOUNT_ADMIN = 2;
+    ACCONT_USER = 3;
+
+
 # TODO Note if we are consistent here use ReferenceField for account
 # TODO Also we need to add a UserName, which should be unique for itself + Account
 class User(db.Document, UserMixin):
+
     email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
     account= db.ReferenceField(Account, required=True)       # Todo make this required
@@ -24,12 +31,27 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
 
-    # http://docs.mongoengine.org/guide/signals.html
-    def handle_pre_save(sender, document):
-        pass
-        # print("Inside pre_save handler")
+    def get_role(self):
+        roles = [role.name for role in self.roles]
+        if "Root" in roles:
+            role = Role.ROOT
+        elif "Account Admin" in roles:
+            role = Role.ACCOUNT_ADMIN
+        elif "Account User" in roles:
+            role = Role.ACCONT_USER
+        else:
+            role = Role.NONE
+        return role
 
-    signals.pre_save.connect(handle_pre_save)
+    @property
+    def root(self): return self.get_role() == Role.ROOT
+
+    @property
+    def account_admin(self): return self.get_role() == Role.ACCOUNT_ADMIN
+
+    @property
+    def account_user(self): return self.get_role() == Role.ACCOUNT_USER
+
 
     # Work in progress, cf.
     # http://blog.miguelgrinberg.com/post/restful-authentication-with-flask
