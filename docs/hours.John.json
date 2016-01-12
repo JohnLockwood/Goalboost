@@ -126,4 +126,5 @@
 {"date": "01/10/2016", "hours": 2.1, "description": "Gb utility work, issues grooming, minor fixes to begin multi-user account work."},
 {"date": "01/10/2016", "hours": 0.8, "description": "Work on authorization functionality, ehance test objects as needed"},
 {"date": "01/11/2016", "hours": 1.3, "description": "Continue work on authorization, plus  navbar / menus, add user page."}
+{"date": "01/12/2016", "hours": 1.7, "description": "Documentation, planning.  Timer UI fixes and work on editing timer functionality."}
 ]}

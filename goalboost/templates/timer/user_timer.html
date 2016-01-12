@@ -7,7 +7,7 @@
 </script>
 {% endblock  %}
 {% block content %}
-
+{% raw %}
 
 <!-- Todo move to global stylesheet -->
 <style type="text/css">
@@ -15,32 +15,16 @@
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row" data-equalizer>
-        <div class="large-12 columns left-align"><h1>What Are You Working On?</h1></div>
+        <div class="large-12 columns left-align no-right-padding"><h1>What Are You Working On?
+            <span class="right">{{timerListModel.timers[0].seconds | formatTime }}</span></h1>
+        </div>
     </div>
-    {% raw %}
+
     <section ng-if="timerListModel.timers.length > 0">
-        <!--
-                <div class="row">
-                    <div class="large-1 columns panel text-center hour_display">{{
-                        timerListModel.timers[0].seconds | formatTime }}
-                    </div>
 
-                    <div class="large-10 columns no_right_padding"><textarea rows=2 placeholder="Task description..."
-                                                                             style="font-size:1.0em padding:0"
-                                                                             ng-model="timerListModel.timers[0].notes"></textarea>
-                    </div>
-                    <div class="large-1 columns ">
-                        <button class=" button {{startButtonClass}} "
-                                ng-click="$parent.startDisplayed = !$parent.startDisplayed">
-                            {{startButtonText}}
-                        </button>
-
-                    </div>
-                </div>
-                -->
-        <div class="row">
+         <div class="row">
             <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
-                <textarea rows=2 placeholder="Task description..." style="width:100%; font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
+                <textarea rows=2 placeholder="Task description..." style="font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
             </div>
         </div>
         <div class="row">
@@ -93,27 +77,21 @@
         </div>
     </div>
 </section>
+
+    <div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+         role="dialog">
+        <h2 id="modalTitle">Not Implemented</h2>
+        <p class="lead">We're working on it.</p>
+        <input ng-model="timerListModel.timers[0].seconds" />
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
 </div>
+
+
+
+
+
+
 {% endraw %}
-<section>
-
-    {% if current_user.is_authenticated %}
-    <span>Logged in as {{ current_user.email}}</span>
-    {% endif %}
-
-</section>
-
-
-<div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
-     role="dialog">
-    <h2 id="modalTitle">Not Implemented</h2>
-    <p class="lead">We're working on it.</p>
-    <p>Insert retro "under construction" animated gif here, or just bite the bullet and write the code.</p>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
-</div>
-
-
-
 {% endblock %}
 

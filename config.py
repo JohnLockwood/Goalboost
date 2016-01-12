@@ -15,6 +15,8 @@ class Config:
     SECURITY_EMAIL_SENDER =  os.environ.get("GOALBOOST_SECURITY_EMAIL_SENDER") or "someuser@example.com"
     SECURITY_POST_LOGOUT_VIEW = '/auth/logged_out' # defined in auth_controllers.py
     SECURITY_POST_LOGIN_VIEW = '/timer/user' # defined in auth_controllers.py
+    SECURITY_POST_REGISTER_VIEW = '/timer/user' # defined in auth_controllers.py
+
 
     SECURITY_TOKEN_AUTHENTICATION_HEADER = "Authentication-Token"
 
