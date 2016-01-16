@@ -1,4 +1,3 @@
-
 function getScriptParams() {
     var scripts = document.getElementsByTagName('script');
     var lastScript = scripts[scripts.length - 1];
@@ -14,7 +13,6 @@ var timerApp = angular.module('timerApp', []);
 
 // Save it here while in scope so can  be used by controller
 scriptParams = getScriptParams();
-
 
 angular.module('timerApp', ["ngSanitize"]).filter('checkEmpty',function($sce){
         return function(input){
@@ -55,52 +53,47 @@ angular.module('timerApp').filter("formatTime", function() {
     }
 });
 
-angular.module('timerApp').directive('formatseconds', function() {
+// angular.directive('timerApp')
+angular.module('timerApp').directive('dateFormatter', function($log) {
     return {
-        restrict: 'A',
         require: 'ngModel',
-        link: function(scope, element, attr, ngModel) {
+        link: function(scope, element, attrs, controller) {
 
-            function fromSeconds (timeInSeconds) {
-                // Left-zero padding for minutes, seconds, etc.
-                var pad = function(n, width, z) {
-                    z = z || '0';
-                    n = n + '';
-                    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-                };
-                var hours = 0;
-                var minutes = 0;
-                var seconds= timeInSeconds % 60;
-                //var suffix = "seconds";
-                var timeStr = pad(seconds, 2, 0);
-                if (timeInSeconds >= 60) {
-                    minutes = Math.floor(timeInSeconds /60) % 60;
-                    timeStr = pad(minutes, 2, 0) + ":" + timeStr;
-                    // suffix = "minutes";
-                }
-                else {
-                    timeStr = pad("00", 2, 0) + ":" + timeStr;
-                }
-                if (timeInSeconds >= 3600) {
-                    hours = Math.floor(timeInSeconds / 3600);
-                    timeStr = hours + ":" + timeStr;
-                    //  suffix = "hours";
-                }
-
-                return timeStr; // + " " + suffix;
-            }
-
-            function toSeconds(sTime) {
-                
-            }
-
-
-
-
-
+            controller.$formatters.push(function(value) {
+                $log.log(value);
+                $log.debug(value);
+                return value;
+            });
+            controller.$parsers.push(function(value) {
+                $log.log(value);
+                return value;
+            });
         }
     };
 });
+
+/* Directives */
+
+angular.module('timerApp').directive('datePicker',
+    function DatePicker(){
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            scope: { format: "=" },
+            link: function(scope, element, attrs, ngModel){
+                if(typeof(scope.format) == "undefined"){ scope.format = "mm/dd/yyyy" }
+                $(element).fdatepicker({format: scope.format}).on('changeDate', function(ev){
+
+                    scope.$apply(function(){
+                        ngModel.$setViewValue(ev.date);
+                    });
+                })
+            }
+        }
+    });
+
+
+
 
 
 angular.module('timerApp').factory("timerListModel", ["$interval", "$http", function($interval, $http) {
@@ -284,6 +277,14 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
         $scope.timerListModel.stopTimer();
     }
 
+    $scope.toggleTimer = function() {
+        if (! $scope.timerListModel.timers[0].running ) {
+            $scope.startTimer();
+        }
+        else {
+            $scope.stopTimer();
+        }
+    }
     $scope.$watch('startDisplayed', function(){
         $scope.startDisplayed ?  $scope.stopTimer() : $scope.startTimer() ;
     });
@@ -343,3 +344,4 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     }
 
 }]);
+

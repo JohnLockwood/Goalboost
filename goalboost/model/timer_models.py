@@ -177,9 +177,13 @@ class RemoteTicker(object):
 class TimerFormatter(ModelFormatter):
     def model_to_dict(self, object_as_model, include=None, exclude=None):
         timer_dict = ModelFormatter.model_to_dict(self, object_as_model, include, exclude)
-        timer_dict["dateEntered"] = str(object_as_model.dateEntered)
+        #timer_dict["dateEntered"] = str(object_as_model.dateEntered)
+        timer_dict["dateEntered"] = self.fmt_date(object_as_model.dateEntered)
         timer_dict["lastRestart"] = str(object_as_model.lastRestart)
         return timer_dict
 
-    def fmt_date(self, dt):
+    def fmt_date_time(self, dt):
         return dt.strftime("%a, %b %d, %Y %H:%M")
+
+    def fmt_date(self, dt):
+        return dt.strftime("%m/%d/%Y")

@@ -12,11 +12,26 @@
 <!-- Todo move to global stylesheet -->
 <style type="text/css">
 .runningTimer { font-weight:  bold; }
+input[type="text"]:disabled {
+    background: #fff;
+    border:0px solid #fff;
+}
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
     <div class="row" data-equalizer>
-        <div class="large-12 columns left-align no-right-padding"><h1>What Are You Working On?
-            <span class="right">{{timerListModel.timers[0].seconds | formatTime }}</span></h1>
+        <div class="large-12 columns"><h1>What Are You Working On?</h1></div>
+    </div>
+    <div class="row" data-equalizer>
+        <div class="large-2 columns lead">
+            <input date-picker ng-model="timerListModel.timers[0].dateEntered" />
+        </div>
+            <!--
+            <span class="fi-pencil" style="color:#007095;" onclick='alert("Clicked");'>&nbsp;<span style="color:#000;">{{timerListModel.timers[0].dateEntered}}</span></span>
+            <span style="font-size:2em;" onclick='alert("Clicked");'>&nbsp;
+            -->
+
+        <div class="large-2 columns right-align no-right-padding">
+            <input style="font-size:2em;" onblur='alert("BLURRRRRR!!!");'class="prefix-radius right-align" ng-disabled="stopEnabled" value="{{timerListModel.timers[0].seconds | formatTime}}" type="text" />
         </div>
     </div>
 
@@ -28,19 +43,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="large-4 medium-6 small-12 columns left-align">
-                <ul class="button-group round even-3">
-                    <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li>
-                    <li><span class="button {{timerClass}}">{{timerListModel.timers[0].seconds | formatTime }}</span></li>
-                    <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li>
+            <div class="large-10 medium-10 small-12 columns left-align">
+                <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
+                <button class="button tiny fi-save" >&nbsp;Save</button>
+                <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
+                    <!-- <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li> -->
+                    <!-- <li><span class="button {{timerClass}}">{{timerListModel.timers[0].seconds | formatTime }}</span></li> -->
+                    <!-- <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li> -->
+
                 </ul>
             </div>
-            <div class="large-8 medium-6 small-12 columns">
+            <div class="large-2 medium-2 small-12 columns">
                 <div class="row right-align">
+                    <!--
                     <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
                     <button class="button tiny fi-pencil" data-reveal-id="editModal">&nbsp;Edit Details</button>
                     <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
-
+                    -->
+                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass">{{$parent.startButtonText}}</a>
+                    <!-- <a href="#" ng-click="$parent.toggleTimer()" class="button tiny" ng-class="$parent.startButtonClass">{{$parent.startButtonText}}</a> -->
                 </div>
             </div>
         </div>
@@ -78,20 +99,59 @@
     </div>
 </section>
 
-    <div id="editModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+    <div id="editModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
          role="dialog">
-        <h2 id="modalTitle">Not Implemented</h2>
-        <p class="lead">We're working on it.</p>
-        <input ng-model="timerListModel.timers[0].seconds" />
+
+        <div class="row">
+            <div class="large-12 columns"><h2 id="modalTitle">Enter time:</h2></div>
+        </div>
+        <div class="row">
+            <div class="large-2 columns end">Hours</div>
+            <div class="large-2 columns end">Minutes</div>
+            <div class="large-2 columns end">Seconds</div>
+        </div>
+        <div class="row">
+            <div class="large-2 columns end"><input type="text" value="11" maxlength="2" /></div>
+            <div class="large-2 columns end"><input type="text" value="22" maxlength="2" /></div>
+            <div class="large-2 columns end"><input type="text" value="11" maxlength="2" /></div>
+        </div>
+        <div class="row">
+            <div class="large-2 columns end"><button class="small button">OK</button></div>
+            <div class="large-1 columns end">&nbsp;</div>
+            <div class="large-2 columns end"><button class="small button">Cancel</button></div>
+        </div>
+
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
 </div>
 
-
-
-
-
-
 {% endraw %}
+{% endblock %}
+
+{% block js_init %}
+<!--
+<script type="text/javascript">
+    $(function () {
+        $(document).foundation({
+            "magellan-expedition": {
+                active_class: 'active', // specify the class used for active sections
+                threshold: 0, // how many pixels until the magellan bar sticks, 0 = auto
+                destination_threshold: 20, // pixels from the top of destination for it to be considered active
+                throttle_delay: 50, // calculation throttling to increase framerate
+                fixed_top: 0, // top distance in pixels assigend to the fixed element on scroll
+                offset_by_height: true // whether to offset the destination by the expedition height. Usually you want this to be true, unless your expedition is on the side.
+            }
+        });
+        $('#dp1').fdatepicker({
+            format: 'mm/dd/yyyy',
+            disableDblClickSelection: true
+
+        }).on('changeDate', function(ev) {
+            alert("changeDate version 17");
+        }
+        );
+    });
+</script>
+-->
 {% endblock %}
 
