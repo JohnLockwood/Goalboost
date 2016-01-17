@@ -2,7 +2,8 @@
 {% set active_page = "index" %}
 {% block title %}Goalboost Time and Billing{% endblock %}
 {% block header %}
-<script src="/static/js/timer/timer.js" data-userId="{{userId}}" data-userEmail="{{userEmail}}" data-authToken="{{authToken}}">
+<script src="/static/js/timer/timer.js" data-userId="{{userId}}" data-userEmail="{{userEmail}}"
+        data-authToken="{{authToken}}">
 
 </script>
 {% endblock  %}
@@ -11,99 +12,164 @@
 
 <!-- Todo move to global stylesheet -->
 <style type="text/css">
-.runningTimer { font-weight:  bold; }
-input[type="text"]:disabled {
-    background: #fff;
-    border:0px solid #fff;
-}
+
+    input[type="text"]:disabled {
+        background: #fff;
+        border: 0px solid #fff;
+    }
+
+    .save-icon {
+        font-size: 1.5em;
+    }
+
+    a.save-icon {
+        color: #4cae4c;
+    }
+
+    .cancel-icon {
+        font-size: 1.5em;
+    }
+
+    a.cancel-icon {
+        color: #bc271c;
+    }
+
+    .info-icon {
+        font-size: 1.5em;
+    }
+
+    a.info-icon {
+        color: #008CBA;
+    }
+
+    .top-offset-label {
+        padding-top:.5em;
+    }
+
+    .no-left-padding {
+        padding-left:0;px;
+    }
+
 </style>
 <div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
-    <div class="row" data-equalizer>
-        <div class="large-12 columns"><h1>What Are You Working On?</h1></div>
-    </div>
-    <div class="row" data-equalizer>
-        <div class="large-2 columns lead">
-            <input date-picker ng-model="timerListModel.timers[0].dateEntered" />
-        </div>
-            <!--
-            <span class="fi-pencil" style="color:#007095;" onclick='alert("Clicked");'>&nbsp;<span style="color:#000;">{{timerListModel.timers[0].dateEntered}}</span></span>
-            <span style="font-size:2em;" onclick='alert("Clicked");'>&nbsp;
-            -->
 
-        <div class="large-2 columns right-align no-right-padding">
-            <input style="font-size:2em;" onblur='alert("BLURRRRRR!!!");'class="prefix-radius right-align" ng-disabled="stopEnabled" value="{{timerListModel.timers[0].seconds | formatTime}}" type="text" />
-        </div>
-    </div>
 
     <section ng-if="timerListModel.timers.length > 0">
+        <div class="row" data-equalizer>
+            <div class="large-12 columns"><h1>What Are You Working On?</h1></div>
+        </div>
+        <div class="row" data-equalizer>
+            <div class="large-2 columns ">
+                <input fi-pencil date-picker ng-model="timerListModel.timers[0].dateEntered"/>
+            </div>
 
-         <div class="row">
+            <span time-entry ng-model="timerListModel.timers[0].seconds"></span>
+
+            <script type="text/ng-template" id="time-entry-display.html">
+                <section>
+                    <section id="timer-displaying" >
+                        <div class="large-8 columns">&nbsp;</div>
+                        <div class="large-2 columns no-right-padding ">
+                                                    <span class="right">
+                                    <a href="#" class="fi-pencil"
+                                       onclick='$("#timer-displaying").hide();$("#timer-editing").show();'>&nbsp;
+                                        <span style="color:black;font-size:2em;">{{timerListModel.timers[0].seconds | formatTime}}</span>
+
+                                    </a>
+                                    </span>
+                        </div>
+                    </section>
+                    <section id="timer-editing" hidden>
+                        <div class="large-8 columns">&nbsp;</div>
+                        <div class="large-2 columns no-right-padding " >
+                                        <input style="color:black;font-size:2em;" onblur='$("#timer-displaying").show();$("#timer-editing").hide();' value="{{timerListModel.timers[0].seconds | formatTime}}">
+
+
+
+                        </div>
+<!--                        <div class="large-3 columns">&nbsp;</div>
+                        <div class="large-7 columns no-right-padding right">
+
+                            <div class="row">
+                                <div class="large-6  columns">&nbsp;</div>
+                                <div class="large-2 columns no-right-padding top-offset-label " >Time spent:</div>
+                                <div class="large-2 columns no-right-padding"><input type="text" value="11 hrs"
+                                                                     maxlength="40" onblur='$("#timer-displaying").show();$("#timer-editing").hide();'/></div>
+                                <div class="large-2 columns no-left-padding no-right-padding top-offset-label">&nbsp;
+                                    <a class="fi-check save-icon" href="#" onclick='console.log("saving...");$("#timer-displaying").show();$("#timer-editing").hide();'></a></i>&nbsp;
+                                    <a class="fi-x cancel-icon" href="#" onclick='$("#timer-displaying").show();$("#timer-editing").hide();'></a></i>
+                                </div>
+                            </div>
+                        </div>
+-->
+                    </section>
+
+
+                </section>
+            </script>
+        </div>
+        <div class="row">
             <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
-                <textarea rows=2 placeholder="Task description..." style="font-size:1.0em;" ng-model="timerListModel.timers[0].notes"></textarea>
+                <textarea rows=2 placeholder="Task description..." style="font-size:1.0em;"
+                          ng-model="timerListModel.timers[0].notes"></textarea>
             </div>
         </div>
         <div class="row">
-            <div class="large-10 medium-10 small-12 columns left-align">
+            <div class="large-9 medium-10 small-12 columns left-align">
                 <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
-                <button class="button tiny fi-save" >&nbsp;Save</button>
+                <button class="button tiny fi-save" ng-click="$parent.timerListModel.saveTimerToServer(0)">&nbsp;Save
+                </button>
                 <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
-                    <!-- <li><a href="#" ng-click="$parent.stopTimer()" class="button alert {{$parent.stopEnabled}}">Stop</a></li> -->
-                    <!-- <li><span class="button {{timerClass}}">{{timerListModel.timers[0].seconds | formatTime }}</span></li> -->
-                    <!-- <li><a href="#" ng-click="$parent.startTimer()" class="button success {{$parent.startEnabled}}">Start</a></li> -->
-
                 </ul>
             </div>
-            <div class="large-2 medium-2 small-12 columns">
+            <div class="large-3 medium-2 small-12 columns">
                 <div class="row right-align">
-                    <!--
-                    <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
-                    <button class="button tiny fi-pencil" data-reveal-id="editModal">&nbsp;Edit Details</button>
-                    <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
-                    -->
-                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass">{{$parent.startButtonText}}</a>
-                    <!-- <a href="#" ng-click="$parent.toggleTimer()" class="button tiny" ng-class="$parent.startButtonClass">{{$parent.startButtonText}}</a> -->
+                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass">
+                        &nbsp;{{$parent.startButtonText}}</a>
                 </div>
             </div>
         </div>
+    </section>
 
-
-<section ng-if="timerListModel.timers.length > 1">
-    <div class="row">
-        <div class="small-12 columns ">
-            <h3>Recent Tasks</h3>
+    <section ng-if="timerListModel.timers.length > 1">
+        <div class="row">
+            <div class="small-12 columns ">
+                <h3>Recent Tasks</h3>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="medium-1 small-6 columns "><strong>Date</strong></div>
-        <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;" ><strong>&nbsp;h:mm:ss</strong></div>
-        <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
-    </div>
-</section>
-<div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
-    <div class="medium-1 small-6 columns ">{{ getLatestTimerDate(t) }}</div>
-    <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.seconds | formatTime}}</div>
-    <div class="fullwidth medium-10 small-12 columns">
-        <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
-    </div>
-
-</div>
-
-</section>
-<section ng-if="timerListModel.timers.length == 0">
-    <div class="row">
-        <div class="large-12 columns">
-            <p class="lead">
-                You have no timers. Start by <a href="#" ng-click="$parent.createNewTimer()">creating a timer</a>.</p>
-            </p>
+        <div class="row">
+            <div class="medium-1 small-6 columns "><strong>Date</strong></div>
+            <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;"><strong>
+                &nbsp;h:mm:ss</strong></div>
+            <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
         </div>
+    </section>
+    <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
+        <div class="medium-1 small-6 columns ">{{ t.dateEntered }}</div>
+        <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.seconds | formatTime}}
+        </div>
+        <div class="fullwidth medium-10 small-12 columns">
+            <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
+        </div>
+
     </div>
-</section>
+
+
+    <section ng-if="timerListModel.timers.length == 0">
+        <div class="row">
+            <div class="large-12 columns">
+                <p class="lead">
+                    You have no timers. Start by <a href="#" ng-click="$parent.createNewTimer()">creating a timer</a>.
+                </p>
+                </p>
+            </div>
+        </div>
+    </section>
 
     <div id="editModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
          role="dialog">
-
         <div class="row">
-            <div class="large-12 columns"><h2 id="modalTitle">Enter time:</h2></div>
+            <div class="large-12 columns"><h3 id="modalTitle">Enter time:</h3></div>
         </div>
         <div class="row">
             <div class="large-2 columns end">Hours</div>
@@ -111,47 +177,26 @@ input[type="text"]:disabled {
             <div class="large-2 columns end">Seconds</div>
         </div>
         <div class="row">
-            <div class="large-2 columns end"><input type="text" value="11" maxlength="2" /></div>
-            <div class="large-2 columns end"><input type="text" value="22" maxlength="2" /></div>
-            <div class="large-2 columns end"><input type="text" value="11" maxlength="2" /></div>
+            <div class="large-2 columns end"><input type="text" value="11" maxlength="2"/></div>
+            <div class="large-2 columns end"><input type="text" value="22" maxlength="2"/></div>
+            <div class="large-2 columns end"><input type="text" value="11" maxlength="2"/></div>
         </div>
         <div class="row">
-            <div class="large-2 columns end"><button class="small button">OK</button></div>
-            <div class="large-1 columns end">&nbsp;</div>
-            <div class="large-2 columns end"><button class="small button">Cancel</button></div>
+            <div class="large-12 columns centered ">
+                <button class="small button">OK</button>
+                &nbsp;&nbsp;
+                <button class="small button">Cancel</button>
+            </div>
         </div>
-
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
+
+</div>
 </div>
 
 {% endraw %}
 {% endblock %}
 
 {% block js_init %}
-<!--
-<script type="text/javascript">
-    $(function () {
-        $(document).foundation({
-            "magellan-expedition": {
-                active_class: 'active', // specify the class used for active sections
-                threshold: 0, // how many pixels until the magellan bar sticks, 0 = auto
-                destination_threshold: 20, // pixels from the top of destination for it to be considered active
-                throttle_delay: 50, // calculation throttling to increase framerate
-                fixed_top: 0, // top distance in pixels assigend to the fixed element on scroll
-                offset_by_height: true // whether to offset the destination by the expedition height. Usually you want this to be true, unless your expedition is on the side.
-            }
-        });
-        $('#dp1').fdatepicker({
-            format: 'mm/dd/yyyy',
-            disableDblClickSelection: true
-
-        }).on('changeDate', function(ev) {
-            alert("changeDate version 17");
-        }
-        );
-    });
-</script>
--->
 {% endblock %}
 

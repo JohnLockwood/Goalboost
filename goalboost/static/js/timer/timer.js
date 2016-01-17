@@ -79,19 +79,36 @@ angular.module('timerApp').directive('datePicker',
         return {
             require: 'ngModel',
             restrict: 'A',
-            scope: { format: "=" },
+
+
             link: function(scope, element, attrs, ngModel){
+
                 if(typeof(scope.format) == "undefined"){ scope.format = "mm/dd/yyyy" }
                 $(element).fdatepicker({format: scope.format}).on('changeDate', function(ev){
-
                     scope.$apply(function(){
                         ngModel.$setViewValue(ev.date);
                     });
-                })
+                });
             }
         }
     });
 
+
+angular.module('timerApp').directive('timeEntry',
+    function TimeEntry($log){
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            templateUrl: "time-entry-display.html",
+            replace: true,
+            //template:  '<div class="large-8 columns" >Hello world</div>',
+            //template: "Hello",
+            link: function(scope, element, attrs, ngModel) {
+                //$log.log("" + ngModel);
+                //$log.log(element.html());
+            }
+        }
+    });
 
 
 
@@ -165,24 +182,29 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     }
 
     model.deleteTimer = function(index) {
-        console.log(model.timers[index].id);
-        $http({
-            method: 'DELETE',
-            url: '/api/v1/timer/' + model.timers[index].id,
-            headers: {
-                'Authorization': model.getAuthorizationHeader()
-            }
-        }).then(function successCallback(response) {
-            console.log("Delete successful.");
+        timer = model.timers[index];
+
+        if (typeof(timer.id) == "undefined") {
             model.timers.splice(index, 1);
-        }, function errorCallback(response) {
-            console.log(response);
-            //alert("Unable to delete timer");
-        });
+        }
+        else {
+            $http({
+                method: 'DELETE',
+                url: '/api/v1/timer/' + timer.id,
+                headers: {
+                    'Authorization': model.getAuthorizationHeader()
+                }
+            }).then(function successCallback(response) {
+                console.log("Delete successful.");
+                model.timers.splice(index, 1);
+            }, function errorCallback(response) {
+                //console.log(response);
+                alert("Unable to delete timer");
+            });
+        }
     }
 
     model.saveTimerToServer = function(index) {
-        console.log("saveTimerToServer with index = " + index);
         //console.log("Before save: " + JSON.stringify(model.timers[index], null, 4));
         $http({
             method: 'POST',
@@ -200,10 +222,20 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         });
     }
 
+    model.zeropad = function(s) {
+        if (s.length == 1) {
+            s = "0" + s;
+        }
+        return(s);
+    }
+
     model.getMidnightTodayAsString = function () {
         d = new Date();
-        d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0,0,0,0);
-        return d2.toISOString();
+        month = this.zeropad("" + (d.getMonth() + 1));
+        day =  this.zeropad("" + d.getDate());
+        year = "" + d.getFullYear();
+        return month + "/" + day + "/" + year;
+        //return d2.toISOString();
     }
 
     model.getDefaultTimer = function() {
@@ -220,7 +252,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     }
 
     model.init = function() {
-        console.log("Inside init...");
+        // console.log("Inside init...");
         $http({
             method: 'GET',
             headers: {
@@ -250,7 +282,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     //$scope.someTimerValue = 99;
     //$scope.timeFormatter = new TimeFormatter();
     $scope.timeFormatted = "0:00:00" ; // $scope.timeFormatter.formatSeconds(1);
-    $scope.startButtonClass = "success";
+    $scope.startButtonClass = "success fi-play";
     $scope.startButtonText = "Start";
     $scope.timers_json = $scope.timers;
     $scope.startDisplayed = true;
@@ -259,8 +291,8 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     $scope.timerClass = " ";
 
     $scope.startTimer = function()  {
-        console.log("$scope.startTimer");
-        $scope.startButtonClass = "alert";
+        // console.log("$scope.startTimer");
+        $scope.startButtonClass = "alert fi-pause";
         $scope.startButtonText = "Stop";
         $scope.timerListModel.startTimer();
         $scope.startEnabled = false;
@@ -269,9 +301,9 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
     }
     $scope.stopTimer = function()  {
         $scope.timerClass = " ";
-        console.log("$scope.stopTimer");
+        // console.log("$scope.stopTimer");
         $scope.startButtonText = "Start";
-        $scope.startButtonClass = "success";
+        $scope.startButtonClass = "success fi-play";
         $scope.startEnabled = true;
         $scope.stopEnabled = false;
         $scope.timerListModel.stopTimer();

@@ -129,5 +129,5 @@
 {"date": "01/12/2016", "hours": 1.7, "description": "Documentation, planning.  Timer UI fixes and work on editing timer functionality."},
 {"date": "01/14/2016", "hours": 1.6, "description": "Edit timer functionality.  Improvements to timer UI."},
 {"date": "01/15/2016", "hours": 1.3, "description": "Timer UI improvements"},
-{"date": "01/16/2016", "hours": 1.8, "description": "Timer UI work; timepicker directive angular etc."}
+{"date": "01/16/2016", "hours": 3.0, "description": "Timer UI work; timepicker directive angular, lots of bug fixes."}
 ]}
