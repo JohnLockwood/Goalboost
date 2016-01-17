@@ -48,25 +48,60 @@ angular.module('timerApp').filter("formatTime", function() {
             hours = Math.floor(timeInSeconds / 3600);
             timeStr = hours + ":" + timeStr;
         }
-
+        else {
+            timeStr = pad("0", 1, 0) + ":" + timeStr;
+        }
         return timeStr; // + " " + suffix;
     }
 });
 
 // angular.directive('timerApp')
-angular.module('timerApp').directive('dateFormatter', function($log) {
+angular.module('timerApp').directive('timeEntry', function($log) {
     return {
         require: 'ngModel',
-        link: function(scope, element, attrs, controller) {
+        link: function(scope, element, attrs, ngModelCtrl) {
 
-            controller.$formatters.push(function(value) {
-                $log.log(value);
-                $log.debug(value);
-                return value;
-            });
-            controller.$parsers.push(function(value) {
-                $log.log(value);
-                return value;
+            ngModelCtrl.$formatters.push(
+                function (timeInSeconds) {
+                    // Left-zero padding for minutes, seconds, etc.
+                    var pad = function(n, width, z) {
+                        z = z || '0';
+                        n = n + '';
+                        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+                    };
+                    var hours = 0;
+                    var minutes = 0;
+                    var seconds= timeInSeconds % 60;
+                    //var suffix = "seconds";
+                    var timeStr = pad(seconds, 2, 0);
+                    if (timeInSeconds >= 60) {
+                        minutes = Math.floor(timeInSeconds /60) % 60;
+                        timeStr = pad(minutes, 2, 0) + ":" + timeStr;
+                    }
+                    else {
+                        timeStr = pad("00", 2, 0) + ":" + timeStr;
+                    }
+                    if (timeInSeconds >= 3600) {
+                        hours = Math.floor(timeInSeconds / 3600);
+                        timeStr = hours + ":" + timeStr;
+                    }
+                    else {
+                        timeStr = pad("0", 1, 0) + ":" + timeStr;
+                    }
+                    $log.log("Value " + timeInSeconds + " formatted to " + timeStr);
+                    return timeStr; // + " " + suffix;
+                });
+
+            ngModelCtrl.$parsers.push(function(value) {
+                tokens= value.split(":");
+                if (tokens.length == 3) {
+                    if (tokens[0].length > 0 && tokens[1].length > 0 && tokens[2].length > 0) {
+                      var hours = parseInt(tokens[0]);
+                        var minutes = parseInt(tokens[1]);
+                        var seconds = parseInt(tokens[2]);
+                        return (hours * 3600) + (minutes * 60) + seconds;
+                    }
+                }
             });
         }
     };
@@ -94,7 +129,7 @@ angular.module('timerApp').directive('datePicker',
     });
 
 
-angular.module('timerApp').directive('timeEntry',
+/*angular.module('timerApp').directive('timeEntry',
     function TimeEntry($log){
         return {
             require: 'ngModel',
@@ -109,7 +144,7 @@ angular.module('timerApp').directive('timeEntry',
             }
         }
     });
-
+*/
 
 
 

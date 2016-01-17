@@ -63,50 +63,20 @@
                 <input fi-pencil date-picker ng-model="timerListModel.timers[0].dateEntered"/>
             </div>
 
-            <span time-entry ng-model="timerListModel.timers[0].seconds"></span>
-
-            <script type="text/ng-template" id="time-entry-display.html">
-                <section>
-                    <section id="timer-displaying" >
-                        <div class="large-8 columns">&nbsp;</div>
-                        <div class="large-2 columns no-right-padding ">
-                                                    <span class="right">
-                                    <a href="#" class="fi-pencil"
-                                       onclick='$("#timer-displaying").hide();$("#timer-editing").show();'>&nbsp;
-                                        <span style="color:black;font-size:2em;">{{timerListModel.timers[0].seconds | formatTime}}</span>
-
-                                    </a>
-                                    </span>
-                        </div>
-                    </section>
-                    <section id="timer-editing" hidden>
-                        <div class="large-8 columns">&nbsp;</div>
-                        <div class="large-2 columns no-right-padding " >
-                                        <input style="color:black;font-size:2em;" onblur='$("#timer-displaying").show();$("#timer-editing").hide();' value="{{timerListModel.timers[0].seconds | formatTime}}">
-
-
-
-                        </div>
-<!--                        <div class="large-3 columns">&nbsp;</div>
-                        <div class="large-7 columns no-right-padding right">
-
-                            <div class="row">
-                                <div class="large-6  columns">&nbsp;</div>
-                                <div class="large-2 columns no-right-padding top-offset-label " >Time spent:</div>
-                                <div class="large-2 columns no-right-padding"><input type="text" value="11 hrs"
-                                                                     maxlength="40" onblur='$("#timer-displaying").show();$("#timer-editing").hide();'/></div>
-                                <div class="large-2 columns no-left-padding no-right-padding top-offset-label">&nbsp;
-                                    <a class="fi-check save-icon" href="#" onclick='console.log("saving...");$("#timer-displaying").show();$("#timer-editing").hide();'></a></i>&nbsp;
-                                    <a class="fi-x cancel-icon" href="#" onclick='$("#timer-displaying").show();$("#timer-editing").hide();'></a></i>
-                                </div>
-                            </div>
-                        </div>
--->
-                    </section>
-
-
+            <div class="large-8 columns">&nbsp;</div>
+            <div class="large-2 columns no-right-padding ">
+                <section id="timer-editing" hidden>
+                    <input id="timer-edit" style="font-size:2em;text-align:right;" time-entry class="right"
+                           onblur='$("#timer-displaying").show();$("#timer-editing").hide();'
+                           ng-model="timerListModel.timers[0].seconds">
                 </section>
-            </script>
+                <section id="timer-displaying">
+                    <div style="text-align:right;">
+                        <a class="fi-pencil" href="#" onclick='$("#timer-displaying").hide();$("#timer-editing").show();$("#timer-edit").focus();'>&nbsp;</a><span style="font-size:2em;">{{timerListModel.timers[0].seconds | formatTime }}
+                    </span></div>
+                </section>
+
+            </div>
         </div>
         <div class="row">
             <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
