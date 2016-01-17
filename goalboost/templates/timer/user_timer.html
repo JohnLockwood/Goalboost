@@ -80,21 +80,21 @@
         </div>
         <div class="row">
             <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
-                <textarea rows=2 placeholder="Task description..." style="font-size:1.0em;"
+                <textarea rows=2 placeholder="Enter task description to begin work..." style="font-size:1.0em;"
                           ng-model="timerListModel.timers[0].notes"></textarea>
             </div>
         </div>
         <div class="row">
             <div class="large-9 medium-10 small-12 columns left-align">
-                <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()">&nbsp;New Task</button>
-                <button class="button tiny fi-save" ng-click="$parent.timerListModel.saveTimerToServer(0)">&nbsp;Save
+                <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()" ng-class="$parent.startButtonClass" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >&nbsp;New Task</button>
+                <button class="button tiny fi-save" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" ng-click="$parent.timerListModel.saveTimerToServer(0)">&nbsp;Save
                 </button>
                 <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
                 </ul>
             </div>
             <div class="large-3 medium-2 small-12 columns">
                 <div class="row right-align">
-                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass">
+                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >
                         &nbsp;{{$parent.startButtonText}}</a>
                 </div>
             </div>
