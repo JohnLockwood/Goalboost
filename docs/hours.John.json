@@ -131,5 +131,6 @@
 {"date": "01/15/2016", "hours": 1.3, "description": "Timer UI improvements"},
 {"date": "01/16/2016", "hours": 3.0, "description": "Timer UI work; timepicker directive angular, lots of bug fixes."},
 {"date": "01/16/2016", "hours": 2.5, "description": "Continue working on timer UI - mostly fussing with timer control."},
-{"date": "01/17/2016", "hours": 1.3, "description": "Continue timer UI work -- timer control.  Timer now pretty much editable, but with some bugs.  Still need to add tags, other bugs"}
+{"date": "01/17/2016", "hours": 1.3, "description": "Continue timer UI work -- timer control.  Timer now pretty much editable, but with some bugs.  Still need to add tags, other bugs"},
+{"date": "01/17/2016", "hours": 0.7, "description": "Goalboost deployment, and update CodeSolid site."}
 ]}
