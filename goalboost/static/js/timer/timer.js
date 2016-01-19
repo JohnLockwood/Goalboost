@@ -455,7 +455,7 @@ angular.module('timerApp')
             $scope.options = [];
             $scope.options.output = $attrs.output || 'name';
             $scope.options.fetch = $attrs.fetch || 'suggestions.php?q=';
-            $scope.options.placeholder = $attrs.placeholder || 'Enter a few letters...';
+            $scope.options.placeholder = $attrs.placeholder || 'Enter a tag...';
             $scope.options.apiOnly = $attrs.apiOnly || false;
             $scope.search = '';
 

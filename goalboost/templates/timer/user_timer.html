@@ -5,8 +5,8 @@
 
 <script src="/static/js/timer/timer.js" data-userId="{{userId}}" data-userEmail="{{userEmail}}"
         data-authToken="{{authToken}}">
-
 </script>
+<link rel="stylesheet" type="text/css" href="/static/tagedit/ngTagEditor.css">
 {% endblock  %}
 {% block content %}
 {% raw %}
@@ -89,13 +89,13 @@
         </div>
         <div class="row">
             <div class="left-align large-12 medium-12 small-12 columns no-right-padding">
-
+                <label>Tags:</label>
                 <tag-editor class="tag-editor" ng-model="timerListModel.timers[0].tags" ></tag-editor>
 
                 <script type="text/ng-template" id="ngTagEditor.html">
                     <div class="tag-editor" ng-class="{active:focus}" ng-init="focus = false" ng-click="setFocus = true">
                         <div class="tag-draft">
-                            <span class="tag" ng-repeat="tag in tags track by $index">{{tag}}&nbsp;<span class="remove" ng-click="remove($index)">x</span></span>
+                            <span class="tag" ng-repeat="tag in tags track by $index">{{tag}}&nbsp;<span class="remove tag-remove" ng-click="remove($index)">x</span></span>
                             <input type="hidden" name="tags" value="{{tags | getCol:options.output}}"/>
                             <input type="text" class="tag-input" placeholder="{{options.placeholder}}" ng-focus="focus = true" ng-blur="focus = false" focus-me="setFocus" ng-model="search"/>
                         </div>
