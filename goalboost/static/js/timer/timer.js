@@ -413,11 +413,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
 
 }]);
 
-/* ngTagEditor
-
- */
-
-
+/* ngTagEditor, adapted from https://github.com/varyoo/ngTagEditor */
 angular.module('timerApp')
     .filter('getCol', function(){
         return function (items, row){
