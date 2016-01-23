@@ -62,7 +62,7 @@ class User(db.Document, UserMixin):
     def get_auth_token(self, expiration = 60*60*24):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
         token = s.dumps({ 'id': str(self.id) })
-        return str(token)
+        return token.decode()
 
 
     def __repr__(self):

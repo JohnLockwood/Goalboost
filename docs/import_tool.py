@@ -23,7 +23,7 @@ for entry in data["hours"]:
 		user_id, entry["description"], date_recorded, seconds)	 
 	i += 1
 	if i == 1:
-		print("First one!")
-	print("uploading: " + request)
+		#print("First one!")
+		print("uploading: " + request)
 	# r = requests.post("http://goalboost.com/api/timer", data=request, headers=headers)
 	# print (r.status_code)
