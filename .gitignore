@@ -1,3 +1,5 @@
+.gbconfig
+tools/gettoken.py
 docs/notes.txt
 .sass-cache/*
 .sass-cache

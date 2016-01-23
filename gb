@@ -9,8 +9,13 @@ that will provide a timer "wrapper" around the git command line.
 '''
 
 import argparse
+import os
+import configparser
 
-app_name = "Gitboost"
+# Classes that implement 
+
+# S
+APP_NAME = "Gitboost"
 
 def start_timer():
 	print("Starting...")
@@ -38,7 +43,7 @@ parser_start.set_defaults(func=start_timer)
 parser_stop = subparsers.add_parser('stop', help='stop a timer')
 parser_stop.set_defaults(func=stop_timer)
 
-parser_stop = subparsers.add_parser('init', help='Initialize ' + app_name +  " database")
+parser_stop = subparsers.add_parser('init', help='Initialize ' + APP_NAME +  " database")
 parser_stop.set_defaults(func=init_gb)
 
 
@@ -48,7 +53,7 @@ parser_commit.add_argument('-m', '--message', metavar='', type=str, default="", 
 parser_commit.set_defaults(func=commit_timer)
 
 args = parser.parse_args()
-print(args)
+# DEBUG ONLY:  print(args)
 
 if args.subparser_name == 'commit':
 	args.func(args.message)

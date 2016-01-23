@@ -6,7 +6,7 @@ def format_date(d):
 	mm, dd, yyyy = d.split("/")
 	return "{0}-{1}-{2} 00:00:00".format(yyyy, mm, dd)
 
-with open('hours.json', 'r') as f:
+with open('hours.John.json', 'r') as f:
     read_data = f.read()
 
 user_id = "564550dde1539b15490d4672"
