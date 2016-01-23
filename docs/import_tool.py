@@ -1,4 +1,4 @@
-from json import loads
+from json import loads, dumps
 import requests
 
 
@@ -9,7 +9,6 @@ def format_date(d):
 with open('hours.John.json', 'r') as f:
     read_data = f.read()
 
-user_id = "564550dde1539b15490d4672"
 data = loads(read_data)
 SECONDS_PER_HOUR = 3600
 
@@ -19,11 +18,13 @@ i = 0
 for entry in data["hours"]:
 	seconds = round(entry["hours"] * SECONDS_PER_HOUR)
 	date_recorded = format_date(entry["date"])
-	request = '{{"running": false, "userId": "{0}", "notes": "{1}","entries": [{{"dateRecorded": "{2}", "seconds": {3}}}]}}'.format( \
-		user_id, entry["description"], date_recorded, seconds)	 
+	request_data = dict(running=False, userId = user_id, notes = entry["description"], dateEntered = entry["date"], seconds = seconds, lastRestart = date_recorded) 
+	#request = '{{"running": false, "userId": "{0}", "notes": "{1}", "dateEntered": "{2}", "seconds": "{3}", "lastRestart": "{4}"}}'.format( \
+	#	user_id, entry["description"], entry["date"], seconds, date_recorded)	 
 	i += 1
 	if i == 1:
 		#print("First one!")
-		print("uploading: " + request)
+		#print("uploading: " + request)
+		print(dumps(request_data))
 	# r = requests.post("http://goalboost.com/api/timer", data=request, headers=headers)
 	# print (r.status_code)
