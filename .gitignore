@@ -1,4 +1,5 @@
 .gbconfig
+tools/scratch/*
 tools/gettoken.py
 tools/testimport.py
 docs/notes.txt
