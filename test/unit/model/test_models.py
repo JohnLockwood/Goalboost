@@ -1,13 +1,10 @@
 '''
-It may be a good idea to break this file out
+It may be a good idea to break tlis file out
 into test_timer_models, test_auth_models, etc.
 '''
 
-from datetime import datetime, timedelta
-from json import dumps
 from unittest import TestCase
 
-import dateutil.parser
 from bson.objectid import ObjectId
 
 from goalboost.model.auth_models import Account, User
@@ -30,14 +27,27 @@ class TestObjectId(TestCase):
 
 
 # -------------- Accounts -------------------------
-class TestAccount():
+class TestAccount(TestCase):
     def test_can_create_and_delete_account(self):
-        id = ObjectId("TempTempTemp")
-        account = Account(id=id, name="Los Pollos Hermanos")
+        Account.objects(name="Los Pollos Hermanos").delete()
+        account = Account(name="Los Pollos Hermanos")
         account.save()
         account2 = Account.objects(id=account.id).first()
         assert(account2.name == account.name)
         Account.objects(id=account.id).delete()
+
+    def test_can_get_users(self):
+        user = TestObjects().get_test_user()
+        users_for_account = user.account.get_users()
+        assert(users_for_account is not None)
+        assert(len(users_for_account) > 0)
+
+    def test_can_call_get_users_on_unsaved_account(self):
+        Account.objects(name="Los Pollos Hermanos").delete()
+        account = Account(name="Los Pollos Hermanos")
+        users_for_account = account.get_users()
+        assert(users_for_account is not None)
+        assert(len(users_for_account) == 0)
 
 class TestTag(TestCase):
     def test_can_create_tag(self):

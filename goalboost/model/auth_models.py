@@ -9,6 +9,10 @@ from goalboost.model.model_formatter import ModelFormatter
 class Account(db.Document):
     name = db.StringField(max_length=255, unique=True)
 
+    def get_users(self):
+        return [User.objects(user=self.id)]
+
+
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)

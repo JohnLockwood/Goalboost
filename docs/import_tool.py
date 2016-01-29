@@ -25,8 +25,8 @@ def load_records():
 
 def upload_records():
 
-	url_root = "http://localhost:5000"
-	#url_root = "http://goalboost.com"
+	#url_root = "http://localhost:5000"
+	url_root = "http://goalboost.com"
 
 	user_info = get_user_info()
 	SECONDS_PER_HOUR = 3600
