@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask.ext.login import login_required
 from goalboost.model.auth_models import User
-from goalboost.model.legacy_timer_models import LegacyTimer, TimerDaoLegacy
+#from goalboost.model.legacy_timer_models import LegacyTimer, TimerDaoLegacy
 
 from flask import Blueprint
 from flask_restful import Api
@@ -22,10 +22,7 @@ def init_api(app):
     # All timers for a user
     api.add_resource(UserAllTimersResource, '/user/<string:userid>/timers')
 
-    # Timers generally
-    api.add_resource(TimerResource, '/timer')
-
-    api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
+    # api.add_resource(TimerResourceById, '/timer/<string:timer_id>')
 
     api.add_resource(EnvironmentLogger, "/env", )
     app.register_blueprint(bp_api)
@@ -77,45 +74,45 @@ class UserAllTimersResource(Resource):
         except ValidationError as detail:
             return ErrorHandler.bad_request("Invalid ID format")
 
-class TimerResource(Resource):
-    # /api/user/:userid/timer
-    def post(self):
-        json = request.json
-        timer = LegacyTimer.load_from_dict(json)
-        timer.save()
-        location = api_root + "/timer/" + str(timer.id)
-        response = jsonify(timer.to_api_dict())
-        response.headers["location"] = location
-        response.status_code = 201
-        return response
-
-class TimerResourceById(Resource):
-
-    # /api/timer/:timerid
-    # Gets a specific timer by id
-    # Working.  Review.
-    # Need to verify that the logged in user is this user, or member of same account?
-    # @login_required
-    def get(self, timer_id):
-        try:
-            timer = TimerDaoLegacy().timer_by_id(timer_id)
-            if timer:
-                return timer.to_api_dict()
-            else:
-                return ErrorHandler.not_found()
-        except ValidationError as detail:
-            return ErrorHandler.bad_request("Invalid ID format")
-
-    def put(self, timer_id):
-        # To do review exceptions, also, does json ID match timer_id?
-        # If not return bad request
-        timer = LegacyTimer.load_from_dict(request.json)
-        TimerDaoLegacy().save_timer(timer)
-        return(None, 204)
-
-    def delete(self, timer_id):
-        TimerDaoLegacy().delete_timer(timer_id)
-        return(None, 204)
+# class TimerResource(Resource):
+#     # /api/user/:userid/timer
+#     def post(self):
+#         json = request.json
+#         timer = LegacyTimer.load_from_dict(json)
+#         timer.save()
+#         location = api_root + "/timer/" + str(timer.id)
+#         response = jsonify(timer.to_api_dict())
+#         response.headers["location"] = location
+#         response.status_code = 201
+#         return response
+#
+# class TimerResourceById(Resource):
+#
+#     # /api/timer/:timerid
+#     # Gets a specific timer by id
+#     # Working.  Review.
+#     # Need to verify that the logged in user is this user, or member of same account?
+#     # @login_required
+#     def get(self, timer_id):
+#         try:
+#             timer = TimerDaoLegacy().timer_by_id(timer_id)
+#             if timer:
+#                 return timer.to_api_dict()
+#             else:
+#                 return ErrorHandler.not_found()
+#         except ValidationError as detail:
+#             return ErrorHandler.bad_request("Invalid ID format")
+#
+#     def put(self, timer_id):
+#         # To do review exceptions, also, does json ID match timer_id?
+#         # If not return bad request
+#         timer = LegacyTimer.load_from_dict(request.json)
+#         TimerDaoLegacy().save_timer(timer)
+#         return(None, 204)
+#
+#     def delete(self, timer_id):
+#         TimerDaoLegacy().delete_timer(timer_id)
+#         return(None, 204)
 
 # Todo authorization, and check id is valid ObjectId
 # Todo design JCL Here we are loading JSON and then returning a dict.  Better

@@ -17,23 +17,6 @@ class TestTimer(TestCase):
         test_timer = dict(entries = [dict(seconds=300, dateRecorded='2015-11-23 00:00:00')], notes='Just writing integration tests here, boss!')
         return test_timer
 
-    def test_can_post_and_delete_timer(self):
-        response = requests.post(url=test_server + "/api/timer", data = dumps(self.get_test_timer()), headers={'content-type' : 'application/json'})
-        assert(response.status_code == 201)
-        id = response.json()["id"];
-        assert(id is not None)
-        assert(type(id) is str)
-        assert(len(id) > 0)
-
-        response = requests.get(url=test_server + "/api/timer/" + id)
-        assert(response.status_code == 200)
-
-        response = requests.delete(url=test_server + "/api/timer/" + id)
-        assert(response.status_code == 204)
-
-        response = requests.get(url=test_server + "/api/timer/" + id)
-        assert(response.status_code == 404)
-
     # Todo cleanup dupication this and next test
     def test_login(self):
         # Ensure test user created
