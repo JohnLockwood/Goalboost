@@ -471,6 +471,21 @@ angular.module('timerApp')
                 $scope.tags.splice(index, 1);
             };
 
+            $scope.addTag = function(e, blurContext) {
+                if($scope.search.length && !$scope.apiOnly){
+                    if(!$scope.apiOnly){
+                        $scope.add(0, $scope.search);
+                        if (!blurContext) {
+                            e.preventDefault();
+                        }
+                    }
+                }
+            };
+
+            $element.find('input').on('blur', function(e) {
+                $scope.addTag(e, true);
+            });
+
             $element.find('input').on('keydown', function(e){
                 var keys = [8, 13, 32];
                 if(keys.indexOf(e.which) !== -1){
@@ -481,12 +496,7 @@ angular.module('timerApp')
                         }
                     }
                     else if(e.which == 32 || e.which == 13){ /* space & enter */
-                        if($scope.search.length && !$scope.apiOnly){
-                            if(!$scope.apiOnly){
-                                $scope.add(0, $scope.search);
-                                e.preventDefault();
-                            }
-                        }
+                        $scope.addTag(e, false);
                     }
                     $scope.$apply();
                 }
