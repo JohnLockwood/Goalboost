@@ -81,3 +81,15 @@ class TestTimerModelFormatter(TestCase):
         assert(timer.notes == timer2.notes)
         assert(timer.user == timer2.user)
         assert(timer.to_json() == timer2.to_json())
+
+class TestTimerFormatter(TestCase):
+    def test_get_week_ending_date(self):
+        formatter = TimerFormatter()
+        assert(formatter.get_week_ending_date(2016,0) ==  "01/02/2016")
+        assert(formatter.get_week_ending_date(2015,0) ==  "01/03/2015")
+        assert(formatter.get_week_ending_date(2014,0) ==  "01/04/2014")
+        assert(formatter.get_week_ending_date(2001,0) ==  "01/06/2001")
+        assert(formatter.get_week_ending_date(2005,0) ==  "01/01/2005")
+        assert(formatter.get_week_ending_date(2006,0) ==  "01/07/2006")
+        assert(formatter.get_week_ending_date(2015,7) ==  "02/21/2015")
+        assert(formatter.get_week_ending_date(2016,11) ==  "03/19/2016")

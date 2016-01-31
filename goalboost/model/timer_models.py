@@ -74,6 +74,9 @@ class Timer(db.Document):
         for key in attributes:
             setattr(self, key, getattr(timer_new, key))
 
+
+
+
 '''
 TimerDAO - DAO is "Data Access Object"
 This class will be responsible for making sure a Timer is saved correctly
@@ -100,6 +103,73 @@ class TimerDAO():
 
     def delete(self, timer_id):
         return Timer.objects(id=timer_id).delete()
+
+    # TODO Given a list of users, get the timers for the users
+    def get_timers_for_users(self, users, tag_list=None):
+        if tag_list is not None:
+            return [timer for timer in Timer.objects(user__in=users, tags__in=tag_list)]
+        else:
+            return [timer for timer in Timer.objects(user__in=users)]
+
+    def get_weekly_timer_statistics(self, users_list, tags_list):
+        collection = Timer()._get_collection()
+        cursor = collection.aggregate(
+            [
+                {"$match":  {"tags" : {"$in" : tags_list}, "user" : {"$in" : users_list} }},
+                {"$group":
+                    {
+                        "_id": { "week": { "$week": "$dateEntered"}, "year": { "$year": "$dateEntered" } },
+                        "total_seconds": { "$sum":   "$seconds"    },
+                        "count": { "$sum": 1 }
+                    }
+                }
+            ])
+
+        # "seconds": { "$sum":  {"$divide": [ "$seconds" , 1 ] } },
+        unsorted = []
+        years = set()
+        ids = set()
+
+        formatter = TimerFormatter()
+        for document in cursor:
+
+            document["weekEnding"] = formatter.get_week_ending_date(document["_id"]["year"], document["_id"]["week"])
+            hours, minutes = formatter.seconds_to_hours_and_minutes(document["total_seconds"])
+            document["hours_minutes"] = "{0}:{1}".format(hours, minutes)
+            unsorted.append(document)
+            # Add years to a set, and add all "_ids" (years + weeks)
+            years.add(document["_id"]["year"])
+            id = (document["_id"]["year"], document["_id"]["week"])
+            ids.add(id)
+        '''
+        # Make sure we are densely populated, add a zero hours entry if none exists
+        # But this causes problems because adds to beginnning and end -- want to just add in middle.
+
+        for year in years:
+            for week in range(0, 52):
+                key = (year, week)
+                if (not key in ids):
+                    entry = dict(_id=dict(year=year, week=week), totalHours=0, count=0)
+                    unsorted.append(entry)
+        '''
+        def key_comparator(x):
+            return x["_id"]["year"] + (x["_id"]["week"] / 100)
+
+        sorted_list = sorted(unsorted, key=key_comparator)
+        for i in sorted_list:
+            print(i)
+
+        return sorted_list
+
+'''
+        # Make sure for each year the set is complete:
+        for year in years:
+            for week in range(0, 52):
+                key = (year, week)
+                if (not key in ids):
+                    unsorted(appen)
+'''
+
 
 '''
 TimerFormatter
@@ -149,7 +219,6 @@ class RemoteTicker(object):
         self.seconds = self.seconds + self.current_elapsed()
         self.is_running = False
 
-
     def current_elapsed(self):
         # current_elapsed is only diff between lastRestart and now if we're running.
         # If we're stopped then the total should haved been added to the seconds field
@@ -173,7 +242,6 @@ class RemoteTicker(object):
         secs = mins_secs % 60
         return "{:0>2}:{:0>2}:{:0>2}".format(hrs, mins, secs)
 
-
 class TimerFormatter(ModelFormatter):
     def model_to_dict(self, object_as_model, include=None, exclude=None):
         timer_dict = ModelFormatter.model_to_dict(self, object_as_model, include, exclude)
@@ -190,3 +258,30 @@ class TimerFormatter(ModelFormatter):
 
     def fmt_date(self, dt):
         return dt.strftime("%m/%d/%Y")
+
+    # Returns a tuple with (hours, minutes)
+    # Rounds any seconds to the nearest minute.
+    def seconds_to_hours_and_minutes(self, seconds):
+        hours = int(seconds /  3600)
+        minutes = int((seconds - (hours * 3600)) / 60)
+        seconds_remaining = seconds % 60
+        if seconds_remaining >= 30:
+            minutes += 1
+        return (hours, minutes)
+
+    # year is just a number representing a year, week is the zero
+    # based week of the year.  Returns a formatted
+    # string representing the "week ending" MM/DD/YYYY value --
+    # weeks end on Saturday following Mongo's $week operator
+    def get_week_ending_date(self, year, week):
+        new_years_day = date(year, 1, 1)
+        new_years_weekday = new_years_day.weekday()
+        SATURDAY = 5 # Python datetime implementation
+        if(new_years_weekday <= SATURDAY):
+            day_first_week_ends = 1 + (SATURDAY - new_years_weekday)
+        else:
+            day_first_week_ends = 1 + SATURDAY + 1 # Ends on Sunday
+
+        date_first_week_ends = date(year, 1, day_first_week_ends)
+        given_week_ends = date_first_week_ends + timedelta(weeks=(week))
+        return self.fmt_date(given_week_ends)

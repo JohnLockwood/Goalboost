@@ -9,9 +9,9 @@ from goalboost.model.model_formatter import ModelFormatter
 class Account(db.Document):
     name = db.StringField(max_length=255, unique=True)
 
-    def get_users(self):
-        return [User.objects(user=self.id)]
 
+    def get_users(self):
+        return [user for user in User.objects(account=self.id)]
 
 # User and Role use flask security mixins and are used by flask security
 class Role(db.Document, RoleMixin):
@@ -24,13 +24,12 @@ class Role(db.Document, RoleMixin):
     ACCONT_USER = 3;
 
 
-# TODO Note if we are consistent here use ReferenceField for account
-# TODO Also we need to add a UserName, which should be unique for itself + Account
+# TODO Add a UserName, which should be unique for itself + Account
 class User(db.Document, UserMixin):
 
     email = db.EmailField(max_length=255, unique=True, required=True)
     password = db.StringField(max_length=255)
-    account= db.ReferenceField(Account, required=True)       # Todo make this required
+    account= db.ReferenceField(Account, required=True)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
@@ -63,7 +62,7 @@ class User(db.Document, UserMixin):
     # TODO -- better / more client funcs based on this:
     # Note this returns BYTES -- you need to bytes.decode('utf-8') first if being used by web client
     # 24 hour expire
-    def get_auth_token(self, expiration = 60*60*24):
+    def get_auth_token(self, expiration = 60*60*24*365):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
         token = s.dumps({ 'id': str(self.id) })
         return token.decode()
@@ -72,8 +71,8 @@ class User(db.Document, UserMixin):
     def __repr__(self):
         accountId = None
         confirmed_at = None
-        if self.accountId is not None:
-            accountId= self.accountId.__repr__()
+        if self.account is not None:
+            accountId= self.account.__repr__()
         if self.confirmed_at is not None:
             confirmed_at = self.confirmed_at.__repr__()
         return ('User(id={}, emaitype(self.user)l="{}", password="{}", accountId={}, active={}, confirmed_at={}, roles={})'.format(

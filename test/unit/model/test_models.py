@@ -9,8 +9,8 @@ from bson.objectid import ObjectId
 
 from goalboost.model.auth_models import Account, User
 from goalboost.model.miscellaneous_models import Project, Tag
+from goalboost.model.timer_models import Timer, TimerDAO
 from test.common.test_helper import TestHelper, TestObjects # test_data
-
 
 # Allows us to consider reserved object Ids for testing.
 # Not so much a test as a proof of concept
@@ -41,6 +41,7 @@ class TestAccount(TestCase):
         users_for_account = user.account.get_users()
         assert(users_for_account is not None)
         assert(len(users_for_account) > 0)
+        assert(type(users_for_account[0] == type(user)))
 
     def test_can_call_get_users_on_unsaved_account(self):
         Account.objects(name="Los Pollos Hermanos").delete()
@@ -117,4 +118,5 @@ class TestAuth(TestCase):
             finally:
                 if(user is not None):
                     user_data_store.delete_user(user)
+
 

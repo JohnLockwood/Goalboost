@@ -4,6 +4,8 @@ from json import dumps
 from unittest import TestCase
 import dateutil
 from bson import ObjectId
+
+from goalboost.model.auth_models import Account
 from goalboost.model.timer_models import Timer, TimerDAO
 from test.common.test_helper import TestHelper, TestObjects
 
@@ -46,5 +48,23 @@ class TestTimerDAO(TestCase):
         t1 = Timer(notes="My Test LegacyTimer Running!", user=TestObjects().get_test_user(), running=True)
         dao.put(t1)
         assert(t1.id is not None)
+
+    def test_can_get_users(self):
+        account = Account.objects(name="Goalboost").first()
+        users = account.get_users()
+        #print(len(users))
+        goalboost_timers = TimerDAO().get_timers_for_users(users, tag_list=["Goalboost"])
+        assert(len(goalboost_timers) >  0)
+        assert(type(goalboost_timers[0] == type(Timer())))
+        print(len(goalboost_timers))
+
+        all_timers = TimerDAO().get_timers_for_users(users)
+        assert(len(all_timers) > len(goalboost_timers))
+
+    def test_can_get_timer_stats_by_week(self):
+        account = Account.objects(name="Goalboost").first()
+        users = [user.id for user in account.get_users()]
+        goalboost_timers = TimerDAO().get_weekly_timer_statistics(users, ["Goalboost"])
+        assert(len(goalboost_timers) > 5)
 
 # Derive from object temporarily to disable
