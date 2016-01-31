@@ -168,6 +168,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
     var lastScript = scripts[scripts.length - 1];
     var scriptName = lastScript;
 
+    model.initalized = false;
     model.timers = [];
     model.$scope = null;
 
@@ -300,6 +301,7 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
             if (model.timers.length == 0) {
                 model.createNewTimer();
             }
+            model.initialized = true;
         }, function errorCallback(response) {
             alert("Unable to get timers from server ");
             console.log(response);

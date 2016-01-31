@@ -51,6 +51,20 @@
         padding-left:0;px;
     }
 
+
+    .tag {
+        display: inline-block;
+        height: 24px;
+        margin: 0 7px 0 0;
+        color: #fff;
+        background-color: #666;
+        padding: 0 5px;
+        border-radius: 2px;
+        font-size: 12px;
+        line-height: 24px;
+        cursor: default;
+        transition: box-shadow 100ms linear;
+    }
 </style>
 
 
@@ -133,29 +147,35 @@
             </div>
         </div>
         <div class="row">
-            <div class="medium-1 small-6 columns "><strong>Date</strong></div>
-            <div class="medium-1 small-6 columns " style="text-align:right;padding-right:1em;"><strong>
-                &nbsp;h:mm:ss</strong></div>
-            <div class="fullwidth medium-10 small-12 columns"><strong>Description</strong></div>
+            <div class="medium-1 small-4 columns "><strong>Date</strong></div>
+            <div class="medium-1 small-4 columns " style="text-align:right;padding-right:1em;"><strong>h:mm:ss</strong></div>
+            <div class="medium-1 small-12 columns"><strong>Tags</strong></div>
+            <div class="fullwidth medium-7 small-12 columns"><strong>Description</strong></div>
+            <div class="medium-2 small-4 columns " style="text-align:right;padding-right:0;"><strong>Actions</strong></div>
         </div>
     </section>
     <div class="row" ng-repeat="t in timerListModel.timers" ng-if="$index > 0">
-        <div class="medium-1 small-6 columns ">{{ t.dateEntered }}</div>
-        <div class="medium-1 small-5 columns " style="text-align:right;padding-right:0;">{{t.seconds | formatTime}}
+        <div class="medium-1 small-4 columns ">{{ t.dateEntered }}</div>
+        <div class="medium-1 small-4 columns " style="text-align:right;padding-right:0;">{{t.seconds | formatTime}}
         </div>
-        <div class="fullwidth medium-10 small-12 columns">
-            <a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;</a>{{t.notes}}&nbsp;
+        <div class="medium-1 small-12 columns"><span ng-repeat ="tag in t.tags" class="tag">{{tag}}</span></div>
+        <div class="medium-7 small-12 columns">{{t.notes}}</div>
+        <div class="medium-2 small-4 columns " style="text-align:right;padding-right:0;"><a class="fi-pencil" href="#" ng-click="activateTimer($index)">&nbsp;Edit</a>
+            <!-- &nbsp;&nbsp;<a class="fi-plus" href="#" onclic="javascript:alert('Not implemented');console.log('Not implemented');">&nbsp;Clone</a> -->
         </div>
-
     </div>
 
 
     <section ng-if="timerListModel.timers.length == 0">
         <div class="row">
             <div class="large-12 columns">
-                <p class="lead">
+                <p class="lead" ng-if="$parent.model.initialzed">
                     You have no timers. Start by <a href="#" ng-click="$parent.createNewTimer()">creating a timer</a>.
                 </p>
+                <p class="lead" ng-if="! $parent.model.initialzed">
+                    Loading some timers for you...
+                </p>
+
                 </p>
             </div>
         </div>
