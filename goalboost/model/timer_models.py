@@ -155,7 +155,7 @@ class TimerDAO():
         def key_comparator(x):
             return x["_id"]["year"] + (x["_id"]["week"] / 100)
 
-        sorted_list = sorted(unsorted, key=key_comparator)
+        sorted_list = sorted(unsorted, key=key_comparator, reverse=True)
         for i in sorted_list:
             print(i)
 

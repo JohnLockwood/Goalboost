@@ -1,0 +1,24 @@
+{% extends "layout/default.html" %}
+{% set active_page = "goalboost_hours" %}
+{% block title %}Goalboost Project Hours{% endblock %}
+{% block header %}
+{% endblock  %}
+{% block content %}
+<div class="row" data-equalizer>
+    <div class="large-12 columns"><h1>Goalboost Project Hours</h1></div>
+</div>
+<div class="row" data-equalizer>
+    <div class="row">
+        <div class="medium-2 small-2 columns "><strong>Week Ending</strong></div>
+        <div class="medium-10 small-10 columns " ><strong>Development Hours Logged</strong></div>
+    </div>
+    {% for stat in stats %}
+    <div class="row">
+        <div class="medium-2 small-2 columns ">{{stat["weekEnding"]}}</div>
+        <div class="medium-10 small-10 columns ">{{stat["total_seconds"] / 3600}}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock  %}
+
+

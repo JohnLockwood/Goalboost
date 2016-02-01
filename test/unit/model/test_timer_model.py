@@ -64,7 +64,8 @@ class TestTimerDAO(TestCase):
     def test_can_get_timer_stats_by_week(self):
         account = Account.objects(name="Goalboost").first()
         users = [user.id for user in account.get_users()]
-        goalboost_timers = TimerDAO().get_weekly_timer_statistics(users, ["Goalboost"])
-        assert(len(goalboost_timers) > 5)
+        goalboost_stats = TimerDAO().get_weekly_timer_statistics(users, ["Goalboost"])
+        assert(len(goalboost_stats) > 5)
+        #for stat in goalboost_stats:
+        #    print(stat)
 
-# Derive from object temporarily to disable
