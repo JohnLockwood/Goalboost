@@ -15,7 +15,7 @@
     {% for stat in stats %}
     <div class="row">
         <div class="medium-2 small-2 columns ">{{stat["weekEnding"]}}</div>
-        <div class="medium-10 small-10 columns ">{{stat["total_seconds"] / 3600}}</div>
+        <div class="medium-10 small-10 columns ">{{(stat["total_seconds"] / 3600) | round(1) }}</div>
     </div>
     {% endfor %}
 </div>

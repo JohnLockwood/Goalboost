@@ -130,40 +130,12 @@ angular.module('timerApp').directive('datePicker',
     });
 
 
-/*angular.module('timerApp').directive('timeEntry',
-    function TimeEntry($log){
-        return {
-            require: 'ngModel',
-            restrict: 'A',
-            templateUrl: "time-entry-display.html",
-            replace: true,
-            //template:  '<div class="large-8 columns" >Hello world</div>',
-            //template: "Hello",
-            link: function(scope, element, attrs, ngModel) {
-                //$log.log("" + ngModel);
-                //$log.log(element.html());
-            }
-        }
-    });
-*/
-
-
-
-angular.module('timerApp').factory("timerListModel", ["$interval", "$http", function($interval, $http) {
+angular.module('timerApp').factory("timerListModel", ["$interval",  "$http", function($interval, $http) {
     var model = {};
     model.theInterval = undefined;
 
-
-    /*model.userId = "561dcd3c8c57cf2c17b7f4f9";
-    if(g_userId != '') {
-        model.userId = g_userId;
-    }
-    */
     model.scriptParams = scriptParams;
-    /*model.userId = scriptParams.userId;
-    model.authToken = scriptParams.userId;
-    model.userEmail = g_userEmail;
-*/
+
     var scripts = document.getElementsByTagName('script');
     var lastScript = scripts[scripts.length - 1];
     var scriptName = lastScript;
@@ -201,12 +173,43 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
         }
     }
 
+    // Todo -- Copy DOH!
+    model.formatTime = function (timeInSeconds) {
+        // Left-zero padding for minutes, seconds, etc.
+        var pad = function(n, width, z) {
+            z = z || '0';
+            n = n + '';
+            return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+        };
+        var hours = 0;
+        var minutes = 0;
+        var seconds= timeInSeconds % 60;
+        //var suffix = "seconds";
+        var timeStr = pad(seconds, 2, 0);
+        if (timeInSeconds >= 60) {
+            minutes = Math.floor(timeInSeconds /60) % 60;
+            timeStr = pad(minutes, 2, 0) + ":" + timeStr;
+        }
+        else {
+            timeStr = pad("00", 2, 0) + ":" + timeStr;
+        }
+        if (timeInSeconds >= 3600) {
+            hours = Math.floor(timeInSeconds / 3600);
+            timeStr = hours + ":" + timeStr;
+        }
+        else {
+            timeStr = pad("0", 1, 0) + ":" + timeStr;
+        }
+        return timeStr; // + " " + suffix;
+    }
+
     model.totalTimerTime = function(index) {
         return model.timers[index].seconds;
     }
 
     model.onIntervalTick = function() {
         model.timers[0].seconds++;
+        $(document).prop('title', model.formatTime(model.timers[0].seconds));
     }
 
     model.activateTimer = function (index) {
@@ -310,7 +313,6 @@ angular.module('timerApp').factory("timerListModel", ["$interval", "$http", func
 
     model.createNewTimer = function() {
         model.timers.unshift(model.getDefaultTimer());
-
     }
 
     return model;
@@ -345,6 +347,7 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
         $scope.startEnabled = true;
         $scope.stopEnabled = false;
         $scope.timerListModel.stopTimer();
+        $(document).prop('title', 'Timers');
     }
 
     $scope.toggleTimer = function() {
@@ -402,15 +405,10 @@ angular.module('timerApp').controller('TimerController', ['$scope', 'timerListMo
 
     $scope.getLatestTimerDate = function(timer) {
         var longDate = timer.dateEntered;
-
-        //return longDate;
-
         var mm = longDate.substr(5,2);
         var yyyy = longDate.substr(0, 4);
         var dd = longDate.substr(8,2);
-
         return mm + "/" + dd + "/" + yyyy;
-
     }
 
 }]);

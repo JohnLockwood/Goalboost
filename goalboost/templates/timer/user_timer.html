@@ -1,14 +1,16 @@
 {% extends "layout/default.html" %}
-
+{% block page_settings %}
+{% set html_settings = "ng-app=\"timerApp\" ng-controller=\"TimerController\"" %}
+{% endblock %}
 {% set active_page = "user_timer" %}
-{% block title %}Goalboost Time and Billing{% endblock %}
+
 {% block header %}
 
 <script src="/static/js/timer/timer.js" data-userId="{{userId}}" data-userEmail="{{userEmail}}"
         data-authToken="{{authToken}}">
 </script>
 <!-- <link rel="stylesheet" type="text/css" href="/static/tagedit/ngTagEditor.css"> -->
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
 {% raw %}
@@ -70,7 +72,7 @@
 </style>
 
 
-<div ng-app="timerApp" ng-controller="TimerController" ng-cloak>
+<div ng-cloak ng-app="timerApp" ng-controller="TimerController">
 
 
     <section ng-if="timerListModel.timers.length > 0">
@@ -127,15 +129,15 @@
 
         <div class="row">
             <div class="large-9 medium-10 small-12 columns left-align">
-                <button class="button tiny fi-plus" ng-click="$parent.createNewTimer()" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >&nbsp;New Task</button>
-                <button class="button tiny fi-save" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" ng-click="$parent.timerListModel.saveTimerToServer(0)">&nbsp;Save
+                <button class="button round tiny fi-plus" ng-click="$parent.createNewTimer()" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >&nbsp;New Task</button>
+                <button class="button round tiny fi-save" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" ng-click="$parent.timerListModel.saveTimerToServer(0)">&nbsp;Save
                 </button>
-                <button class="button tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
+                <button class="button round light_round tiny fi-trash" ng-click="$parent.deleteTimer(0)">&nbsp;Delete</button>
                 </ul>
             </div>
             <div class="large-3 medium-2 small-12 columns">
                 <div class="row right-align">
-                    <a href="#" ng-click="$parent.toggleTimer()" class="button " ng-class="$parent.startButtonClass" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >
+                    <a href="#" ng-click="$parent.toggleTimer()" class="button round" ng-class="$parent.startButtonClass" ng-doubleclick="return false;" ng-disabled="$parent.timerListModel.timers[0].notes.length == 0" >
                         &nbsp;{{$parent.startButtonText}}</a>
                 </div>
             </div>
@@ -217,5 +219,8 @@
 {% endblock %}
 
 {% block js_init %}
+<script>
+    var initial_timers={{timers|tojson|safe}} ;
+</script>
 {% endblock %}
 
