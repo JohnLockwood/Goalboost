@@ -1,7 +1,16 @@
 # Goalboost
-Goalboost is a time and billing application written using Python, Flask, and MongoDb.  It is employee owned source, not open source -- see the [license](LICENSE.md).
+Goalboost is a time and billing application written in Python and Flask.  It is employee owned source, not open source -- see the [license](LICENSE.md).
 
+# We've moved.  
+We have moved to a private Bitbucket repository and made a fair number of changes recently, including moving to SQLAlchemy from MongoDb. If you'd like to work with us, please send send a request for access by email at CodeSolid@yahoogroups.com.  We are actively encouraging new contributors.
+
+# Hours
+We're tracking the time we spent on the project in Goalboost now rather than in hours.name.json.  Don't worry if you've already logged hours -- we'll make sure they're moved  into Goalboost and retained as we work through our schema changes.
+
+<!--
 # Getting Started.
+
+We'll need to rework that section and retest a bit once the 
 You'll need Python 3 and MongoDb installed, as well as PIP3 if that doesn't come with your python3 distribution.  Once you have these, follow these steps:
 Make sure the mongo service is running (mongod)
 To install the dependencies run "pip3 install -r /path/to/requirements.txt" (requirements.txt is in the source code folder root).
@@ -45,5 +54,4 @@ See also the time and billing section of [this article](http://www.americanbar.o
 	* Edit form contains simple checkbox to exclude or not, edit controls for everything else to adjust (hours etc.)
 * Rates:
 	* Are either by Billable (client, project etc.) or by ServiceTitle (Senior Partner, Senior Partner Courtroom, etc.), or both.
-
-
+-->
