@@ -6,7 +6,7 @@ We have moved to a private Bitbucket repository and made a fair number of change
 
 # Other Issues
 ## Free Love
-If you'd care to encourage us without doing much work, we appreciate all stars and fork requests.  Sure, a fork is pretty much symbolic at this point -- but it strikes a blow for freedom! ;)
+If you'd care to encourage us without doing much work, we appreciate all stars and forks.  Sure, a fork is pretty much symbolic at this point -- but it strikes a blow for freedom! ;)
 
 ## Hours
 We're tracking the time we spent on the project in Goalboost now rather than in hours.name.json.  Don't worry if you've already logged hours -- we'll make sure they're moved  into Goalboost and retained as we work through our schema changes.
